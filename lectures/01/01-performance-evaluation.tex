@@ -1,0 +1,555 @@
+\documentclass[landscape,footrule]{foils}
+\usepackage[lecture-serie]{foiltex-extra}
+\usepackage{crysymb}
+\usepackage{graphics}
+\usepackage[pdftex]{graphicx} 
+
+
+
+
+\newcommand{\lecture}{Performance evaluation}
+\newcommand{\lserie}{LTAT.02.004 Machine Learning II}
+\newcommand{\ldate}{11 February, 2019}
+\newcommand{\lauthor}{Sven Laur}
+\newcommand{\linst}{University of Tartu}
+\graphicspath{{./illustrations/}}
+%\MyLogo{\lserie.\  Performance evaluation, \ldate}
+
+
+\newcommand{\leqm}{\ \leq_m}
+
+
+\newcommand{\bigvskip}{\vskip 2em}
+\newcommand{\lastline}{\vspace*{-2ex}}
+\newcommand{\spreadappart}{\vspace*{\fill}}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\conf}{conf}
+\DeclareMathOperator{\precision}{precision}
+\DeclareMathOperator{\recall}{recall}
+
+
+\newcommand{\fpar}[2]{\frac{\partial#1}{\partial#2}}
+
+\begin{document}
+\titlefoil
+
+
+\foilhead[-1cm]{Why do we estimate performance?}
+
+\begin{triangles}
+\item To estimate how does the algorithm perform in the future
+\begin{diamonds}
+\item This is the most important question in the practice 
+\item We are interested on performance of a particular predictor\vspace*{2ex} 
+\end{diamonds}
+
+\item To find the best hyperparameter instance for our dataset   
+\begin{diamonds}
+\item It is quite tricky task if we consider all subtleties 
+\item We are comparing different algorithm instances on our data\vspace*{2ex}
+\end{diamonds}
+
+
+\item To compare different algorithms and choose the best 
+\begin{diamonds}
+\item This is needed to justify the development of a new algorithm 
+\item We are comparing average behaviour of algorithms\vspace*{2ex} 
+\end{diamonds}
+
+\item To see if there is a dependence between input and the output
+\begin{diamonds}
+\item Studies in biology or sociology are all about causal dependencies
+\item We are interested in statistically significant performance levels 
+\end{diamonds}
+
+\end{triangles}
+
+
+\foilhead[-1cm]{Short list of goodness measures}
+
+Some goodness measures for classification
+\begin{triangles}
+\item Accuracy -- the percentage of correctly classified observations
+\item Precision -- the percentage of correct labels among positive guesses 
+\item Recall -- the percentage of positive cases that are detected
+\end{triangles}
+\vspace*{1cm}
+
+Some goodness measures for regression
+\begin{triangles}
+\item Normalised mean square error
+\item Normalised mean absolute error
+\item Trimmed mean square and absolute error estimates  
+\end{triangles}
+
+\foilhead[-1cm]{Performance}
+\enlargethispage{1cm}
+\illustration[scale=0.8]{convergence-small}
+\vspace*{-0.0cm}
+$\triangleright$  depends on data and a target function\\
+$\triangleright$  depends on the size of training data and method itself
+
+
+\foilhead[-1cm]{How to estimate performance in the future}
+\enlargethispage{1cm}
+\illustration[scale=0.8]{expected-goodness}
+
+For any prediction algorithm we can find its expected goodness in the future.
+
+\textbf{Practice.} Average goodness over a long enough series of future samples.
+
+\begin{triangles}
+\item Sampling should not change the data source in the future. 
+\item All future samples should be independent from each other. 
+\end{triangles} 
+\vspace*{2ex}
+
+\textbf{Theory.} We should find expected goodness over the data distribution.
+\begin{triangles}
+\item The distribution always exists although we might not know it.  
+\item Expected value exists even if the number of future samples is limited.
+\end{triangles} 
+\bigskip
+
+
+\foilhead[-1cm]{Are these assumptions satisfied in practice?}
+
+\textbf{Assumption I.} Data distribution does not change
+\begin{triangles}
+\item Some changes in data can be modelled
+\item If radical changes occur the model must be retrained
+\item Sometimes predictions must be valid regardless of inputs  \vspace*{1cm}
+\end{triangles}
+
+\textbf{Assumption II.} Future samples are independent from each other
+\begin{triangles}
+\item This assumption is always violated in text analysis
+\item This assumption is always violated in time-series analysis
+\item Correlation between future samples creates overconfidence
+\item This effect can be corrected with more careful sampling of a test set
+\end{triangles}
+
+\foilhead[-1cm]{Notation and terminology}
+
+\textbf{Spaces}
+\begin{triangles}
+\item $\DDD$ -- data distribution
+\item $\XXX$ -- input space, feature space
+\item $\YYY$ -- output space, target space
+\item $\FFF\subseteq\set{f:\XXX\times\Omega\to\YYY}$ -- model class\vspace*{0.5cm}
+\end{triangles}
+
+\textbf{Instances}
+\begin{triangles}
+\item $\vec{x}\in\XXX$ -- instance
+\item $y$ -- true value of an instance, target value
+\item $\hat{y}=f(\vec{x})$ -- predicted target value\vspace*{0.5cm}
+\end{triangles}
+
+\textbf{Loss:}
+\begin{triangles}
+\item $L:\YYY\times\YYY\to\RRR$ --  the cost of using prediction $\hat{y}$ instead of $y$
+\end{triangles}
+ 
+\foilhead[-1cm]{Theoretical formulation}
+
+Let $\DDD$ be the distribution of $(x,y)$ pairs where $x$ is the input and $y$ is the target of a prediction algorithm $f$. 
+\bigskip
+
+Let $L:\YYY\times\YYY\to\RR$ be the \emph{loss function} which takes in the predicted value $\hat{y}$ and the actual value $y$ and outputs resulting loss.
+\bigskip
+
+Then the corresponding \emph{risk} $R(f)$ is computed as \emph{mathematical expectation}
+\begin{align*}
+ R(f):=\EXP_\DDD(L(f(x), y))=\int\limits_{(x,y)\in\DDD} L(f(x), y) dF(x,y)
+\end{align*}   
+where $F$ is the corresponding probability measure.
+
+\foilhead[-1cm]{Practical example}
+
+\begin{triangles}
+\item Let $f(x_1,x_2)\equiv 0$ and let $L(\hat{y}, y)= (y-\hat{y})^2$. What is the risk $R(f)$ if the next data sample is chosen uniformly from the following table.
+\bigskip
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$x_1$ & $x_2$ & $y$\\ 
+\hline
+0 & 0 & 0\\
+0 & 0 & 1\\
+0 & 1 & 1\\
+1 & 0 & 0\\
+1 & 1 & 1\\
+0 & 0 & 0\\
+\hline
+\end{tabular}
+\bigskip
+
+\end{center}
+\item Propose a new prediction rule $f_*$ that minimises the risk. 
+\item Is there always a prediction rule that minimises the risk?
+\end{triangles}
+
+\foilhead[-1cm]{Empirical risk estimation}
+
+When the sample $D_N=\set{(\vec{x}_1,y_1),(\vec{x}_2,y_2),\ldots, (\vec{x}_N, y_N)}$ is \emph{representative} then we can approximate risk $R(f)$ with \emph{empirical risk}:
+\begin{align*}
+  R_N(f)=\frac{1}{N}\cdot\sum_{i=1}^N L(f(\vec{x}_i), y_i)\enspace.
+\end{align*} 
+\hspace*{1cm}
+
+\textbf{IID sampling assumption.} The following conditions assure that the sample data $D_N$ is representative (with high probability).
+\begin{triangles}
+\item All samples are independent from each other. 
+\item All samples are drawn from the same distribution.
+\item Future samples come from the same distribution as the data $D_N$.
+\end{triangles}
+
+\foilhead[-1cm]{Empirical risk}
+\enlargethispage{1cm}
+\centerline{
+\includegraphics[scale=0.8]{test_error_fluctuations_1}\hspace*{0.5cm}
+\includegraphics[scale=0.8]{test_error_fluctuations_2}}
+
+\vspace*{-0.0cm}
+$\triangleright$  depends on the dataset\\
+$\triangleright$  statistical fluctuations decrease with size
+
+
+
+\foilhead[-1cm]{Law of large numbers}
+
+\textbf{Central limit theorem.}
+Let $z_1, \ldots, z_N$ be independent and identically distributed samples form a \emph{real-valued distribution} with a \emph{finite standard deviation} $\sigma$ and \emph{mean} $\mu$. Then the random variable 
+\begin{align*}
+S=\sqrt{N}\Biggl(\frac{1}{N}\cdot \sum_{i=1}^N z_i -\mu\Biggr)
+\end{align*}
+converges \emph{in distribution} to normal distribution $\NNN(mean=0, sd=\sigma)$.  
+
+
+\foilhead[-1cm]{Visual representation}
+
+\illustration[scale=0.8]{normal_approximation}
+
+\vspace*{-0.5cm}
+
+Convergence implies that the centre area of is well approximated 
+\begin{triangles}
+\item 90\% confidence intervals are roughly the same for both distributions
+\end{triangles}
+
+
+\foilhead[-1cm]{Translation}
+
+
+Under mild assumptions the empirical risk $R_N(f)$ converges to risk $R(f)$ and we can actually use normal distribution to estimate probabilities:
+\begin{align*}
+\pr{\abs{R_N(f)-R(f)}\geq \varepsilon} \lesssim 2\cdot \int\limits_{-\infty}^\varepsilon\frac{\sqrt{N}}{\sqrt{2\pi}\sigma}\exp{-\frac{N t^2}{2 \sigma^2}}dt
+\end{align*}
+for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))$.
+\vspace*{1cm}
+
+\textbf{Reasoning}
+\begin{triangles}
+\item If $(\vec{x}_i, y_i)$ are IID samples then $z_i=L(f(\vec{x}_i), y_i)$ are also IID samples.
+\item By definition $\mu=\EXP(z)=\EXP(L(f(\vec{x}),y))=R(f)$.
+\item CLT assumes that risk $\mu$ is finite and standard deviation $\sigma$ is finite.
+\end{triangles}
+\bigskip
+
+\foilhead[-1cm]{What does the convergence speed mean}
+
+\begin{center}
+\includegraphics[width=10cm]{sampling-bound-1}\hspace*{1cm}
+\includegraphics[width=10cm]{sampling-bound-2}
+\end{center}
+\vspace*{-0.5cm}
+
+The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsilon^2)$. 
+\begin{triangles}
+\item To increase precision $10$ times you need $100$ times more samples!
+\end{triangles}
+
+
+
+\foilhead[-1cm]{Why do we need a test set at all}
+
+\textbf{Machine learning algorithm}
+\begin{triangles}
+\item Count number of zeroes $n_0$ and number of ones $n_1$ in training sample.
+\item If $n_0>n_1$ output $f_0(x)\equiv 0$, otherwise output $f_1(x)\equiv 1$.
+\end{triangles}
+\vspace*{1cm}
+
+\textbf{Data source}
+\begin{triangles}
+\item Choose the input $x$ randomly form the range $[0,1]$
+\item Choose the label $y$ randomly from the set $\set{0,1}$.
+\end{triangles}
+
+\vspace*{1cm}
+\textbf{True risk value}
+\begin{triangles}
+\item Clearly the risk of both rules $R(f_0)=R(f_1)=0.5$.
+\item The risk of of our learning algorithm $R(f)$ is also $0.5$. 
+\end{triangles}
+
+
+\foilhead[-1cm]{Simulation outcomes for other methods}
+
+\illustration[scale=0.8]{training_bias_1}
+\vspace*{-0.5cm}
+
+Training error of the rule $f$ is significantly smaller than $0.5$.
+\begin{triangles}
+\item We bias the estimate by choosing the rule $g_i$ for which $R_N(f_i) < R(f)$.
+\end{triangles}
+
+\foilhead[-1cm]{Optimism}
+
+\illustration[scale=0.8]{training_bias_2}
+\vspace*{-0.5cm}
+By knowing the \emph{optimism} $\Delta=R(f)-R_N(f_i$) we can correct $R_N(f)$.   
+\begin{triangles}
+\item Commonly mean value of $\Delta$ is used for the correction 
+\end{triangles}
+
+
+\foilhead[-1cm]{Optimism is only approximation}
+
+\illustration[scale=0.8]{training_bias_3}
+\vspace*{-0.5cm}
+Optimism is usually anti-correlated with empirical risk $R_N(f)$   
+\begin{triangles}
+\item Simple shifting does not resolve the systematical bias  
+\end{triangles}
+
+
+\foilhead[0cm]{Why does the holdout testing work}
+
+\illustration[scale=0.8]{holdout-design}
+
+\
+
+By randomly splitting the data into training and test data we assure
+\begin{triangles}
+\item The training and test sets are independent under IID assumption.
+\item On a training set we compare many models and  choose few winners. 
+\item These functions are independent from the test set data.
+\item As there number of functions is small the law of large numbers holds. 
+\end{triangles}
+
+
+\foilhead[-1cm]{What is the right size of the holdout sample}
+
+\illustration[width=10cm]{holdout-size}
+
+The holdout sample must be quite large or otherwise the precision is low
+\begin{triangles}
+\item Roughly $400$ data points to get precision $0.1$ in classification accuracy.
+\end{triangles}
+
+
+\foilhead[-1cm]{Moment matching}
+
+We know that the empirical risk $R_N(f)$ converges to normal distribution
+\begin{triangles}
+\item Normal distribution is fixed by a mean $\mu$ and variance $\sigma^2$
+\item We can estimate mean $\hat{\mu}$ and variance $\hat{\sigma}^2$ of a loss term $L(f(\vec{x}), y)$ 
+\item Then the estimates of mean and variance of the empirical risk are
+\begin{align*}
+\EXP(R_N(f))&\approx \hat{\mu}\\
+\VAR(R_N(f))&\approx \frac{\hat{\sigma}^2}{N}
+\end{align*}
+\item This allows us to approximate $R_N(f)$ with normal distribution 
+\end{triangles}
+
+
+
+
+\foilhead[-1cm]{Why is holdout testing problematic}
+
+\begin{center}
+\includegraphics[width=10cm]{sample-split-1}\hspace*{1cm}
+\includegraphics[width=10cm]{sample-split-2}
+\end{center}
+\vspace{-1cm}
+
+If the number of available data points is small we have to choose:
+\begin{triangles}
+\item a small training set and bad model but good estimate on risk
+\item a big training set and good model but bad estimate on risk
+\end{triangles}
+
+\foilhead[-1cm]{Why is holdout testing problematic}
+
+\illustration[scale=0.8]{biase-variance-dilemma}
+\vspace*{-.5cm}
+Typical tradeoffs between learning-bias and variance of the validation error.   
+
+\foilhead[-1.2cm]{Crossvalidation as an engineering trick}
+
+\enlargethispage{0.7cm}
+
+To reduce holdout error, we can do several holdout experiments. 
+Since we have not enough data, we redo splitting and training on the same data. 
+
+This idea yields a generic crossvalidation scheme
+\begin{enumerate}
+\item Generate several splits of test and training data
+\item For each split train the model and compute holdout error
+\item Tabulate results\vspace*{2ex}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+ & Split $1$ & Split $2$ & $\ldots$ & Split $k$\\
+ \hline
+ Training error & $S_1$ & $S_2$ & $\ldots$ & $S_k$\\
+ Test error     & $E_1$ & $E_2$ & $\ldots$ & $E_k$\\
+\hline
+ Optimism $\Delta$    & $E_1-S_1$ & $E_2-S_2$ & $\ldots$ & $E_k-S_k$\\
+ \cline{2-5}
+\hline
+\end{tabular}
+\end{center}
+\vspace*{2ex}
+\item Compute averages $E=\frac{1}{k}(E_1+\cdots+E_k)$ and $\Delta=\frac{1}{k}(\Delta_1+\cdots+\Delta_k)$
+\item Visualise results and compute confidence intervals for estimates if needed. 
+\end{enumerate}
+
+
+\foilhead[-1cm]{What does crossvalidation measure?}
+
+For each fold we have a separate predictor $f_i$ and test error $E_i$:
+\begin{triangles}
+\item Average $E$ characterises average behaviour of $f_1,\ldots, f_k$
+\item Algorithm can use only (1-1/k) fraction of the available data
+\item If there is not enough data for training $E$ overestimates the error \vspace*{1cm}  
+\end{triangles}
+
+To estimate the performance of a classifier $f$ trained on the entire data:
+\begin{triangles}
+\item We must estimate the difference between test and training error $\Delta(f)$
+\item For normal ML algorithm optimism decreases by increasing the size $n$
+\item Crossvalidation estimates $\Delta$ at the point $(1-1/k)\cdot n \lesssim n$ 
+\item Hence we can go from training error to test error estimate
+\item Training and test set fluctuations influence the outcome  
+\end{triangles} 
+
+\foilhead[-1cm]{What else can we do with crossvalidation?}
+
+\textbf{Comparing different algorithms}
+\begin{triangles}
+\item We can tune hyperparameters of the algorithm
+\item We can estimate which algorithm on average behaves better
+\item We can quantify the stability of the performance ranking\vspace*{0.5cm}
+\end{triangles} 
+
+\textbf{Estimating variance of model parameters}
+\begin{triangles}
+\item Different folds give different parameter instances
+\item Parameter confidence intervals can be used for diagnostics
+\item Confidence intervals can be used for pruning spurious coefficients\vspace*{0.5cm}
+\end{triangles} 
+
+\textbf{Finding hard instances}
+\begin{triangles}
+\item Different folds give different mismatches $\hat{y}_i= y_i$
+\item Corresponding problem instances $(\vec{x}_i, y_i)$ can be studied further
+\end{triangles}
+
+
+
+
+
+
+\end{document}
+
+
+\foilhead[-1cm]{Different flavours of cross validation}
+
+\textbf{Exhaustive data splitting}
+\begin{triangles}
+\item Leave-one-out method, leave-$p$-out method
+\end{triangles}
+\vspace*{1cm}
+
+\textbf{Partial splitting}
+\begin{triangles}
+\item $K$-fold cross validation for $K = 5 , 10$ 
+\item Monte-Carlo crossvalidation with a fixed split ratio, e.g $1:9$.\\ Same split can occur more than once  
+\item Repeated learning testing with  a fixed split ratio, e.g $1:9$.
+\\ Same split can occur only once. 
+\end{triangles}
+
+\foilhead[-1cm]{Different flavours of cross validation}
+
+\textbf{Direct estimation of model error}
+\begin{triangles}
+\item The model error is estimated as an average of test errors $E_i$.
+\item If needed one computes standard deviation estimates of the average error.  
+\item If needed one draws a boxplot of all test errors.  
+\end{triangles}
+\vspace*{1cm}
+
+\textbf{Model error through the optimism}
+\begin{triangles}
+\item First the optimism $\Delta$ is estimated as an average  $E_i-S_i$.
+\item Next model is trained on the entire data and training error $S$ is recorded.  
+\item Model error is estimated as $S+\Delta$.
+\item If needed the standard deviation is computed for the optimism.  
+\item If needed one draws a shifted boxplot $S+E_i-S_i$ for the error estimate.  
+\end{triangles}
+
+
+
+
+\foilhead[-1cm]{Bootstrapping as an alternative}
+
+We could use the entire date set for validation if we could get another dataset for training the model. Bootstrapping is an engineering trick to create a new dataset out of a thin air.
+\begin{enumerate}
+\item Draw $N$ samples from the original dataset with replacement to get a \emph{bootstrap sample} $D_{B}$, e.g. the same element can occur more than once.
+\item Train the model  on the bootstrap sample $D_B$.
+\item Estimate the test error on the original dataset $D$.
+\item Repeate the procedure $20$-$200$ times.
+\item Compute necessary statistics and visualise the results if needed.
+\end{enumerate}
+
+
+\foilhead[-1cm]{Standard way how to use bootstrapping}
+ 
+Bootstrapping is mostly used to estimate optimism
+\begin{triangles}
+\item The model is trained and the training error $S_i$ is computed.
+\item The test error $E_i$ is usually computed on the entire dataset.
+\item Optimism is computed as $E_i-S_i$.
+\end{triangles}
+
+\bigskip
+
+Note that it does not make sense to compute test error on the entire dataset as we have used some of the data to build a model. Advanced bootstrap methods like \textbf{.632 bootstrap} and \textbf{.632 bootstrap+} use only the out of training set error and later find a tradeoff between training an test error.
+\begin{align*}
+E_{\text{boot}}=0.368\cdot S_{\text{Train}} + 0.632\cdot E_{\text{Out-of-training-set}}
+\end{align*}
+
+\foilhead[-1cm]{Other uses of bootstrapping}
+
+Estimate the noise-tolerance of the machine learning method
+\begin{triangles}
+\item Generate a bootstrap sample.
+\item Corrupt with an appropriate noise.
+\item Train the model and estimate the performance.
+\end{triangles}
+\vspace*{2cm}
+
+Estimate the variance of model coefficients
+\begin{triangles}
+\item Generate a bootstrap sample.
+\item Estimate model parameters.
+\item Visualise parameters and compute empirical quantiles.
+\item Drop parameter which fluctuate around zero.
+\end{triangles}
+
+\end{document}
