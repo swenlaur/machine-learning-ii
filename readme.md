@@ -6,7 +6,7 @@ You are welcome to use materials elsewhere provided that you:
 
 * Do not sue me
 * Do not get money out of it
-* Refer to the original materials  
+* Refer to the original materials
 
 
 ## Setting up the environment
@@ -26,23 +26,28 @@ conda create --name machine-learning
 
 Next you have to install a lot of libraries to get a lift-off:
 
-``` 
+```
 conda install -n machine-learning jupyter
 conda install -n machine-learning pandas
 conda install -n machine-learning matplotlib
 conda install -n machine-learning seaborn
+conda install -n machine-learning -c conda-forge plotnine
+conda install -n machine-learning scipy
 
 conda install -n machine-learning psycopg2
 conda install -n machine-learning pandas-datareader
 
 conda install -n machine-learning scikit-learn
 conda install -n machine-learning tensorflow
-conda install -n machine-learning keras  
+conda install -n machine-learning keras
+
+conda install tqdm -n machine-learning
 ```
 
 First four packages set up a minimal environment for data analysis and visualisation.
 The second block sets up packages needed for more complex input-output pipelines: databases and websources.
-The third block contains libraries for various machine learning methods
+The third block contains libraries for various machine learning methods.
+The fourth block contains various utility packages.
 
 If you feel advantageous you can also install TensorFlow GPU library. In my environment I had to do it manually as Anaconda did not provide a binary package for it:
 

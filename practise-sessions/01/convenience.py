@@ -1,7 +1,45 @@
-
+import itertools as it
+from pandas import Series
+from pandas import DataFrame
+from typing import Dict, List, Any
 from IPython.display import display_html
 
-def mdisplay(dfs, names=[]):
+
+def head(df: DataFrame, *args, **kwargs) -> DataFrame:
+    """
+    Convenience function for R users 
+    """ 
+    
+    return df.head( *args, **kwargs)
+
+
+def tail(df: DataFrame, *args, **kwargs) -> DataFrame:
+    """
+    Convenience function for R users 
+    """    
+
+    return df.tail( *args, **kwargs)
+
+
+def dim(df: DataFrame) -> DataFrame:
+    """
+    Convenience function for R users 
+    """ 
+    
+    return df.shape
+
+
+
+def combine_categories(cat_dict:Dict[str, List[Any]]) -> DataFrame:
+    """
+    Creates a data frame that contains all possible combinations of list elements
+    """    
+
+    return DataFrame(list(it.product(*cat_dict.values())), columns = cat_dict.keys())
+
+
+
+def mdisplay(dfs: List[DataFrame], names:List[str]=[]):
     """
     Displays several data frames side by side
     
