@@ -39,6 +39,27 @@ def combine_categories(cat_dict:Dict[str, List[Any]]) -> DataFrame:
 
 
 
+def reset_column_index(df: DataFrame, level: List[Any], drop: bool=True, inplace: bool=False):
+
+    """
+    Removes specified levels from the column index. Works analogously to reset_index
+    """
+    
+    if inplace:
+        if drop:
+            df.columns = df.columns.droplevel(level)
+        else:
+            raise NotImplementedError
+        return df
+    else:
+        if drop:
+            result = df.copy()
+            result.columns = df.columns.droplevel(level)
+        else:
+            result = df.stack(level)
+        return result
+
+
 def mdisplay(dfs: List[DataFrame], names:List[str]=[]):
     """
     Displays several data frames side by side
