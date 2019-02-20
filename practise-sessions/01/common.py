@@ -3,7 +3,7 @@ from pandas import Series
 from pandas import DataFrame
 import numpy.random as random
 
-from typing import List
+from typing import List, Tuple
 
 
 def sigmoid(x):
@@ -73,3 +73,24 @@ class MajorityVoting:
                 .join(self.pred, on=self.features, how='left')['prediction']
                 .fillna(True)
                 .values)    
+
+    
+def crossvalidation_splits(X: DataFrame, y: Series, k: int=10) -> Tuple[List[int], List[int]]:
+    """
+    Generator that computes splits for k-fold crossvalidation. Works only if the dataset size is a multiple of k.
+    """
+    
+    assert len(X) == len(y), 'Data matrix and the target vector must match'
+    assert len(X) % k == 0,  'Crossvalidation is unimplemented for cases n != k * m'  
+    assert X.index.equals(y.index), 'Indices of the data matrix and target vector must match'
+
+    n = len(X)
+    m = int(n/k)
+    samples = np.random.permutation(X.index)
+    folds = [samples[start: start + m] for start in range(0, n, m)]
+    
+    for i in range(k):
+        training_index = [x for x in range(k) if x != i]
+        training_samples = np.concatenate([folds[i] for i in training_index])
+        test_samples = folds[i]
+        yield (i, training_samples, test_samples)

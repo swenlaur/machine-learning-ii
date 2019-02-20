@@ -419,24 +419,88 @@ This idea yields a generic crossvalidation scheme
 \item Visualise results and compute confidence intervals for estimates if needed. 
 \end{enumerate}
 
-
 \foilhead[-1cm]{What does crossvalidation measure?}
 
 For each fold we have a separate predictor $f_i$ and test error $E_i$:
 \begin{triangles}
-\item Average $E$ characterises average behaviour of $f_1,\ldots, f_k$
-\item Algorithm can use only (1-1/k) fraction of the available data
-\item If there is not enough data for training $E$ overestimates the error \vspace*{1cm}  
+\item Average $E$ characterises average behaviour of $f_1,\ldots, f_k$.
+\item Algorithm can use only (1-1/k) fraction of the available data.
+\item If there is not enough data for training $E$ overestimates the error. \vspace*{1cm}  
 \end{triangles}
 
 To estimate the performance of a classifier $f$ trained on the entire data:
 \begin{triangles}
-\item We must estimate the difference between test and training error $\Delta(f)$
-\item For normal ML algorithm optimism decreases by increasing the size $n$
-\item Crossvalidation estimates $\Delta$ at the point $(1-1/k)\cdot n \lesssim n$ 
-\item Hence we can go from training error to test error estimate
-\item Training and test set fluctuations influence the outcome  
-\end{triangles} 
+\item We must estimate the difference between test and training error $\Delta(f)$.
+\item For normal ML algorithm optimism decreases by increasing the size $n$.
+\item Crossvalidation estimates $\Delta$ at the point $(1-1/k)\cdot n \lesssim n$. 
+\item Hence we can go from training error to test error estimate.
+\item Training and test set fluctuations influence the outcome.  
+\end{triangles}
+ 
+
+\foilhead[-1cm]{Crossvalidation vs holdout estimates}
+
+\illustration[scale=0.8]{crossvalidation_vs_holdout}
+\vspace*{-.5cm}
+\begin{triangles}
+\item Crossvalidation error is slightly larger as the training set is smaller.  
+\item Crossvalidation error is slightly more fluctuating due to correlations. 
+\item Quite often these effects are quite small in practice. 
+\end{triangles}
+
+\foilhead[-1cm]{Theoretical explanation}
+
+\textbf{Theorem.} 
+Crossvalidation error $E =\frac{1}{k}(E_1+\cdots+E_k)$ is an 
+unbiased estimate for the average test error that is taken over all models that are trained on $(1-1/k)\cdot n$ samples. 
+
+\textbf{Proof}
+\begin{align*}
+\EXP[E] =\frac{\EXP[E_1]+\cdots+\EXP[E_k]}{k}=\EXP_{tr}\biggl[\EXP_{\vec{x}, y}\bigl[L(f(\vec{x}),y)|f=\AAA(train)\bigr]\biggr]
+\end{align*}
+where 
+\begin{triangles}
+\item the outer expectation is taken over all possible training sets  
+\item the inner expectation measures the risk of the fitted model
+\end{triangles}
+
+
+\foilhead[-1cm]{Crossvalidation variance estimate}
+
+\centerline{
+\includegraphics[scale=0.8]{crossvalidation_moment_matching}\hspace*{0.5cm}
+\includegraphics[scale=0.8]{crossvalidation_variance_estimate}}
+\vspace*{-.5cm}
+\begin{triangles}
+\item The naive variance estimate for the crossvalidation error is biased.   
+\item The estimate usually gives smaller confidence intervals as they are.  
+\item This must be accounted in the estimates of optimism and test error. 
+\end{triangles}
+
+
+\foilhead[-1cm]{Theoretical explanation}
+
+\textbf{Theorem.}
+The variance of crossvalidation error $E =\frac{1}{k}(E_1+\cdots+E_k)$ is a weighted average consisting of three components
+\begin{align*}
+\theta = \frac{1}{n}\cdot\sigma^2+\textcolor{red}{\frac{m-1}{n} \cdot\omega + \frac{n-m}{n}\cdot\gamma}
+\end{align*} 
+where
+\begin{triangles}
+\item $\sigma^2$ is the average variance of true test examples all possible training sets.
+\item $\omega^2$ is the within-block covariance of test errors sharing the same test set. 
+\item $\gamma^2$ is the between-block covariance of test errors cause by the fact that 
+\begin{diamonds}
+ \item training set have large intersection
+ \item test fold is inside the training set of another split. 
+\end{diamonds}   
+\end{triangles}
+
+ 
+
+
+
+
 
 \foilhead[-1cm]{What else can we do with crossvalidation?}
 
@@ -456,19 +520,25 @@ To estimate the performance of a classifier $f$ trained on the entire data:
 
 \textbf{Finding hard instances}
 \begin{triangles}
-\item Different folds give different mismatches $\hat{y}_i= y_i$
+\item Different folds give different mismatches $\hat{y}_i\neq y_i$
 \item Corresponding problem instances $(\vec{x}_i, y_i)$ can be studied further
 \end{triangles}
 
 
+\foilhead[-1cm]{Estimating variance of model parameters}
+
+\centerline{
+\includegraphics[scale=0.8]{crossvalidation_parameter_variance_i}\hspace*{0.5cm}
+\includegraphics[scale=0.8]{crossvalidation_parameter_variance_ii}}
+\vspace*{-.5cm}
+\begin{triangles}
+\item The method is applicable for models with compact parametrisation.
+\item Each split defines a new model $f_i$ with coefficient $\vec{\beta}$.   
+\item The variability of a coefficient $\beta_i$ shows its certainty and relevance. 
+\end{triangles}
 
 
-
-
-\end{document}
-
-
-\foilhead[-1cm]{Different flavours of cross validation}
+\foilhead[-1cm]{Other flavours of cross validation}
 
 \textbf{Exhaustive data splitting}
 \begin{triangles}
@@ -483,27 +553,6 @@ To estimate the performance of a classifier $f$ trained on the entire data:
 \item Repeated learning testing with  a fixed split ratio, e.g $1:9$.
 \\ Same split can occur only once. 
 \end{triangles}
-
-\foilhead[-1cm]{Different flavours of cross validation}
-
-\textbf{Direct estimation of model error}
-\begin{triangles}
-\item The model error is estimated as an average of test errors $E_i$.
-\item If needed one computes standard deviation estimates of the average error.  
-\item If needed one draws a boxplot of all test errors.  
-\end{triangles}
-\vspace*{1cm}
-
-\textbf{Model error through the optimism}
-\begin{triangles}
-\item First the optimism $\Delta$ is estimated as an average  $E_i-S_i$.
-\item Next model is trained on the entire data and training error $S$ is recorded.  
-\item Model error is estimated as $S+\Delta$.
-\item If needed the standard deviation is computed for the optimism.  
-\item If needed one draws a shifted boxplot $S+E_i-S_i$ for the error estimate.  
-\end{triangles}
-
-
 
 
 \foilhead[-1cm]{Bootstrapping as an alternative}
