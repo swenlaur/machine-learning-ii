@@ -24,6 +24,8 @@
   * 
 
 * 07\_crossvalidation\_error\_and\_its\_variance\_decomposition.ipynb 
+  * 7.1 Examples of crossvalidation variance decomposition* (**3p**)
+   
 * 08\_crossvalidation\_and\_hyper\_parameter\_selection.ipynb
   * 8.1 Bias in hyperparameter estimation* (**3p**) 
 
