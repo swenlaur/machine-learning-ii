@@ -19,10 +19,10 @@
   * 4.2 Naive crossvalidation variance estimate and dataset size* (**2p**)
 
 * 05\_crossvalidation\_and\_parameter\_variance.ipynb
-  * ?
+  * 5.1 Analysis of prediction stability (**3p**)
 
 * 06\_crossvalidation\_and\_hard\_instances.ipynb 
-  * 
+  * 6.1 Hard instances and average ROC curve* (**3p**)
 
 * 07\_crossvalidation\_error\_and\_its\_variance\_decomposition.ipynb 
   * 7.1 Examples of crossvalidation variance decomposition* (**3p**)
