@@ -15,7 +15,8 @@
   * 3.1 Bias-variance tradeoff for regression* (**3p**)
 
 * 04\_crossvalidation\_and\_test\_error.ipynb
-  * ?
+  * 4.1 Variance of crossvalidation estimate for different learning tasks (**1p**)
+  * 4.2 Naive crossvalidation variance estimate and dataset size* (**2p**)
 
 * 05\_crossvalidation\_and\_parameter\_variance.ipynb
   * ?
