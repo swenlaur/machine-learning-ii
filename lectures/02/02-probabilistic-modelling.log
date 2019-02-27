@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.4.5)  27 FEB 2019 01:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.4.5)  27 FEB 2019 10:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -491,7 +491,7 @@ Here is how much of TeX's memory you used:
  6509 multiletter control sequences out of 15000+600000
  17591 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,15n,28p,281b,203s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,15n,28p,280b,203s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pf
 b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
@@ -505,7 +505,7 @@ ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/l
 ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
 cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/loca
 l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 02-probabilistic-modelling.pdf (32 pages, 3109595 bytes).
+Output written on 02-probabilistic-modelling.pdf (32 pages, 3109615 bytes).
 PDF statistics:
  457 PDF objects out of 1000 (max. 8388607)
  304 compressed objects within 4 object streams
