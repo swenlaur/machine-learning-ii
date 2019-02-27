@@ -133,7 +133,7 @@ The distribution of  $B_1+\ldots+B_n$ depends solely on the number of trials $n$
 
 \textbf{I. Null hypothesis:}
 \begin{triangles}
-\item The probability of a single one is $\pr{B_i=1}=p$.
+\item The probability of heads in a coinflip is $\pr{B_i=1}=p$.
 \end{triangles}
 \vspace*{1cm}
 
@@ -161,7 +161,7 @@ The distribution of  $B_1+\ldots+B_n$ depends solely on the number of trials $n$
 Statistical test is a classification algorithm designed to distinguish a fixed distribution of negative examples specified by a null hypothesis.
 \vspace*{2ex}
 
-Any classification algorithm can be converted to a statistical test by finding out the percentage of false positives aka \emph{p-value}:
+Any \emph{static} classification algorithm can be converted to a statistical test by finding out the percentage of false positives aka \emph{p-value}:
 \begin{triangles}
 \item There might exists a closed form solution.
 \item We can always estimate p-values using simulations. 
@@ -214,8 +214,8 @@ Several p-value adjustment methods are used to correct the issue:
 
 \foilhead[-1cm]{Interpretation of confidence intervals}
 
-\textbf{Definition}
-Confidence interval for a parameter $p$ is an outcome of an approximation algorithm. The algorithm  must output an interval $[\hat{p}-\varepsilon,\hat{p}+\varepsilon]$ such that the true estimate is out of this range on $\alpha$  fraction of cases.
+\textbf{Definition.}
+Confidence interval for a parameter $p$ is an outcome of an approximation algorithm. The algorithm  must output an interval $[\hat{p}-\varepsilon,\hat{p}+\varepsilon]$ such that the true estimate is out of this range on $\alpha$-fraction of cases.
 \vspace*{2ex}
 
 \textbf{Paradoxical inapplicability}
@@ -300,7 +300,7 @@ However, we are sometimes interested in the uncertainty many parameters or in th
 Confidence bands are generalisations of confidence intervals
 \begin{triangles}
 \item Pointwise confidence band is a collection of confidence intervals
-\item Simultaneous confidence band that encloses $\alpha$-fraction of functions.  
+\item Simultaneous confidence band must enclose $\alpha$-fraction of functions.  
 \item Simultaneous confidence bands are much wider than pointwise bands.  
 \end{triangles}
 
@@ -326,7 +326,7 @@ Confidence bands are generalisations of confidence intervals
 \vspace*{2ex}
 
 \textbf{Label permutation.}
-A random permutation $\pi$ of outputs $y_i$ destroys correlations between input-output pairs $(\vec{x}_{i}, \vec{y}_{\pi(i)})$ but preserves marginal distribution of inputs and outputs. 
+A random permutation $\pi$ on outputs $y_i$ destroys correlations between input-output pairs $(\vec{x}_{i}, \vec{y}_{\pi(i)})$ but preserves marginal distribution of inputs and outputs. 
 \vspace*{2ex}
 
 
