@@ -188,14 +188,14 @@ Several p-value adjustment methods are used to correct the issue:
 
 \textbf{II. Perform multiple hypotesis testing for all parameter values:}
 \begin{triangles}
-\item Accept all parameters values for which pvalue is greather than $\alpha$.  
+\item Accept all parameters values for which p-value is greater than $1-\alpha$.  
 \item Output a minimal interval that covers all accepted parameter values.
 \end{triangles}
 \vspace*{1cm}
 
 \textbf{Rationale}
 \begin{triangles}
-\item The true parameter value is rejected on $\alpha$-fraction of~possible~observations.
+\item The true parameter value is accepted on $\alpha$-fraction of~possible~observations.
 \item Otherwise, the true value is inside the predicted interval. 
 \end{triangles}
 
@@ -215,7 +215,7 @@ Several p-value adjustment methods are used to correct the issue:
 \foilhead[-1cm]{Interpretation of confidence intervals}
 
 \textbf{Definition.}
-Confidence interval for a parameter $p$ is an outcome of an approximation algorithm. The algorithm  must output an interval $[\hat{p}-\varepsilon,\hat{p}+\varepsilon]$ such that the true estimate is out of this range on $\alpha$-fraction of cases.
+Confidence interval for a parameter $p$ is an outcome of an approximation algorithm. The algorithm  must output an interval $[\hat{p}-\varepsilon,\hat{p}+\varepsilon]$ such that the true estimate is in the range on $\alpha$-fraction of cases.
 \vspace*{2ex}
 
 \textbf{Paradoxical inapplicability}
@@ -229,7 +229,7 @@ The definition does not state that the probability $p\in[\hat{p}-\varepsilon,\ha
 
 \textbf{Ultra-frequentistic resolution}
 \begin{triangles}
-\item  If $\alpha$ is small enough say $5\%$ then the algorithm is always correct. 
+\item  If $1-\alpha$ is small enough say $5\%$ then the algorithm is always correct. 
 \end{triangles}
 
 
