@@ -1,0 +1,220 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{foiltex-extra}[2009/02/08 Extra macros for FoilTeX: Version 0.5]
+\DeclareOption{lecture-serie}{\input{foiltex-extra-lecture-series.sty}}
+\DeclareOption{presentation}{}
+\ProcessOptions\relax
+\RequirePackage{color}
+
+% Remove paragraph indentation
+\setlength{\parindent}{0.0em}
+
+% Tamed enumerate environment that does looks compact and
+% does not spread if slide is underfilled.
+
+\renewenvironment{enumerate}%
+  {\begin{list}{\arabic{enumi}.}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      \usecounter{enumi}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+
+% Tamed itemize environment that does looks compact and
+% does not spread if slide is underfilled.
+
+\renewenvironment{itemize}%
+  {\begin{list}{--}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+
+% Tamed description environment that does looks compact and
+% does not spread if slide is underfilled
+
+\renewenvironment{description}%
+  {\begin{list}{}%
+    { \setlength{\topsep}   {-0.5ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {1.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      \setlength{\labelwidth} {1.2em}
+      \let\makelabel\descriptionlabel
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep\normalfont\bfseries #1}
+
+
+% Other itemize like environments: bullets, diamons, stars, double arrows
+% triangles, squares and list without labels.
+
+\newenvironment{bullets}%
+  {\begin{list}{$\bullet$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+\newenvironment{diamonds}%
+  {\begin{list}{$\diamond$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+\newenvironment{ddiamonds}%
+  {\begin{list}{$\diamond$}%
+    { \setlength{\topsep}   {0.5ex}
+       \setlength{\partopsep}{0.0\fill}
+       \setlength{\itemsep}  {0.5ex}
+       \setlength{\parsep}   {0.0ex}
+       \setlength{\leftmargin} {1.2em}
+       }%
+     }%
+{\end{list}\vspace*{1.5ex}}%
+
+
+\newenvironment{stars}%
+  {\begin{list}{$\star$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+\newenvironment{darrows}%
+  {\begin{list}{$\Rightarrow$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+
+\newenvironment{triangles}%
+  {\begin{list}{$\triangleright$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+
+\newenvironment{squares}%
+  {\begin{list}{{\tiny $\square$}}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+\newenvironment{elist}%
+  {\begin{list}{}%
+    { \setlength{\topsep}    {-1.0ex}
+      \setlength{\partopsep} {0.0\fill}
+      \setlength{\itemsep}   {1.5ex}
+      \setlength{\parsep}    {0.0ex}
+      \setlength{\leftmargin}{0.0em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+\newenvironment{exceptions}%
+  {\begin{list}{$\scriptstyle\clubsuit$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vspace*{0ex}}%
+
+
+% Other more complex foil types: middlefoil and emptyfoil
+
+\newcommand{\middlefoil}[1]
+{
+  \foilhead{}
+  \thispagestyle{empty}
+  \vspace*{\fill}
+    \begin{center}
+      \begin{LARGE}
+        #1
+      \end{LARGE}
+    \end{center}
+  \vspace*{\fill}
+  \addtocounter{page}{-1}
+}
+
+\newcommand{\emptyfoil}
+{
+  \foilhead{}
+  \thispagestyle{empty}
+}
+
+% Classical way to define commands with optional arguments
+% for the command \illustration[#1]{#2} 
+\def\illustration{\futurelet\testchar\MaybeOptArgIllustration} 
+\def\MaybeOptArgIllustration{\ifx[\testchar \let\next\OptArgIllustration 
+\else \let\next\NoOptArgIllustration \fi \next} 
+\def\OptArgIllustration[#1]#2{\par \centerline{\includegraphics[#1]{#2}}}
+\def\NoOptArgIllustration#1{\par \centerline{\includegraphics{#1}}} 
+
+% Redefined colourful \emph command
+\renewcommand{\emph}[1]{\textcolor{blue}{\em #1}}
+
+% Various colours which can are safe to use with projectors
+
+\definecolor{darkgreen}{rgb}{0.0,0.5,0.0}
+\definecolor{orange}{rgb}{1.0,0.453,0.0}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\darkblue}[1]{\textcolor{darkblue}{#1}}
+\newcommand{\green}[1]{\textcolor{darkgreen}{#1}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+
+% Other convenience macros
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+
+\newcommand{\example}[1]{\textsc{#1}}
+\newenvironment{proof}{\textsc{Proof}.}{}
+
+% Layout macros
+\newcommand{\Bigskip}{\vskip 2em}

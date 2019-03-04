@@ -1,0 +1,29 @@
+\ProvidesPackage{foiltex-extra-lecture-series}[2009/02/08 Lecture Series extension for FoilTeX: Version 0.5]
+
+
+% A standard layout of the title slide 
+% Assumes that the following commands are defined
+% -- \lserie  (name of lecture serie) 
+% -- \lecture (name of the lecture)
+% -- \ldate   (date of the lecture)
+% -- \lautor  (presenter) 
+% -- \linst   (institution)
+
+\newcommand{\titlefoil}
+{\foilhead{}
+ \thispagestyle{empty}
+ \vspace*{\fill}
+ \begin{center}
+ \begin{Large}%
+ {\textsc{\lserie}}\vspace*{3ex}\\% 
+ \textbf{\lecture} \vspace*{4ex}\\%
+ \end{Large}%
+ \lauthor\\%
+ \linst\vspace*{2ex}\\%
+ \end{center}
+ \vspace*{\fill}
+ \addtocounter{page}{-1}
+}
+
+% A standard footer for all slides
+\MyLogo{\lserie, \lecture, \ldate}

@@ -1,0 +1,170 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{foiltex-extra}[2007/11/19 Extra macros for FoilTeX]
+
+% To be used together with FoilTeX.
+% Provides macros that make slides more elegant
+% Version: 0.4
+
+% Remove paragraph indentation
+\setlength{\parindent}{0.0em}
+
+
+% Tamed enumerate environment that does looks compact and
+% does not spread if slide is underfilled.
+
+\renewenvironment{enumerate}%
+  {\begin{list}{\arabic{enumi}.}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      \usecounter{enumi}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+
+% Tamed itemize environment that does looks compact and
+% does not spread if slide is underfilled.
+
+\renewenvironment{itemize}%
+  {\begin{list}{--}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+
+% Tamed description environment that does looks compact and
+% does not spread if slide is underfilled
+
+\renewenvironment{description}%
+  {\begin{list}{}%
+    { \setlength{\topsep}   {-0.5ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {1.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      \setlength{\labelwidth} {1.2em}
+      \let\makelabel\descriptionlabel
+      }%
+    }%
+{\end{list}\vskip \fill}%
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep\normalfont\bfseries #1}
+
+
+% Other itemize like environments: bullets, diamons, stars, double arrows
+% triangles, squares and list without labels.
+
+\newenvironment{bullets}%
+  {\begin{list}{$\bullet$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+\newenvironment{diamonds}%
+  {\begin{list}{$\diamond$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+\newenvironment{stars}%
+  {\begin{list}{$\star$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+\newenvironment{darrows}%
+  {\begin{list}{$\Rightarrow$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+
+\newenvironment{triangles}%
+  {\begin{list}{$\triangleright$}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+
+\newenvironment{squares}%
+  {\begin{list}{{\tiny $\square$}}%
+    { \setlength{\topsep}   {-1.0ex}
+      \setlength{\partopsep}{0.0\fill}
+      \setlength{\itemsep}  {0.5ex}
+      \setlength{\parsep}   {0.0ex}
+      \setlength{\leftmargin} {1.2em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+
+\newenvironment{elist}%
+  {\begin{list}{}%
+    { \setlength{\topsep}    {-1.0ex}
+      \setlength{\partopsep} {0.0\fill}
+      \setlength{\itemsep}   {1.5ex}
+      \setlength{\parsep}    {0.0ex}
+      \setlength{\leftmargin}{0.0em}
+      }%
+    }%
+{\end{list}\vskip \fill}%
+
+
+% Other more complex foil types: middlefoil and emptyfoil
+
+
+% Big hack to get text in the center must be solved differently
+
+\newcommand{\middlefoil}[1]
+{
+  \foilhead{}
+  \thispagestyle{empty}
+  \vskip 4.9cm
+  \noindent
+  \smash{\parbox[c]{\textwidth}{
+    \begin{center}
+      \begin{LARGE}
+        #1\\
+      \end{LARGE}
+    \end{center}
+  }}
+  \addtocounter{page}{-1}
+}
+
+\newcommand{\emptyfoil}[1]
+{
+  \foilhead{}
+  \thispagestyle{empty}
+}
