@@ -76,3 +76,10 @@ Jupyter is a cell based computational environment for data scripting and explora
 * [The cheat sheet](https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/) 
 * [Magic commands for code completion](https://forums.fast.ai/t/jupyter-notebook-how-to-enable-intellisense/8636)  
 
+## How not to delete your local changes!
+
+As this is evolving repository, we might happen to update files modified by you during exercise sessions.
+This introduces conflicts! If you work with GIT without thinking ***you might loose all your work!***
+The simplest way to handle this is to rename files you have locally modified or move them out of the repository.
+If you want to play GIT hero you can create your local branch and pull changes from the master.
+May the force be with you!
