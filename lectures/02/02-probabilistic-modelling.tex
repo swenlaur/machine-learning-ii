@@ -368,7 +368,7 @@ Estimate how probable is to achieve equal or higher accuracy than was observed o
 Likelihood $\LLL(\DDD|\MMM)$ is a probability of observations $\DDD$ when the data generation model $\MMM$ is fixed.
 The model is fixed by the set of parameters.
 
-For coin flipping experiment the number of ones $k$ is the observation and coin bias $p$ is the model paramater and thus
+For coin flipping experiment the number of ones $k$ is the observation and the coin bias $p$ is the model paramater and thus
 \begin{align*}
 \LLL[k|p]=\binom{n}{k}p^k(1-p)^{n-k}
 \end{align*}
@@ -412,20 +412,20 @@ The parameter value that maximises the posterior is
 p_* =\frac{\alpha-1}{\beta-\alpha}=\frac{k}{n}\enspace.
 \end{align*} 
 
-\foilhead[-1cm]{Dice throwing vs coinflipping}
+\foilhead[-1cm]{Dice throwing vs coin flipping}
 
 A behaviour of a dice with faces $\set{1,\ldots,m}$ is determined by probabilities 
 \begin{align*}
-p_1=\pr{D_i=1},\ldots, p_m=\pr{D_i=m}
+p_1=\pr{D_i=1},\quad\ldots,\quad p_m=\pr{D_i=m}
 \end{align*}
 
-\textbf{Reduction to coin-flipping} 
+\textbf{Reduction to coin flipping} 
 \begin{triangles}
 \item Let $B_i$ denote the event that $D_i=j$.
 \item Then $B_1,\ldots, B_n$ is a coinflipping sequence with bias $\pr{B_i=1}=p_j$.
 \item Non-informative prior for dice throwing goes to the non-informative prior.
 \item Informative priors can be marginalised to the right format.
-\item The same reduction can be done for all faces.    
+\item The same reduction can be done for all faces of the dice.    
 \end{triangles} 
 \vspace*{1cm}
 
