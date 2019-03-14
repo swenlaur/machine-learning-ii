@@ -1,0 +1,19 @@
+# LaTeX trash
+
+lectures/**/*.log
+lectures/**/*.aux
+lectures/**/*.toc
+lectures/**/*.synctex.gz
+
+# Mac OS trash
+**/.DS_Store
+
+# Python trash
+**/__pycache__/**
+**/.ipynb_checkpoints/**
+
+# Private directory for materials
+lectures/materials/
+
+# Ignore session transcripts
+practise-sessions/**/*_a.ipynb
