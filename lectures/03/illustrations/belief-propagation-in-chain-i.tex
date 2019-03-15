@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage[dvipsnames]{xcolor}
 \usepackage[paperwidth=20cm, paperheight=3.5cm, margin = 0cm, top=0.5cm]{geometry}
 
 \usepackage{pgf}
@@ -15,9 +16,9 @@
                     
 \node[state, fill=red] (X1)               {$A$}; 
 \node[state] (X2) [right of=X1] {$B$};                   
-\node[state, fill=blue] (X3) [right of=X2] {$C$};                   
+\node[state, fill=OliveGreen] (X3) [right of=X2] {$C$};                   
 \node[state] (X4) [right of=X3] {$D$};                   
-\node[state, fill=red] (X5) [right of=X4,] {$E$}; 
+\node[state, fill=blue] (X5) [right of=X4,] {$E$}; 
 
 \node[box][below=0.5cm of X1](P1){$\pi_A$};                  
 \node[box][below=0.5cm of X5](P5){$\lambda_E$};                  

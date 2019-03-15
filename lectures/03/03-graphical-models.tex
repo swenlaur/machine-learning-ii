@@ -17,6 +17,8 @@
 
 \newcommand{\leqm}{\ \leq_m}
 
+\newcommand{\EVPOS}{\textcolor{red}{\mathsf{evidence}^+}}
+\newcommand{\EVNEG}{\textcolor{blue}{\mathsf{evidence}^-}}
 
 \newcommand{\bigvskip}{\vskip 2em}
 \newcommand{\lastline}{\vspace*{-2ex}}
@@ -104,7 +106,7 @@ $\triangleright$ Machine learning -- finding parameters based on observations.
 For a sequence of observations $\vec{x}=(x_1,\ldots, x_{n})$ the log-likelihood is
 \begin{align*}
 \ell[\vec{x}]&=\log \underbrace{\pr{x_1}}_{\beta[x_1]} + \sum_{i=1}^{n-1} \log \underbrace{\pr{x_{i+1}|x_{i}}}_{\alpha[x_i, x_{i+1}]} \\
-&=\log \beta[x_1,\ldots,x_m] + \sum_{u_1,u_2} k(u_1,u_2)\log\alpha[u_1,u_2]
+&=\log \beta[x_1] + \sum_{u_1,u_2} k(u_1,u_2)\log\alpha[u_1,u_2]
 \end{align*}
 where $k(u_1,u_2)$ is the count of bigrams $u_1, u_2$ in the sequence $\vec{x}$.
 
@@ -262,10 +264,17 @@ where the set of neighbours $\NNN(Y_i)$ is a \emph{conditional Markov blanket} f
 
 \illustration[scale=1.5]{belief-propagation-in-chain-ii}
 
-\textbf{Iterative propagation}
+\vspace*{-2cm}
+\begin{align*}
+\pi_B(b)&=\pr{b|\EVPOS}\\
+\lambda_D(d)&=\pr{\EVNEG|d}
+\end{align*}
+
+
+\textbf{Iterative propagation rules}
 \begin{triangles}
 \item Marginalisation gives an update rule $\lambda_D=M_{e|d}\lambda_E$.
-\item Marginalisation gives an update rule $\pi_B\propto \pi_A M_{a|b}$.
+\item Marginalisation gives an update rule $\pi_B\propto \pi_A M_{b|a}$.
 
 \end{triangles}
 
@@ -273,38 +282,62 @@ where the set of neighbours $\NNN(Y_i)$ is a \emph{conditional Markov blanket} f
 
 \illustration[scale=1.5]{belief-propagation-in-chain-iii}
 
+\begin{align*}
+p_C(c)=\pr{c|\EVPOS,\EVNEG}
+\end{align*}
+
 \textbf{Evidence pooling}
 \begin{triangles}
-\item Marginal conditional probability $p_c=\pr{c|\textsf{evidence}}\propto \pi_C\lambda_C$
+\item Bayes formula gives $p_C\propto \pi_C\otimes\lambda_C$.
 \end{triangles}
 
 \foilhead[-1cm]{Likelihood propagation in a tree}
+%\enlargethispage{1cm}
 
-\illustration[scale=1.2]{likelihood-propagation-in-tree-i}
+\illustration[scale=1.1]{likelihood-propagation-in-tree-i}
+\vspace*{-2.5cm}
 
+\begin{align*}
+\lambda_D(d)=\pr{\EVNEG(D)|d}
+\end{align*}\vspace*{-4ex}
 
-\textbf{Iterative propagation}
+\textbf{Iterative propagation rules}
 \begin{triangles}
-\item Independence gives an pooling rule $\lambda_D=\lambda_1\lambda_2$
-\item Marginalisation gives rules $\lambda_1= M_{e|d}\lambda_E$ and $\lambda_2= M_{e|f}\lambda_F$.
+\item Independence gives a pooling rule $\lambda_D=\lambda_1\otimes\lambda_2$
+\item Marginalisation gives rules $\lambda_1= M_{e|d}\lambda_E$ and $\lambda_2= M_{f|d}\lambda_F$.
 \end{triangles}
 
 
 \foilhead[-1cm]{Prior propagation in a tree}
-\illustration[scale=1.2]{prior-propagation-in-tree-i}
+\illustration[scale=1.1]{prior-propagation-in-tree-i}
+\vspace*{-2.5cm}
+
+\begin{align*}
+\pi_A(a)&=\pr{a|\EVPOS(A)}\\
+p_A(a)&=\pr{a|\EVPOS(A),\EVNEG(A)}
+\end{align*}\vspace*{-4ex}
+
 
 \textbf{Evidence pooling}
 \begin{triangles}
-\item Marginal conditional probability $p_A=\propto \pi_A\lambda_A$
+\item Marginal conditional probability $p_A\propto \pi_A\otimes\lambda_A$\vspace*{-1ex}
 \end{triangles}
 
 
 \foilhead[-1cm]{Prior propagation in a tree}
-\illustration[scale=1.2]{prior-propagation-in-tree-ii}
+\illustration[scale=1.1]{prior-propagation-in-tree-ii}
 
-\textbf{Iterative propagation}
+\vspace*{-3.0cm}
+
+\begin{align*}
+\pi_D(d)&=\pr{d|\EVPOS(D)}\\
+\pr{a|\EVPOS(D)}&=\pr{a|\EVPOS(A),\EVNEG(A)\setminus\set{D}}
+\end{align*}\vspace*{-4ex}
+
+
+\textbf{Iterative propagation rules}
 \begin{triangles}
-\item Prior component can be updates $\pi_D\propto\frac{p_A}{M_{d|a}\lambda_D}$
+\item Prior component can be updates $\pi_D\propto \pi_AM_{d|a} \otimes M_{b|a}\lambda_B\otimes M_{c|a}\lambda_C$\enspace.
 \end{triangles}
 
 \end{document}
