@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=3.5cm, margin = 0cm, top=0.5cm]{geometry}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+
+\tikzstyle{source}  = [draw,circle,fill=black,thick,inner sep=0mm,minimum size=2mm]
+\tikzstyle{box}  = [draw,rectangle,thick,inner sep=2mm,minimum width=8mm, minimum height=8mm]
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+                    
+\node[state, fill=LimeGreen, draw=red, line width=2pt] (X1)               {$A$}; 
+\node[state, draw=red, line width=2pt] (X2) [right of=X1] {$B$};                   
+\node[state, fill=LimeGreen,  draw=red, line width=2pt]  (X3) [right of=X2] {$C$};                   
+\node[state, fill=OliveGreen, draw=Violet, line width=2pt] (X4) [right of=X3] {$D$};                   
+\node[state, draw=blue, line width=2pt] (X5) [right of=X4,] {$E$}; 
+\node[state, draw=blue, line width=2pt] (X6) [right of=X5,] {$F$}; 
+\node[state, fill=LimeGreen, draw=blue, line width=2pt] (X7) [right of=X6,] {$G$}; 
+
+\node[box, fill=red, opacity=0.3, text opacity=1, draw opacity=1][above=0.5cm of X1](E1){$\varepsilon_A$};                  
+\node[box, fill=red, opacity=0.3, text opacity=1, draw opacity=1][above=0.5cm of X3](E3){$\varepsilon_C$};                  
+\node[box, fill=Violet, opacity=0.3, text opacity=1, draw opacity=1][above=0.5cm of X4](E4){$\varepsilon_D$};                  
+\node[box, fill=blue, opacity=0.3, text opacity=1, draw opacity=1][above=0.5cm of X7](E7){$\varepsilon_G$};                  
+
+
+\path
+	(X1) edge node {$M_{A\to B}$} (X2)
+	(X2) edge node {$M_{B\to C}$} (X3)
+	(X3) edge node {$M_{C\to D}$} (X4)
+	(X4) edge node {$M_{D\to E}$} (X5)
+	(X5) edge node {$M_{E\to F}$} (X6)
+	(X6) edge node {$M_{F\to G}$} (X7);
+
+\path
+	(X1) edge[-] (E1)
+	(X3) edge[-] (E3)
+	(X4) edge[-] (E4)
+	(X7) edge[-] (E7);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}
