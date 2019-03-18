@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=6.5cm, margin = 0cm, top=0.5cm]{geometry}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+
+\tikzstyle{source}  = [draw,circle,fill=black,thick,inner sep=0mm,minimum size=2mm]
+\tikzstyle{box}  = [draw,rectangle,thick,inner sep=2mm,minimum width=8mm, minimum height=8mm]
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+                    
+\node[state, fill=LimeGreen] (X1)               {$A$}; 
+\node[state] (X2) [right of=X1] {$B$};                   
+\node[state] (X3) [right of=X2] {$C$};                   
+\node[state, fill=OliveGreen, draw=blue, line width=2pt] (X4) [right of=X3] {$D$};                   
+\node[state, draw=blue, line width=2pt] (X5) [right of=X4,] {$E$}; 
+\node[state, draw=blue, line width=2pt] (X6) [right of=X5,] {$F$}; 
+\node[state, fill=LimeGreen, draw=blue, line width=2pt] (X7) [right of=X6,] {$G$}; 
+
+\node[state] (Y4) [below=3.5cm of X3, right of=X3] {$H$};                   
+\node[state, fill=LimeGreen] (Y5) [right of=Y4] {$I$};                   
+\node[state] (Y6) [right of=Y5] {$J$};
+
+\node[box][above=0.4cm of X1](E1){$\varepsilon_A$};                  
+\node[box, fill=blue, opacity=0.3, text opacity=1, draw opacity=1][above=0.4cm of X4](E4){$\varepsilon_D$};                  
+\node[box,fill=blue, opacity=0.3, text opacity=1, draw opacity=1][above=0.4cm of X7](E7){$\varepsilon_G$};                  
+\node[box][above=0.4cm of Y5](D5){$\varepsilon_I$};                  
+
+
+\node[box, fill=SpringGreen][below=0.4cm of X4](P4){$\lambda_D$};                  
+\node[box, fill=blue, opacity=0.3, text opacity=1, draw opacity=1][below=0.4cm of X5](P5){$\lambda_E$};                  
+
+
+\path
+	(X1) edge node {$M_{A\to B}$} (X2)
+	(X2) edge node {$M_{B\to C}$} (X3)
+	(X3) edge node {$M_{C\to D}$} (X4)
+	(X4) edge node {$M_{D\to E}$} (X5)
+	(X5) edge node {$M_{E\to F}$} (X6)
+	(X6) edge node {$M_{F\to G}$} (X7);
+
+\path
+	(X3) edge node[yshift=+0.1cm, xshift=-0.8cm, rotate=-50] {$M_{C\to H}$} (Y4)
+	(Y4) edge node {$M_{H\to I}$} (Y5)
+	(Y5) edge node {$M_{I\to J}$} (Y6);
+
+
+\path
+	(X1) edge[-] (E1)
+	(X4) edge[-] (E4)
+	(X7) edge[-] (E7);
+
+\path
+	(Y5) edge[-] (D5);
+
+
+\path
+	(X4) edge[-] (P4)
+	(X5) edge[-] (P5);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}
