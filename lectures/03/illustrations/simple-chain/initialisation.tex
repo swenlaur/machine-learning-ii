@@ -1,14 +1,14 @@
 \documentclass{article}
 \usepackage[dvipsnames]{xcolor}
-\usepackage[paperwidth=20cm, paperheight=3.5cm, margin = 0cm, top=0.5cm]{geometry}
+\usepackage[paperwidth=20cm, paperheight=3.5cm, margin = 0cm, top=0.25cm]{geometry}
 
 \usepackage{pgf}
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata}
 \usetikzlibrary{positioning}
+\input{../node-definitions.tex} 
 
-\tikzstyle{source}  = [draw,circle,fill=black,thick,inner sep=0mm,minimum size=2mm]
-\tikzstyle{box}  = [draw,rectangle,thick,inner sep=2mm,minimum width=8mm, minimum height=8mm]
+
 
 \begin{document}
 \begin{center}
@@ -20,18 +20,27 @@
 \node[state] (X4) [right of=X3] {$D$};                   
 \node[state, fill=blue] (X5) [right of=X4,] {$E$}; 
 
-\node[box][below=0.5cm of X1](P1){$\pi_A$};                  
-\node[box][below=0.5cm of X5](P5){$\lambda_E$};                  
+\node[lgreenbox][below=0.25cm of X1](P1){$\pi_A$};                  
+\node[lgreenbox][below=0.25cm of X5](P5){$\lambda_E$};                  
+
+\node[redbox][above=0.25cm of X1](E1){$\varepsilon_A$};                  
+\node[bluebox][above=0.25cm of X5](E5){$\varepsilon_E$};                  
+
 
 \path
-	(X1) edge node {$M_{b|a}[\cdot,\cdot]$} (X2)
-	(X2) edge node {$M_{c|b}[\cdot,\cdot]$} (X3)
-	(X3) edge node {$M_{d|c}[\cdot,\cdot]$} (X4)
-	(X4) edge node {$M_{e|d}[\cdot,\cdot]$} (X5);
+	(X1) edge node {$M_{A\to B}$} (X2)
+	(X2) edge node {$M_{B\to C}$} (X3)
+	(X3) edge node {$M_{C\to D}$} (X4)
+	(X4) edge node {$M_{D\to E}$} (X5);
 
 \path
 	(X1) edge[-] (P1)
 	(X5) edge[-] (P5);
+
+\path
+	(X1) edge[-] (E1)
+	(X5) edge[-] (E5);
+
 
 \end{tikzpicture}
 \end{center}

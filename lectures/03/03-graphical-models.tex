@@ -244,52 +244,85 @@ where the set of neighbours $\NNN(Y_i)$ is a \emph{conditional Markov blanket} f
 
 \middlefoil{Belief propagation}
 
-\foilhead[-1cm]{Belief propagation in a chain}
+\foilhead[-1cm]{Belief propagation in a simple chain}
 
-\illustration[scale=1.5]{belief-propagation-in-chain-i}
+\illustration[scale=1.5]{simple-chain/goal}
 
-\textbf{Evidence}
+\textbf{Inference goal.}
+Given evidence at the ends of the chain find marginal posterior probabilities for each node in the chain.
 \begin{triangles}
-\item We know the values $a$ and $e$ for nodes $A$ and $E$. 
-\item We know a value distribution for nodes $A$ and $E$. 
-\end{triangles}\vspace*{2ex}
-
-\textbf{Representation}
-\begin{triangles}
-\item A prior vector $\pi_A$ will represent value distribution in $A$.
-\item A likelihood vector $\lambda_E$ will represent value distribution in $E$.
+\item Evidence $\varepsilon_V$ is an observational data associated with the node $V$.
+\item Upstream $\EVNEG$ is the evidence at the end of chain.
+\item Downstream $\EVPOS$ is the evidence at the beginning of chain.
+\item Attributes $\pi_V, \lambda_V, p_V$ are needed to compute marginal distributions. 
 \end{triangles}
 
-\foilhead[-1cm]{Belief propagation in a chain}
 
-\illustration[scale=1.5]{belief-propagation-in-chain-ii}
+\foilhead[-1cm]{Initialisation}
 
-\vspace*{-2cm}
+\illustration[scale=1.5]{simple-chain/initialisation}
+\vspace*{-0.5cm}
+
+\begin{triangles}
+\item Direct evidence $\varepsilon_V$ determines the value of $V$.
+\item Indirect evidence $\varepsilon_V$ determines the value distribution for $V$. 
+\item We can assign the prior for the first and likelihood for the last node
+\begin{align*}
+\pi_A(a)&=\pr{A=a|\EVPOS}=\pr{A=a|\textcolor{red}{\varepsilon_A}}\\
+\lambda_E(e)&=\pr{\EVNEG|E=e}=\pr{\textcolor{blue}{\varepsilon_E}|E=e}
+\end{align*}
+\end{triangles}
+
+
+\foilhead[-1cm]{Belief propagation}
+
+\illustration[scale=1.5]{simple-chain/belief-propagation-i}
+
+\vspace*{-0.0cm}
+\textbf{Inference goal}
 \begin{align*}
 \pi_B(b)&=\pr{b|\EVPOS}\\
 \lambda_D(d)&=\pr{\EVNEG|d}
-\end{align*}
+\end{align*}\vspace*{-1.5cm}
 
 
 \textbf{Iterative propagation rules}
 \begin{triangles}
-\item Marginalisation gives an update rule $\lambda_D=M_{e|d}\lambda_E$.
-\item Marginalisation gives an update rule $\pi_B\propto \pi_A M_{b|a}$.
+\item Marginalisation gives an update rule $\lambda_D=M_{D\to E}\lambda_E$.
+\item Marginalisation gives an update rule $\pi_B\propto \pi_A M_{A\to B}$.
 
 \end{triangles}
 
-\foilhead[-1cm]{Belief propagation in a chain}
 
-\illustration[scale=1.5]{belief-propagation-in-chain-iii}
+\foilhead[-1cm]{Belief propagation}
 
+\illustration[scale=1.5]{simple-chain/belief-propagation-ii}
+\vspace*{-0.0cm}
+\textbf{Inference goal}
 \begin{align*}
 p_C(c)=\pr{c|\EVPOS,\EVNEG}
-\end{align*}
+\end{align*}\vspace*{-1.5cm}
 
-\textbf{Evidence pooling}
+
+\textbf{Iterative update rule}
 \begin{triangles}
 \item Bayes formula gives $p_C\propto \pi_C\otimes\lambda_C$.
 \end{triangles}
+
+
+\foilhead[-1cm]{Belief propagation in a simple tree}
+
+\illustration[scale=1.5]{simple-chain/goal}
+
+\textbf{Inference goal.}
+Given evidence at the ends of the leafs and the root of tree find marginal posterior probabilities for each node in the tree.
+\begin{triangles}
+\item Evidence $\varepsilon_V$ is an observational data associated with the node $V$.
+\item Upstream $\EVNEG$ is the evidence at the end of chain.
+\item Downstream $\EVPOS$ is the evidence at the beginning of chain.
+\item Attributes $\pi_V, \lambda_V, p_V$ are needed to compute marginal distributions. 
+\end{triangles}
+
 
 \foilhead[-1cm]{Likelihood propagation in a tree}
 %\enlargethispage{1cm}
