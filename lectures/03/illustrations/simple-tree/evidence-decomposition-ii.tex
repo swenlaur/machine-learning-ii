@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=9cm, paperheight=6.5cm, margin = 0cm, top=0.25cm]{geometry}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\input{../node-definitions.tex} 
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,semithick]
+                    
+\node[redstate] (X1) {$A$}; 
+\node[redstate] (X2) [above=1.0cm of X1, xshift=2cm] {$B$};                   
+\node[state, fill=OliveGreen](X3) [right of=X1] {$D$};
+\node[redstate] (X4) [below=1.0cm of X1, xshift=2cm] {$C$};                   
+\node[bluestate] (X5) [right of=X2] {$E$};                   
+\node[bluestate] (X6) [right of=X4] {$F$}; 
+
+\node[redbox][above=0.25cm of X1](E1){$\varepsilon_A$};                  
+\node[redbox][above=0.25cm of X2](E2){$\varepsilon_B$};                  
+\node[redbox][above=0.25cm of X4](E4){$\varepsilon_C$};                  
+\node[bluebox][above=0.25cm of X5](E5){$\varepsilon_E$};                  
+\node[bluebox][above=0.25cm of X6](E6){$\varepsilon_F$};                  
+
+\path
+	(X1) edge (X2)
+	(X1) edge (X3)
+	(X1) edge (X4)
+	(X3) edge (X6)
+	(X3) edge (X5);
+
+\path
+	(X1) edge[-] (E1)
+	(X2) edge[-] (E2)
+	(X4) edge[-] (E4)
+	(X5) edge[-] (E5)
+	(X6) edge[-] (E6);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

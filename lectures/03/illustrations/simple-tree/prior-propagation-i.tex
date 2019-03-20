@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=7.5cm, margin = 0cm, top=0.25cm]{geometry}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\input{../node-definitions.tex} 
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,semithick]
+                    
+\node[redstate] (X1) {$A$}; 
+\node[redstate] (X2) [above=1.0cm of X1, xshift=2cm] {$B$};                   
+\node[state, fill=OliveGreen](X3) [right of=X1] {$D$};
+\node[redstate] (X4) [below=1.0cm of X1, xshift=2cm] {$C$};                   
+\node[state, fill=LimeGreen] (X5) [right of=X2] {$E$};                   
+\node[state, fill=LimeGreen] (X6) [right of=X4] {$F$}; 
+
+\node[redbox][above=0.25cm of X1](E1){$\varepsilon_A$};                  
+\node[redbox][above=0.25cm of X2](E2){$\varepsilon_B$};
+\node[redbox][above=0.25cm of X4](E4){$\varepsilon_C$};                  
+\node[box][above=0.25cm of X5](E5){$\varepsilon_E$};                  
+\node[box][above=0.25cm of X6](E6){$\varepsilon_F$};                  
+
+\node[redbox][below=0.25cm of X1, xshift=-1cm](P1){$\pi_A$};                  
+\node[bluebox][below=0.25cm of X2, xshift=+1cm](P2){$\lambda_B$};  
+\node[lgreenbox][below=0.25cm of X3, xshift=-1cm](P3){$\pi_D$};                  
+\node[bluebox][below=0.25cm of X4, xshift=+1cm](P4){$\lambda_C$};                  
+
+
+\path
+	(X1) edge (X2)
+	(X1) edge (X3)
+	(X1) edge (X4)
+	(X3) edge (X6)
+	(X3) edge (X5);
+
+\path
+	(X1) edge[-] (E1)
+	(X2) edge[-] (E2)
+	(X4) edge[-] (E4)
+	(X5) edge[-] (E5)
+	(X6) edge[-] (E6);
+
+\path
+	(X1) edge[-] (P1)
+	(X2) edge[-] (P2)
+	(X3) edge[-] (P3)
+	(X4) edge[-] (P4);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=4.0cm, margin = 0cm, top=0.5cm]{geometry}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\input{../node-definitions.tex} 
+
+
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+                    
+\node[state, fill=red] (X1)               {$A$}; 
+\node[state] (X2) [right of=X1] {$B$};                   
+\node[state] (X3) [right of=X2] {$C$};                   
+\node[state] (X4) [right of=X3] {$D$};                   
+\node[state, fill=blue] (X5) [right of=X4,] {$E$}; 
+
+\node[lgreenbox][below=0.25cm of X1](P1){$\pi_A, \lambda_A, p_A$};
+\node[lgreenbox][below=0.25cm of X2](P2){$\pi_B, \lambda_B, p_B$};                  
+\node[lgreenbox][below=0.25cm of X3](P3){$\pi_C, \lambda_C, p_C$};                  
+\node[lgreenbox][below=0.25cm of X4](P4){$\pi_D, \lambda_D, p_D$};                  
+\node[lgreenbox][below=0.25cm of X5](P5){$\pi_E, \lambda_E, p_E$};                  
+
+
+
+\node[redbox][above=0.25cm of X1](E1){$\varepsilon_A$};                  
+\node[bluebox][above=0.25cm of X5](E5){$\varepsilon_E$};                  
+
+
+\path
+	(X1) edge node {$M_{A\to B}$} (X2)
+	(X2) edge node {$M_{B\to C}$} (X3)
+	(X3) edge node {$M_{C\to D}$} (X4)
+	(X4) edge node {$M_{D\to E}$} (X5);
+
+\path
+	(X1) edge[-] (P1)
+	(X2) edge[-] (P2)
+	(X3) edge[-] (P3)
+	(X4) edge[-] (P4)
+	(X5) edge[-] (P5);
+
+\path
+	(X1) edge[-] (E1)
+	(X5) edge[-] (E5);
+
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

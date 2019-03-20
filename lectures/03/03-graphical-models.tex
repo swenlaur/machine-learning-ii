@@ -312,66 +312,255 @@ p_C(c)=\pr{c|\EVPOS,\EVNEG}
 
 \foilhead[-1cm]{Belief propagation in a simple tree}
 
-\illustration[scale=1.5]{simple-chain/goal}
+\illustration[scale=1.1]{simple-tree/goal}
 
 \textbf{Inference goal.}
 Given evidence at the ends of the leafs and the root of tree find marginal posterior probabilities for each node in the tree.
 \begin{triangles}
 \item Evidence $\varepsilon_V$ is an observational data associated with the node $V$.
-\item Upstream $\EVNEG$ is the evidence at the end of chain.
-\item Downstream $\EVPOS$ is the evidence at the beginning of chain.
 \item Attributes $\pi_V, \lambda_V, p_V$ are needed to compute marginal distributions. 
 \end{triangles}
 
 
-\foilhead[-1cm]{Likelihood propagation in a tree}
-%\enlargethispage{1cm}
+\foilhead[-1cm]{Evidence decomposition}
+\centerline{
+\frame{\includegraphics[scale=1.1]{simple-tree/evidence-decomposition-i}}
+\hspace*{1cm}
+\frame{\includegraphics[scale=1.1]{simple-tree/evidence-decomposition-ii}}}
 
-\illustration[scale=1.1]{likelihood-propagation-in-tree-i}
-\vspace*{-2.5cm}
-
-\begin{align*}
-\lambda_D(d)=\pr{\EVNEG(D)|d}
-\end{align*}\vspace*{-4ex}
-
-\textbf{Iterative propagation rules}
 \begin{triangles}
-\item Independence gives a pooling rule $\lambda_D=\lambda_1\otimes\lambda_2$
-\item Marginalisation gives rules $\lambda_1= M_{e|d}\lambda_E$ and $\lambda_2= M_{f|d}\lambda_F$.
+\item Evidence decomposes into up- and downstream evidence
+\item Downstream $\EVNEG(V)$ is reachable through child nodes.
+\item Upstream $\EVPOS(V)$ is reachable through the predessesor node.
+\item Different nodes have totally different decompositions.
 \end{triangles}
 
 
-\foilhead[-1cm]{Prior propagation in a tree}
-\illustration[scale=1.1]{prior-propagation-in-tree-i}
-\vspace*{-2.5cm}
-
+\foilhead[-1cm]{Initialisation}
+\enlargethispage{1cm}
+\illustration[scale=0.9]{simple-tree/initialisation}
+\vspace*{-0.5cm}
+\textbf{Goal.} Assign prior to the root node and likelihood to the leaf nodes.
 \begin{align*}
-\pi_A(a)&=\pr{a|\EVPOS(A)}\\
-p_A(a)&=\pr{a|\EVPOS(A),\EVNEG(A)}
-\end{align*}\vspace*{-4ex}
+\pi_A(a)&=\pr{A=a|\EVPOS(A)}=\pr{A=a|\textcolor{red}{\varepsilon_A}}\\
+\lambda_B(b)&=\pr{\EVNEG(B)|F=f}=\pr{\textcolor{blue}{\varepsilon_B}|B=b}\\
+\ldots\\
+\lambda_F(f)&=\pr{\EVNEG(F)|F=f}=\pr{\textcolor{blue}{\varepsilon_F}|F=f}
+\end{align*}\vspace*{-4ex}\
 
 
-\textbf{Evidence pooling}
+
+\foilhead[-1cm]{Likelihood propagation}
+
+\illustration[scale=0.9]{simple-tree/likelihood-propagation-i}
+
+\vspace*{-1.0cm}
+\textbf{Inference goal}
+\begin{align*}
+\lambda_D(d)=\pr{\EVNEG(D)|D=d}
+\end{align*}
+\textbf{Iterative propagation rules}
+\begin{triangles}
+\item Independence gives a pooling rule $\lambda_D=\lambda_1\otimes\lambda_2$
+\item Marginalisation gives rules $\lambda_1= M_{D\to E}\lambda_E$ and $\lambda_2= M_{D\to F}\lambda_F$.
+\end{triangles}
+
+
+\foilhead[-1cm]{Posterior propagation}
+\illustration[scale=0.9]{simple-tree/posterior-propagation-i}
+\vspace*{-0.5cm}
+
+\textbf{Inference goal}
+\begin{align*}
+p_A(a)&=\pr{A=a|\EVPOS(A),\EVNEG(A)}
+\end{align*}
+\textbf{Iterative propagation rule}
 \begin{triangles}
 \item Marginal conditional probability $p_A\propto \pi_A\otimes\lambda_A$\vspace*{-1ex}
 \end{triangles}
 
 
-\foilhead[-1cm]{Prior propagation in a tree}
-\illustration[scale=1.1]{prior-propagation-in-tree-ii}
-
-\vspace*{-3.0cm}
-
+\foilhead[-1cm]{Prior propagation}
+\enlargethispage{1cm}
+\illustration[scale=0.9]{simple-tree/prior-propagation-i}
+\vspace*{-1.5cm}
+\textbf{Inference goal}
 \begin{align*}
-\pi_D(d)&=\pr{d|\EVPOS(D)}\\
-\pr{a|\EVPOS(D)}&=\pr{a|\EVPOS(A),\EVNEG(A)\setminus\set{D}}
+\pi_D(d)&=\pr{D=d|\EVPOS(D)}\\
+&=\pr{D=d|\EVPOS(A),\EVNEG(B),\EVNEG(C)}
 \end{align*}\vspace*{-4ex}
 
 
-\textbf{Iterative propagation rules}
+\textbf{Iterative propagation rule}
 \begin{triangles}
-\item Prior component can be updates $\pi_D\propto \pi_AM_{d|a} \otimes M_{b|a}\lambda_B\otimes M_{c|a}\lambda_C$\enspace.
+\item Prior can be computed as $\pi_D\propto \pi_AM_{A\to D} \otimes M_{A\to B}\lambda_B\otimes M_{A\to C}\lambda_C$\enspace.
 \end{triangles}
+
+\middlefoil{Posterior Maximisation}
+
+\foilhead[-1cm]{Posterior maximisation in a simple chain}
+\illustration[scale=1.3]{chain-max-i}
+
+\textbf{Inference goal.}
+Given evidence at the ends of the chain find the sequence of states $\vec{x}$ that maximise the posterior probability $\pr{\vec{x}|\mathsf{evidence}}$.
+\begin{triangles}
+\item The log-posterior $\log\pr{\vec{x}|\mathsf{evidence}}$ decomposes into a sum.
+\item We must find a sequence with maximal weight.
+\item The task can be split into subtask as all subpaths of the path with maximal weight must have maximal weight. 
+\item The corresponding iterative algorithm is known as Viterbi algorithm.
+\end{triangles}
+
+\foilhead[-1cm]{Posterior maximisation in a simple tree}
+\illustration[scale=1.3]{tree-max-i}
+
+\textbf{Inference goal.}
+Given evidence at the ends of the chain find the sequence of states $\vec{x}$ that maximise the posterior probability $\pr{\vec{x}|\mathsf{evidence}}$.
+\begin{triangles}
+\item The log-posterior $\log\pr{\vec{x}|\mathsf{evidence}}$ decomposes into a sum.
+\item We must find a tree with maximal weight.
+\end{triangles}
+
+\foilhead[-1cm]{Decomposition into subtasks}
+
+\illustration[scale=1.3]{tree-max-i}
+
+All subtrees of the tree with maximal weight must have maximal weight. 
+\begin{triangles}
+\item We can build chains with maximum weight form leafs
+\item We can merge subtrees with maximum weight to maximise the weight.
+\item The algorithm works from leafs to the root node.
+\item The corresponding iterative algorithm is known as Viterbi algorithm.
+\end{triangles}
+
+\middlefoil{Applications}
+
+\foilhead[-1cm]{Rainfall data}
+
+\illustration[scale=0.8]{rainfall_data}
+There are two monsoon seasons in Singapore: dry and wet phase.
+
+\foilhead[-1cm]{Modelling with Hidden Markov Model}
+\enlargethispage{1cm}
+\illustration[scale=0.8]{hidden-markov-model}
+Markov chain with states $\SSS=\set{0,1}$ and parameters
+\begin{align*}
+\vec{\beta}&=(0.5, 0.5)\\
+\vec{\alpha}&=
+\begin{pmatrix}
+0.95 & 0.05\\
+0.05 & 0.95\\
+\end{pmatrix}
+\end{align*}
+Emission distributions
+\begin{align*}
+Y_i|X_i=0\sim\NNN(\mu_0,\sigma_0)\\
+Y_i|X_i=1\sim\NNN(\mu_1,\sigma_1)\\
+\end{align*}
+
+\foilhead[-1cm]{Belief propagation. Initialisation}
+
+\illustration[scale=1.2]{belief-propagation-in-hmm-i}
+\begin{triangles}
+\item We have a direct evidence $Y_i=y_i$ for each node $Y_i$. 
+\item The likelihood vector is infinite and captured by $\lambda_{Y_i}=\delta_{y_i}$.
+\item The local likelihood $\lambda_i^*(x_i)=\pr{Y_i=y_i|x_i}$ is a finite vector. 
+\end{triangles}
+
+
+\foilhead[-1.5cm]{Prior propagation. Filtering}
+\enlargethispage{1cm}
+
+\illustration[scale=1.2]{belief-propagation-in-hmm-ii}
+\vspace*{-1.0cm}
+
+Prior propagation rule yields
+\begin{align*}
+\pi_{X_i}(x_i)\propto \sum_{x_{i-1}\in \SSS} \alpha[x_{i-1}, x_i]\cdot\lambda_{i-1}^*(x_{i-1})\cdot \pi_{X_{i-1}}(x_{i-1})
+\end{align*}
+Now we can do filtering 
+\begin{align*}
+\pr{x_i|y_1,\ldots,y_{i}}\propto \pi_{X_i}(x_i)\cdot\lambda_i^*(x_i)
+\end{align*}
+
+\foilhead[-1.5cm]{Likelihood propagation. Smoothing}
+\enlargethispage{1cm}
+
+\illustration[scale=1.2]{belief-propagation-in-hmm-iii}
+\vspace*{-1.0cm}
+
+Likelihood propagation rule yields
+\begin{align*}
+\lambda_{X_i}(x_i)\propto \sum_{x_{i+1}\in \SSS} \alpha[x_{i}, x_{i+1}]\cdot\lambda_{X_{i+1}}(x_{i+1})\cdot \lambda_{i}^*(x_{i})
+\end{align*}
+Now we can do smoothing 
+\begin{align*}
+\pr{x_i|y_1,\ldots,y_{n}}\propto \pi_{X_i}(x_i)\cdot\lambda_{X_i}(x_i)
+\end{align*}
+
+
+\foilhead[-1cm]{Annotated rainfall data}
+
+\illustration[scale=0.8]{rainfall_data_with_annotations}
+
+\foilhead[-1cm]{Sensor fusion problem. Kalman filter}
+
+Several sensors measure a physical system
+\begin{triangles}
+\item Measurements are observable as $\vec{y}\in\RR^p$.
+\item Physical system has an hidden state $\vec{x}\in\RR^n$.
+\item Physical system evolves linearly $\vec{x}_{i+1}=A\vec{x}_i+\vec{w}_i$.
+\item Measurements are linear from the state $\vec{y}_{i}=C\vec{x}_i+\vec{v}_i$.
+\end{triangles}
+\vspace*{1cm}
+
+Unknown quantities in the system
+\begin{triangles}
+\item Measurement noise $\vec{v}_t$ is modelled with a normal distribution.
+\item Unknown control signal $\vec{w}_i$ is modelled with a normal distribution.
+\item Unknown initial state $\vec{x}_0$ is modelled with a normal distribution.
+\item Quantities $\vec{x}_0, \vec{v}_i, \vec{w}_i$ are assumed to be independent.
+\item All normal distributions can have complex correlation structure.
+\end{triangles}
+
+\foilhead[-1cm]{Belief propagation. Initialisation}
+
+\illustration[scale=1.2]{belief-propagation-in-hmm-i}
+\begin{triangles}
+\item We have a direct evidence $Y_i=y_i$ for each node $Y_i$. 
+\item The likelihood vector is infinite and captured by $\lambda_{Y_i}=\delta_{y_i}$.
+\item The local likelihood $\lambda_i^*(x_i)=p[Y_i=y_i|x_i]$ is an infinite vector. 
+\item The form $\vec{y}_{i}=C\vec{x}_i+\vec{v}_i$ assures that $\vec{y}_{i}|\vec{x}_i$ is normal distribution.
+\item The local likelihood $\lambda_i^*$ has a finite description.
+\end{triangles}
+
+
+\foilhead[-1.5cm]{Prior propagation. Filtering}
+\enlargethispage{1cm}
+
+\illustration[scale=1.2]{belief-propagation-in-hmm-ii}
+\vspace*{-1.0cm}
+
+Prior propagation rule
+\begin{align*}
+\pi_{X_i}(\vec{x}_i)\propto \int\limits_{\vec{x}_{i-1}} \alpha[\vec{x}_{i-1}, \vec{x}_i]\cdot\lambda_{i-1}^*(\vec{x}_{i-1})\cdot \pi_{X_{i-1}}(\vec{x}_{i-1})d\vec{x}_{i-1}
+\end{align*}
+leads to a finite description because on the right is a normal distribution. 
+
+
+\foilhead[-1.5cm]{Likelihood propagation. Smoothing}
+\enlargethispage{1cm}
+
+\illustration[scale=1.2]{belief-propagation-in-hmm-iii}
+\vspace*{-1.0cm}
+
+Likelihood propagation rule
+\begin{align*}
+\lambda_{X_i}(x_i)\propto \int\limits_{\vec{x}_{i+1}} \alpha[\vec{x}_{i}, \vec{x}_{i+1}]\cdot\lambda_{X_{i+1}}(\vec{x}_{i+1})\cdot \lambda_{i}^*(\vec{x}_{i}) d\vec{x}_{i+1}
+\end{align*}
+leads to a finite description because on the right is a normal distribution. 
+
+
+
 
 \end{document}
 
