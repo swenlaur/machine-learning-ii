@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=7cm, margin = 0cm, top=0.25cm]{geometry}
+\usepackage{amsmath}
+
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{arrows,automata}
+
+\input{node-definitions.tex}
+
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+                    
+\node[state] (X0)               {$0$}; 
+\node[state] (X1) [right of=X0, yshift=+1.5cm] {$1$};
+\node[state] (X2) [right of=X0, yshift=-1.5cm] {$2$};
+\node[state] (X3) [right of=X2, yshift=+1.5cm] {$3$};
+\path
+	(X0) edge[bend left=20]  node[above, yshift=0.2cm]{$1-\alpha$} (X1)
+	(X1) edge[bend left=20] node[above, yshift=0.2cm]{$1-\alpha$} (X3)
+	(X3) edge[bend left=20]  node[below, yshift=-0.2cm]{$1-\alpha$} (X2)
+	(X2) edge[bend left=20] node[below, yshift=-0.2cm]{$1-\alpha$} (X0)
+	
+	(X0) edge[in=150, out=210, looseness=7, loop, left]  node[left]{$\alpha$} (X0)
+	(X1) edge[in=60, out=120, looseness=7]  node[above]{$\alpha$} (X1)
+	(X2) edge[in=-60, out=-120, looseness=7]  node[below]{$\alpha$} (X2)
+	(X3) edge[in=-30, out=30, looseness=7]  node[right]{$\alpha$} (X3);
+\end{tikzpicture}
+\end{center}
+
+\end{document}

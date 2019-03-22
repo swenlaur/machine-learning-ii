@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=3.5cm, margin = 0cm, top=0.25cm]{geometry}
+\usepackage{amsmath}
+
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{arrows,automata}
+
+\input{node-definitions.tex}
+
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+                    
+\node[state] (X0)               {$0$}; 
+\node[state] (X1) [right of=X0] {$1$};
+\node[state] (X2) [right of=X1] {$2$};
+
+\path
+	(X0) edge[bend left]  node[above]{$1-\alpha$} (X1)
+	(X1) edge[bend left] node[below]{$\frac{1}{2}-\frac{\alpha}{2}$} (X0)
+	(X1) edge[bend left]  node[above]{$\frac{1}{2}-\frac{\alpha}{2}$} (X2)
+	(X2) edge[bend left] node[below]{$1-\alpha$} (X1)
+	
+	(X0) edge[in=150, out=210, looseness=7, loop, left]  node[left]{$\alpha$} (X0)
+	(X1) edge[in=60, out=120, looseness=7]  node[above]{$\alpha$} (X1)
+	(X2) edge[in=-30, out=30, looseness=7]  node[right]{$\alpha$} (X2);
+\end{tikzpicture}
+\end{center}
+
+\end{document}
