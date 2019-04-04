@@ -43,9 +43,7 @@ conda install -n machine-learning keras
 
 conda install tqdm -n machine-learning
 
-source activate machine-learning
-pip install jupyter-pip
-pip install nb-mermaid
+conda install -n machine-learning sympy
 ```
 
 First four packages set up a minimal environment for data analysis and visualisation.
