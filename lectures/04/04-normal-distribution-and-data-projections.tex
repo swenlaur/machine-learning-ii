@@ -484,7 +484,7 @@ As ML estimates are exactly the same  we used in principal component analysis, t
 
 
 \middlefoil{Principal component analysis\vspace*{1ex}\\
- Alternative formalisations}
+ {Alternative formalisations}}
 
 \foilhead[-1cm]{Dimensionality reduction}
 
@@ -537,7 +537,133 @@ the sum of squares of the projections $\vec{w}_1^T \vec{y}_i$ is maximal.\vspace
 
 Alternatively, we can view the last components of the source signal $\vec{x}$ as the uninformative noise. The overall noise component should be small.\lastline
 
-\foilhead[-1cm]{Going beyond PCA}
+\middlefoil{Linear discriminant\vspace*{1ex}\\ analysis}
+
+\foilhead[-1cm]{Underlying assumptions and inference task}
+
+\textbf{Original goal.}
+Given a set of observations $\vec{x}_1,\ldots,\vec{x}_n\in\RR^M$ together with class labels $z_1,\ldots,z_n\in\set{1,\ldots,\ell}$ find a linear projection $\pi:\RR^m\to\RR^k$ so that individual classes are maximally separated.\vspace*{1cm}
+
+\textbf{Assumptions.}
+\begin{triangles}
+\item There are $\ell$ different classes. 
+\item All observations $\vec{x}_i$ are independently sampled.
+\item Observations $\vec{x}_i$ with the same class label $z_i$ come from $\NNN(\vec{\mu}_j, \Sigma)$.
+\item The covariance matrix $\Sigma$ is shared between different distributions.
+\end{triangles}
+
+\foilhead[-1cm]{LDA for spherical normal distributions}
+
+\illustration[scale=0.5]{simplified_lda_setup_i}
+
+We assume that the covariance matrix $\Sigma$ is identity matrix: 
+\begin{triangles}
+\item All vector components have unit variance. 
+\item Different vector components are independent.
+\end{triangles}
+
+\foilhead[-1cm]{Projections to one-dimensional subspace}
+
+\illustration[scale=0.5]{simplified_lda_setup_ii}
+
+A projection to one-dimensional space is determined by a vector $\vec{w}$:
+\begin{triangles}
+\item To get orthogonal projection the length of $\vec{w}$ must be one.
+\item This can be forced by the constraint $\vec{w}^T\vec{w}=1$.  
+\end{triangles}
+
+\foilhead[-1cm]{Projections lead to different separation}
+
+\illustration[scale=0.7]{simplified_lda_setup_iii}
+
+We need a need a  measure for assessing the goodness of separation: 
+\begin{triangles}
+\item We can use Bayesian factors from statistics.
+\item We can use signal-to-noise ratio from signal-processing.
+\end{triangles}
+
+\foilhead[-1cm]{Choice between alternative hypotheses}
+
+\begin{triangles}
+\item \textbf{Model $\MMM_0$.} Projections $y_i,\ldots, y_n$ come from $\mathcal{N}(\bar{y}, 1)$.
+\item \textbf{Model $\MMM_1$.} Projection $y_i$ with label $z_i$ comes from a $\mathcal{N}(\bar{y}_{z_i},1)$.\vspace*{2ex}
+\end{triangles}
+
+Hypotheses lead to following probability assignments
+\begin{align*}
+p[y_i|\mathcal{M}_0]&=\frac{1}{\sqrt{2\pi}}\cdot \exp{-\frac{1}{2}(y_i-\bar{y})^2}\\
+p[y_i|\mathcal{M}_1]&=\frac{1}{\sqrt{2\pi}}\cdot \exp{-\frac{1}{2}(y_i-\bar{y}_{z_i})^2}
+\end{align*}
+If we have not preference then the corresponding Bayes factor is
+\begin{align*}
+\frac{\Pr[\mathcal{M}_1|y_1,\ldots,y_n]}{\Pr[\mathcal{M}_0|y_1,\ldots,y_n]}= 
+\exp{\frac{1}{2}\cdot\sum_{i=1}^n(y_i-\bar{y})^2-\frac{1}{2}\cdot\sum_{i=1}^n(y_i-\bar{y}_{z_i})^2}
+\end{align*}
+
+\foilhead[-1cm]{The corresponding optimisation task}
+
+Given a set of observations $\vec{x}_1,\ldots,\vec{x}_n\in\RR^M$ together with class labels $z_1,\ldots,z_n\in\set{1,\ldots,\ell}$ find a vector $\vec{w}$ with unit length that maximises:
+\begin{align*}
+F=\sum_{i=1}^n(y_i-\bar{y})^2-\sum_{i=1}^n(y_i-\bar{y}_{z_i})^2\enspace
+\end{align*}
+where 
+\begin{align*}
+\bar{y}&=\frac{1}{n}\cdot\sum_{i=1}^n y_i &
+\bar{y}_j&=\frac{1}{|\mathcal{I}_j|}\cdot\sum_{i\in\mathcal{I}_j}^n y_j& 
+\mathcal{I}_j=\set{i: z_i=j}
+\end{align*}
+
+\foilhead[-1cm]{Consequences of variance decomposition}
+
+\textbf{Scatter decomposition lemma}
+\begin{align*}
+\sum_{i=1}^n (y_i-\bar{y})^2
+&=\sum_{i=1}^n (y_i-\bar{y}_{z_i})^2 +\sum_{i=1}^n (\bar{y}_{z_i}-\bar{y})^2
+\end{align*}
+
+
+Given a set of observations $\vec{x}_1,\ldots,\vec{x}_n\in\RR^M$ together with class labels $z_1,\ldots,z_n\in\set{1,\ldots,\ell}$ find a vector $\vec{w}$ with unit length that maximises:
+\begin{align*}
+F=\sum_{i=1}^n(\bar{y}_{z_i}-\bar{y})^2\enspace
+\end{align*}
+
+\foilhead[-1cm]{Matrix magic}
+
+Let us define centres in the original data 
+\begin{align*}
+\vec{\mu}&=\frac{1}{n}\cdot\sum_{i=1}^n \vec{x}_i &
+\vec{\mu}_j&=\frac{1}{|\mathcal{I}_j|}\cdot\sum_{i\in\mathcal{I}_j}^n \vec{\mu}_j
+\end{align*}
+Then we can express
+\begin{align*}
+F&=\sum_{i=1}^n(\bar{y}_{z_i}-\bar{y})^2\enspace
+=\sum_{i=1}^n(\vec{w}^T\vec{\mu}_{z_i}-\vec{w}^T\vec{\mu})(\vec{w}^T\vec{\mu}_{z_i}-\vec{w}^T\vec{\mu})^T\\
+&=\vec{w}\Biggl(\sum_{i=1}^n(\vec{\mu}_{z_i}-\vec{\mu})(\vec{\mu}_{z_i}-\vec{\mu})^T\Biggr)\vec{w}
+\end{align*}
+
+\foilhead[-1cm]{Corresponding eigenvector task}
+
+Let the between scatter matrix be defined
+\begin{align*}
+S_B=\sum_{i=1}^n(\vec{\mu}_{z_i}-\vec{\mu})(\vec{\mu}_{z_i}-\vec{\mu})^T
+\end{align*} 
+Then the function $F$ is maximised by the eigenvector of $S_B$ with the highest eigenvalue $\lambda_1$.
+
+\foilhead[-1cm]{LDA for normal distribution with any shape}
+
+\illustration[scale=0.5]{general_lda_setup_i}
+
+\begin{triangles}
+\item As we know cluster labels we can remove the effect of $\vec{\mu}_1,\ldots\vec{\mu}_\ell$.
+\item After that we can do affine transformation that set the covariance to $I$.
+\item We know how to proceed from this setting.  
+\end{triangles}
+
+
+\middlefoil{Going beyond basics}
+
+
+\foilhead[-1cm]{Going beyond PCA and LDA}
 
 Weighted Principal Component Analysis:
 \begin{triangles}
