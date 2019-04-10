@@ -326,18 +326,18 @@ We need a need a  measure for assessing the goodness of separation:
 \foilhead[-1cm]{Choice between alternative hypotheses}
 
 \begin{triangles}
-\item \textbf{Model $\MMM_0$.} Projections $y_i,\ldots, y_n$ come from $\mathcal{N}(\bar{y}, 1)$.
-\item \textbf{Model $\MMM_1$.} Projection $y_i$ with label $z_i$ comes from a $\mathcal{N}(\bar{y}_{z_i},1)$.\vspace*{2ex}
+\item \textbf{Hypothesis $\HHH_0$.} Projections $y_i,\ldots, y_n$ come from $\mathcal{N}(\bar{y}, 1)$.
+\item \textbf{Hypothesis $\HHH_1$.} Projection $y_i$ with label $z_i$ comes from a $\mathcal{N}(\bar{y}_{z_i},1)$.\vspace*{2ex}
 \end{triangles}
 
 Hypotheses lead to following probability assignments
 \begin{align*}
-p[y_i|\mathcal{M}_0]&=\frac{1}{\sqrt{2\pi}}\cdot \exp{-\frac{1}{2}(y_i-\bar{y})^2}\\
-p[y_i|\mathcal{M}_1]&=\frac{1}{\sqrt{2\pi}}\cdot \exp{-\frac{1}{2}(y_i-\bar{y}_{z_i})^2}
+p[y_i|\HHH_0]&=\frac{1}{\sqrt{2\pi}}\cdot \exp{-\frac{1}{2}(y_i-\bar{y})^2}\\
+p[y_i|\HHH_1]&=\frac{1}{\sqrt{2\pi}}\cdot \exp{-\frac{1}{2}(y_i-\bar{y}_{z_i})^2}
 \end{align*}
 If we have not preference then the corresponding Bayes factor is
 \begin{align*}
-\frac{\Pr[\mathcal{M}_1|y_1,\ldots,y_n]}{\Pr[\mathcal{M}_0|y_1,\ldots,y_n]}= 
+\frac{\Pr[\HHH_1|y_1,\ldots,y_n]}{\Pr[\HHH_0|y_1,\ldots,y_n]}= 
 \exp{\frac{1}{2}\cdot\sum_{i=1}^n(y_i-\bar{y})^2-\frac{1}{2}\cdot\sum_{i=1}^n(y_i-\bar{y}_{z_i})^2}
 \end{align*}
 
@@ -347,59 +347,101 @@ Given a set of observations $\vec{x}_1,\ldots,\vec{x}_n\in\RR^M$ together with c
 \begin{align*}
 F=\sum_{i=1}^n(y_i-\bar{y})^2-\sum_{i=1}^n(y_i-\bar{y}_{z_i})^2\enspace
 \end{align*}
-where 
+where $\mathcal{I}_j=\set{i: z_i=j}$ is the index set and $\bar{y}$ and $\bar{y}_{j}$ are cluster means: 
 \begin{align*}
-\bar{y}&=\frac{1}{n}\cdot\sum_{i=1}^n y_i &
-\bar{y}_j&=\frac{1}{|\mathcal{I}_j|}\cdot\sum_{i\in\mathcal{I}_j}^n y_j& 
-\mathcal{I}_j=\set{i: z_i=j}
+\bar{y}&=\frac{1}{n}\cdot\sum_{i=1}^n y_i \\
+\bar{y}_j&=\frac{1}{|\mathcal{I}_j|}\cdot\sum_{i\in\mathcal{I}_j} y_j 
 \end{align*}
 
 \foilhead[-1cm]{Consequences of variance decomposition}
-
-\textbf{Scatter decomposition lemma}
-\begin{align*}
-\sum_{i=1}^n (y_i-\bar{y})^2
-&=\sum_{i=1}^n (y_i-\bar{y}_{z_i})^2 +\sum_{i=1}^n (\bar{y}_{z_i}-\bar{y})^2
-\end{align*}
-
 
 Given a set of observations $\vec{x}_1,\ldots,\vec{x}_n\in\RR^M$ together with class labels $z_1,\ldots,z_n\in\set{1,\ldots,\ell}$ find a vector $\vec{w}$ with unit length that maximises:
 \begin{align*}
 F=\sum_{i=1}^n(\bar{y}_{z_i}-\bar{y})^2\enspace
 \end{align*}
 
+\textsc{Proof.}
+The result follows directly form the variance decomposition
+\begin{align*}
+\sum_{i=1}^n (y_i-\bar{y})^2
+&=\sum_{i=1}^n (y_i-\bar{y}_{z_i})^2 +\sum_{i=1}^n (\bar{y}_{z_i}-\bar{y})^2
+\end{align*}
+
+
+
 \foilhead[-1cm]{Matrix magic}
 
 Let us define centres in the original data 
 \begin{align*}
 \vec{\mu}&=\frac{1}{n}\cdot\sum_{i=1}^n \vec{x}_i &
-\vec{\mu}_j&=\frac{1}{|\mathcal{I}_j|}\cdot\sum_{i\in\mathcal{I}_j}^n \vec{\mu}_j
+\vec{\mu}_j&=\frac{1}{|\mathcal{I}_j|}\cdot\sum_{i\in\mathcal{I}_j}^n \vec{x}_j
 \end{align*}
 Then we can express
 \begin{align*}
 F&=\sum_{i=1}^n(\bar{y}_{z_i}-\bar{y})^2\enspace
 =\sum_{i=1}^n(\vec{w}^T\vec{\mu}_{z_i}-\vec{w}^T\vec{\mu})(\vec{w}^T\vec{\mu}_{z_i}-\vec{w}^T\vec{\mu})^T\\
-&=\vec{w}\Biggl(\sum_{i=1}^n(\vec{\mu}_{z_i}-\vec{\mu})(\vec{\mu}_{z_i}-\vec{\mu})^T\Biggr)\vec{w}
+&=\vec{w}^T\Biggl(\sum_{i=1}^n(\vec{\mu}_{z_i}-\vec{\mu})(\vec{\mu}_{z_i}-\vec{\mu})^T\Biggr)\vec{w}
 \end{align*}
 
 \foilhead[-1cm]{Corresponding eigenvector task}
 
-Let the between scatter matrix be defined
+Find a vector $\vec{w}$ with unit length that maximises
 \begin{align*}
-S_B=\sum_{i=1}^n(\vec{\mu}_{z_i}-\vec{\mu})(\vec{\mu}_{z_i}-\vec{\mu})^T
+F=\vec{w}^T S_B\vec{w}
+\end{align*}
+where $S_B$ is the between class scatter matrix;
+\begin{align*}
+S_B=\sum_{i=1}^n(\vec{\mu}_{z_i}-\vec{\mu})(\vec{\mu}_{z_i}-\vec{\mu})^T \enspace.
 \end{align*} 
-Then the function $F$ is maximised by the eigenvector of $S_B$ with the highest eigenvalue $\lambda_1$.
 
-\foilhead[-1cm]{LDA for normal distribution with any shape}
+\textbf{Consequence.}
+The function $F$ is maximised by the eigenvector $\vec{w}$ of $S_B$ with the highest eigenvalue $\lambda_1$.
 
-\illustration[scale=0.5]{general_lda_setup_i}
+\foilhead[-1cm]{LDA for a normal distribution with any shape}
+
+\illustration[scale=0.75]{general_lda_setup_i}
 
 \begin{triangles}
 \item As we know cluster labels we can remove the effect of $\vec{\mu}_1,\ldots\vec{\mu}_\ell$.
 \item After that we can do affine transformation that set the covariance to $I$.
-\item We know how to proceed from this setting.  
+\item We know how to solve the task in the transformed space. 
 \end{triangles}
 
+\foilhead[-1cm]{Data whitening transformation}
+
+A linear transformation $\vec{x}^*=A\vec{x}$ leads to a unit covariance $I$ if 
+\begin{align*}
+A\Sigma_W A^T=I
+\end{align*}  
+where $\Sigma_W$ is within class covariance matrix:
+\begin{align*}
+\Sigma_W=\frac{1}{n}\cdot \sum_{i=1}^n (\vec{x}_i-\vec{\mu}_{z_i})(\vec{x}_i-\vec{\mu}_{z_i})^T
+\end{align*}
+Let $W$ be the matrix where column vectors $\vec{w}_i$ are orthonormal eigenvectors with eigenvalues $\lambda_1,\ldots,\lambda_n$. Then we can express 
+\begin{align*}
+A=\diag(\lambda_1^{-1/2},\ldots,\lambda_n^{-1/2})W^T\enspace. 
+\end{align*} 
+
+\foilhead[-1cm]{The effects of data whitening}
+
+\centerline{
+\includegraphics[scale=0.70]{general_lda_setup_ii}\hspace*{1cm}
+\includegraphics[scale=0.70]{general_lda_setup_iv}}\vspace*{-1ex}
+
+\begin{triangles}
+\item Data whitening alters probing directions: $\vec{w}^*=A\vec{w}$. 
+\item Data whitening alters between class scatter: $S_B^*=AS_BA^T$. 
+\item Maximisation task in original terms: $\sum_{i=1}^k\vec{w}_i^T\Sigma_W^{-T}S_B\Sigma_W^{-1}\vec{w}_i\to \max$
+\item Othogonality constraints in original terms: $\vec{w}_i^T\Sigma_W^{-1}\vec{w}_j=\delta_{ij}$.\vspace*{-1cm}     
+\end{triangles}
+
+\foilhead[-1cm]{Numerical stabilisation}
+
+Whitening matrix $\Sigma_W$ can be non-invertible and it can also depend heavily on the perturbations of original datapoints. Ridge stabilisation 
+\begin{align*}
+\Sigma_W^*=\Sigma_W+\rho I
+\end{align*}   
+for small value $\rho>0$ makes linear discriminant analysis more stable.
 
 \middlefoil{Going beyond basics}
 

@@ -44,6 +44,9 @@ conda install -n machine-learning keras
 conda install tqdm -n machine-learning
 
 conda install -n machine-learning sympy
+
+conda install -n machine-learning -c conda-forge ipyvolume
+conda install -n machine-learning ipywidgets
 ```
 
 First four packages set up a minimal environment for data analysis and visualisation.
