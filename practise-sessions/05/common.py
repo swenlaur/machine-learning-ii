@@ -1,4 +1,7 @@
 import numpy as np
+import pandas as pd
+import ipyvolume as ipv
+
 from pandas import Series
 from pandas import DataFrame
 import numpy.random as random
@@ -6,11 +9,86 @@ import numpy.random as random
 from typing import List, Tuple
 
 
-def ngrams(text:str, n:int=2) -> List[str]:
-    '''
-    Returns a list of ngrams for the text 
+def convert_to_grayscale(image: np.array) -> np.array:
+    """Converts RGB image to grayscale image preserving perceived luminocity based on Y_601 formula"""
+
+    assert len(image.shape) == 3 and image.shape[2] == 3, "Image must be m x n x 3 dimensional RGB array"
+    return 0.2989 * image[:,:,0] + 0.5870 * image[:,:,1] + 0.1140 * image[:,:,2]
+
+def luma(cspace: np.array) -> np.array:
+    """Computes luminocity for the colorspace vector according to Y_601 formula"""
     
-    Inspired by http://locallyoptimal.com/blog/2013/01/20/elegant-n-gram-generation-in-python/
-    '''
+    assert isinstance(cspace, DataFrame), "Colorspace must be a dataframe"
+    assert all(np.isin(['R', 'G', 'B'], cspace.columns)), "Colorspace must contain RGB columns"
+    return 0.2989 * cspace['R'] + 0.5870 * cspace['G'] + 0.1140 * cspace['B']
+
+
+def image_to_colorspace(image: np.array, sample_count: int = None) -> DataFrame:
+    """
+    Converts RGB image to a dataframe where each row corresponds to single pixel.
+
+    If sample_count is set then only random subset of rows is returned. 
+    """
     
-    return [''.join(x) for x in zip(*[text[i:] for i in range(n)])]
+    assert len(image.shape) == 3 and image.shape[2] == 3, "Image must be m x n x 3 dimensional RGB array"
+    if sample_count:
+        return DataFrame({'R':image[:,:,0].flatten(),'G':image[:,:, 1].flatten(),'B':image[:,:, 2].flatten()}).sample(n = sample_count, replace=False)
+    else: 
+        return DataFrame({'R':image[:,:,0].flatten(),'G':image[:,:, 1].flatten(),'B':image[:,:, 2].flatten()})
+
+def colorspace_to_image(cspace: DataFrame, m: int, n: int) -> np.array:
+    """Converts colorspace vector back to RGB image. Colorspace can have extra columns"""
+    
+    assert isinstance(cspace, DataFrame), "Colorspace must be a dataframe"
+    assert len(cspace) == m * n, 'Image dimensions must match'
+    assert all(np.isin(['R', 'G', 'B'], cspace.columns)), "Colorspace must contain RGB columns"
+    
+    result = np.empty([m,n,3])
+    result[:,:, 0] = cspace['R'].values.reshape(m, n)
+    result[:,:, 1] = cspace['G'].values.reshape(m, n)
+    result[:,:, 2] = cspace['B'].values.reshape(m, n)
+    return result
+
+def show_colorspace(cspace: np.array, clip=True, size = 0.5, marker='sphere', **kwargs) -> None:
+    """
+    Visualise colorspace vector as an interactive 3D figure. Colorspace can have extra columns
+     
+    By default RGB channels are clipped to the range [0,1]. 
+    Extra arguments can be used to control the appearance of ipyvolume.scatter
+    """
+
+    assert isinstance(cspace, DataFrame), "Colorspace must be a dataframe"
+    assert all(np.isin(['R', 'G', 'B'], cspace.columns)), "Colorspace must contain RGB columns"
+
+    fig = ipv.figure()
+    if clip:
+        ipv.scatter(cspace.loc[:, 'R'].values, cspace.loc[:, 'G'].values, cspace.loc[:, 'B'].values, 
+                    color=np.clip(cspace[['R', 'G', 'B']].values, 0, 1), s=size, marker=marker, *kwargs)
+    else:
+        ipv.scatter(cspace.loc[:, 'R'].values, cspace.loc[:, 'G'].values, cspace.loc[:, 'B'].values, 
+                    color=cspace[['R', 'G', 'B']].values, s=size, marker=marker, *kwargs)
+    ipv.show()
+    
+    
+def luma_decomposition(cspace: DataFrame) -> DataFrame:    
+    """Decomposes RGB representation to a naive luma and chroma representation depicted by the formula RGB = luma * rRGB. """
+    
+    assert isinstance(cspace, DataFrame), "Colorspace must be a dataframe"
+    assert all(np.isin(['R', 'G', 'B'], cspace.columns)), "Colorspace must contain RGB columns"
+
+    return (cspace
+            .assign(luma = lambda df: luma(df))
+            .assign(rR = lambda df: df['R']/df['luma'])
+            .assign(rG = lambda df: df['G']/df['luma'])
+            .assign(rB = lambda df: df['B']/df['luma']))
+
+def rgb_reconstruction(lumaspace: DataFrame) -> DataFrame:
+    """Reconstructs RGB representation from the naive luma and chroma representation by the formula RGB = luma * rRGB. """
+    
+    assert isinstance(lumaspace, DataFrame), "Colorspace must be a dataframe"
+    assert all(np.isin(['luma', 'rR', 'rG', 'rB'], lumaspace.columns)), "Lumaspace must contain RGB columns"    
+    return (lumaspace
+            .assign(R = lambda df: df['luma'] * df['rR'])
+            .assign(G = lambda df: df['luma'] * df['rG'])
+            .assign(B = lambda df: df['luma'] * df['rB']))
+    
