@@ -137,7 +137,7 @@ which implies that for trees with equal size we should take the one with fewer c
 \begin{triangles}
 \item We do know how many seeds are generated.
 \item We do not know the which observations belong to which phases.
-\item The closest neighbour of a point is must probably modification.
+\item The closest neighbour of a point is most probably modification.
 \item By linking closest points together we can restore a cluster.
 \item At some point we start to merge clusters but hopefully we see it.
 \end{triangles}
@@ -236,7 +236,7 @@ The latter is equivalent to the following minimisation task:
 \end{align*}
 where  the labelling $\vec{z}_1,\ldots,\vec{z}_n$ and cluster centres $\vec{\mu}_1,\ldots,\vec{\mu}_k$ is sought.
 
-\textbf{Minor problem:} The optimisation task is known to be NP-hard.
+\textbf{Minor problem:} This optimisation task is known to be NP-hard.
 
 
 \foilhead[-1cm]{Two-step minimisation algorithm}
@@ -261,11 +261,11 @@ and thus $\vec{\mu}_j$ is the mean of all data points in the cluster
 
 \textbf{K-means clustering algorithm}
 \begin{triangles}
-\item[1.] Choose a good initial positions for cluster centres
-\item[2.] For each data point $\vec{x}_i$ find the closest cluster centre $\vec{\mu}_j$ and set $z_i=j$
-\item[3.] Recompute cluster centres as averages over data points belonging to it
+\item[1.] Choose a good initial positions for cluster centres.
+\item[2.] For each data point $\vec{x}_i$ find the closest cluster centre $\vec{\mu}_j$ and set $z_i=j$.
+\item[3.] Recompute cluster centres as averages over data points belonging to it.
 \item[4.] Repeat from the step 2 until nothing changes.
-\item[5.] Repeat with different starting points and report the best result   
+\item[5.] Repeat with different starting points and report the best result.   
 \end{triangles}
 
 \foilhead[-2.0cm]{The algorithm really works}
