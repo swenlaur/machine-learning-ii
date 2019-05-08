@@ -1,0 +1,9 @@
+\usepackage{pstricks}
+\usepackage{color}
+\usepackage{pstcol}
+\usepackage{pst-plot}
+\usepackage{pst-tree}
+\usepackage{pst-eps}
+\usepackage{multido}
+\usepackage{pst-node}
+\usepackage{pst-eps} ...
