@@ -1,12 +1,43 @@
 import numpy as np
 import pandas as pd
 import ipyvolume as ipv
+import scipy.stats as stats
+from plotnine import geom_path, aes
 
 from pandas import Series
 from pandas import DataFrame
 import numpy.random as random
 
 from typing import List, Tuple
+
+
+
+def geom_ellipse(mean: np.array, cov: np.array, data: np.array=None, q: float=0.95, **kwargs):
+    """
+    Draws confidence envelope for a multivariate normal distribution
+    
+    The ellipse can be specified by mean and covariance. Use stats_ellipse(level=q) to draw
+    the empirical confidence envelopes for the data.
+    """
+
+    # Radius that covers q-fraction of white gaussian noise  
+    r = np.sqrt(stats.chi2.ppf(q=q, df=2))
+    
+    # Eigen-directions of a covariance matrix
+    try:
+        L, W = np.linalg.eigh(cov)
+    except:
+        return geom_path(aes(x = 'x', y = 'y'), data = DataFrame(columns=['x', 'y']))
+    
+    # Properly scaled eigen-directions
+    W[0, :] = W[0, :] * r * np.sqrt(L[0]) 
+    W[1, :] = W[1, :] * r * np.sqrt(L[1]) 
+   
+    theta = np.linspace(0, 2 * np.pi, 100)
+   
+    return geom_path(aes(x = 'x', y = 'y'), data = DataFrame()
+                     .assign(x = mean[0] + np.sin(theta) * W[0, 0] + np.cos(theta) * W[1, 0])
+                     .assign(y = mean[1] + np.sin(theta) * W[0, 1] + np.cos(theta) * W[1, 1]), **kwargs)
 
 
 def convert_to_grayscale(image: np.array) -> np.array:
