@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[paperwidth=20cm, paperheight=4.0cm, margin = 0cm, top=0.5cm]{geometry}
+\usepackage{amsmath}
+
+
+\usepackage{pgf}
+\usepackage{tikz}
+
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{arrows,automata}
+
+\tikzstyle{source}  = [draw,circle,fill=black,thick,inner sep=0mm,minimum size=2mm]
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.5cm,semithick]
+                    
+\node[source, white](X0)               {}; 
+\node[state] (X1) [right of=X0] {$X_1$}; 
+\node[state] (X2) [right of=X1] {$X_2$};                   
+\node[state] (X3) [right of=X2] {$X_3$};                   
+\node[state] (X4) [right of=X3] {$X_4$};                   
+\node[state] (X5) [right of=X4] {$X_5$};                   
+\node[state] (X5) [right of=X4] {$X_5$};                   
+
+\node[state] (Y1) [above = 1.25cm of X1] {$Y_1$}; 
+\node[state] (Y2) [right of=Y1] {$Y_2$}; 
+\node[state] (Y3) [right of=Y2] {$Y_3$}; 
+\node[state] (Y4) [right of=Y3] {$Y_4$}; 
+\node[state] (Y5) [right of=Y4] {$Y_5$}; 
+	
+\path	
+	(X1) edge node {$\mathcal{N}$} (Y1)
+	(X2) edge node {$\mathcal{N}$} (Y2)
+	(X3) edge node {$\mathcal{N}$} (Y3)
+	(X4) edge node {$\mathcal{N}$} (Y4)
+	(X5) edge node {$\mathcal{N}$} (Y5);
+\end{tikzpicture}
+\end{center}
+
+\end{document}
