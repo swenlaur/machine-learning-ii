@@ -59,7 +59,7 @@ The fourth block contains various utility packages.
 If you feel advantageous you can also install TensorFlow GPU library. In my environment I had to do it manually as Anaconda did not provide a binary package for it:
 
 ```
-source activate machine-learning
+conda activate machine-learning
 pip install tensorflow-gpu
 ```
 
@@ -68,7 +68,7 @@ pip install tensorflow-gpu
 The simples way to use it is through a command line
 
 ```
-source activate machine-learning
+conda activate machine-learning
 jupyter notebook
 conda deactivate
 ``` 
