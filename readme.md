@@ -21,7 +21,7 @@ The following provides the shortest list of shell commands to set up necessary l
 First you have to set up a virtual environment for the course so that you do not destroy your current Pyhton distribution and later on changes in your current Python distribution do not create random incompatibilities with libraries needed for machine learning course:
 
 ```
-conda create --name machine-learning
+conda create --name machine-learning python=3.6
 ```
 
 Next you have to install a lot of libraries to get a lift-off:
