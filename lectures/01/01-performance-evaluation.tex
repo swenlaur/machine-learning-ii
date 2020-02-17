@@ -487,6 +487,7 @@ The variance of crossvalidation error $E =\frac{1}{k}(E_1+\cdots+E_k)$ is a weig
 \end{align*} 
 where
 \begin{triangles}
+\item $m$ is the number of samples in each fold, i.e., $m\approx n/k$. 
 \item $\sigma^2$ is the average variance of true test examples all possible training sets.
 \item $\omega$ is the within-block covariance of test errors sharing the same test set. 
 \item $\gamma$ is the between-block covariance of test errors cause by the fact that 
