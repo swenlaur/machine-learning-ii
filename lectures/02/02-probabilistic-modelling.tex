@@ -9,7 +9,7 @@
 
 \newcommand{\lecture}{Basics of probabilistic modelling}
 \newcommand{\lserie}{LTAT.02.004 Machine Learning II}
-\newcommand{\ldate}{February 25, 2019}
+\newcommand{\ldate}{February 28, 2020}
 \newcommand{\lauthor}{Sven Laur}
 \newcommand{\linst}{University of Tartu}
 \graphicspath{{./illustrations/}}
@@ -161,7 +161,7 @@ The distribution of  $B_1+\ldots+B_n$ depends solely on the number of trials $n$
 Statistical test is a classification algorithm designed to distinguish a fixed distribution of negative examples specified by a null hypothesis.
 \vspace*{2ex}
 
-Any \emph{static} classification algorithm can be converted to a statistical test by finding out the percentage of false positives aka \emph{p-value}:
+Any \emph{fixed} classification \emph{rule} can be converted to a statistical test by finding out the percentage of false positives aka \emph{p-value}:
 \begin{triangles}
 \item There might exists a closed form solution.
 \item We can always estimate p-values using simulations. 
@@ -195,8 +195,8 @@ Several p-value adjustment methods are used to correct the issue:
 
 \textbf{Rationale}
 \begin{triangles}
-\item The true parameter value is accepted on $\alpha$-fraction of~possible~observations.
-\item Otherwise, the true value is inside the predicted interval. 
+\item The true parameter value is rejected on $\alpha$-fraction of~possible~observations.
+\item For the remaining cases the true value is inside the predicted interval. 
 \end{triangles}
 
 
