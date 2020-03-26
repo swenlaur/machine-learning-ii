@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=2.5cm, margin = 0cm, top=0.25cm]{geometry}
+\usepackage{amsmath}
+
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{arrows,automata}
+
+\input{node-definitions.tex}
+
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+                    
+\node[state] (X0)               {$0$}; 
+\node[state] (X1) [right of=X0] {$1$};
+\node[state] (X2) [right of=X1] {$2$};
+
+\path 
+	(X0) edge[left]  node[above]{$\rho$} (X1)
+	(X1) edge[left]  node[above]{$\rho$} (X2);
+	
+\path 
+	(X0) edge[in=60, out=120, looseness=7]  node[above]{$1-\rho$} (X0);
+\path
+	(X1) edge[in=60, out=120, looseness=7]  node[above]{$1-\rho$} (X1);
+\path
+	(X2) edge[in=60, out=120, looseness=7]  node[above]{$1-\rho$} (X2);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}
