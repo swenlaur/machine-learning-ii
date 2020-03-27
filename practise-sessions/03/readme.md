@@ -7,3 +7,4 @@ You can get up to 7.5 points from the files:
 You can get up to 7.5 points from the files:
 - 04_hidden_markov_models.ipynb
 - 05_change_detection_with_hidden_markov_models.ipynb
+- 06_regime_changes_in_covid-19_pandemia.ipynb
