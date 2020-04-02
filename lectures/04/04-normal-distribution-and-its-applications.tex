@@ -277,10 +277,11 @@ Affine transformations are closed with respect to composition, i.e., applying tw
 
 Recall that density assigns probability to small enough regions $\RRR$:
 \begin{align*}
-\pr{\begin{aligned}
- & x_1^*\gets \NNN(0,1):x_1\leq x_1^*\leq x_1+\Delta x_1\\ 
- & x_2^*\gets \NNN(0,1):x_2\leq x_2^*\leq x_2+\Delta x_2
-\end{aligned}}= p(x_1,x_2)\cdot\underbrace{\Delta x_1\Delta x_2}_S +\, \varepsilon
+\Pr_{x_1^*,x_2^*}
+\left[\begin{aligned}
+   &x_1\leq x_1^*\leq x_1+\Delta x_1\\ 
+   &x_2\leq x_2^*\leq x_2+\Delta x_2
+\end{aligned}\right]= p(x_1,x_2)\cdot\underbrace{\Delta x_1\Delta x_2}_S +\, \varepsilon
 \end{align*}
 where $\varepsilon=o(\Delta x_1\cdot\Delta x_2)$ in the process $\Delta x_1\to 0$ and $\Delta x_2\to 0$.\vspace*{1cm}
 
@@ -405,7 +406,7 @@ Sub-potentials corresponding four edges are:
 \Psi_3(x_3,x_4)&= \alpha_3(x_{3}-x_4)^2=\alpha_3 x_3^2-2\alpha_3 x_3x_4+\alpha_3 x_4^2\\
 \Psi_4(x_4,x_1)&= \alpha_4(x_{4}-x_1)^2=\alpha_4 x_4^2-2\alpha_4 x_4x_1+\alpha_4 x_1^2
 \end{align*}
-Sub-potentials corresponding to four vertices are $\Psi_i^*(x_i)=\delta_i^2 x_i$ 
+Sub-potentials corresponding to four vertices are $\Psi_i^*(x_i)=\delta_i^2 x_i^2$ 
 
 \foilhead[-1cm]{Resulting potential function}
 
