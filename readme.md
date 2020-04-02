@@ -39,6 +39,7 @@ conda install -n machine-learning pandas-datareader
 
 conda install -n machine-learning scikit-learn
 conda install -n machine-learning tensorflow
+conda install -n machine-learning -c conda-forge tensorflow-probability
 conda install -n machine-learning keras
 
 conda install tqdm -n machine-learning
@@ -55,6 +56,15 @@ First four packages set up a minimal environment for data analysis and visualisa
 The second block sets up packages needed for more complex input-output pipelines: databases and websources.
 The third block contains libraries for various machine learning methods.
 The fourth block contains various utility packages.
+
+If tensowflow does not work out of the box do the following steps
+```
+conda activate machine-learning
+pip install --ignore-installed --upgrade tensorflow
+pip install --ignore-installed --upgrade tensorflow-probability
+```
+
+
 
 If you feel advantageous you can also install TensorFlow GPU library. In my environment I had to do it manually as Anaconda did not provide a binary package for it:
 
