@@ -477,7 +477,33 @@ Then $\vec{x}|\vec{y}_*$ is distributed according to a multivariate normal distr
 \middlefoil{Kalman filter\vspace*{1ex}\\ \textcolor{red}{\normalsize To be added next year}}
 
 
+\foilhead[-1cm]{Motivation. Physical systems}
+
+?
+
+
+\foilhead[-1cm]{Sensor fusion problem. Kalman filter}
+
+Several sensors measure a physical system
+\begin{triangles}
+\item Measurements are observable as $\vec{y}\in\RR^p$.
+\item Physical system has an hidden state $\vec{x}\in\RR^n$.
+\item Physical system evolves linearly $\vec{x}_{i+1}=A\vec{x}_i+\vec{w}_i$.
+\item Measurements are linear from the state $\vec{y}_{i}=C\vec{x}_i+\vec{v}_i$.
+\end{triangles}
+\vspace*{1cm}
+
+Unknown quantities in the system
+\begin{triangles}
+\item Measurement noise $\vec{v}_t$ is modelled with a normal distribution.
+\item Unknown control signal $\vec{w}_i$ is modelled with a normal distribution.
+\item Unknown initial state $\vec{x}_0$ is modelled with a normal distribution.
+\item Quantities $\vec{x}_0, \vec{v}_i, \vec{w}_i$ are assumed to be independent.
+\item All normal distributions can have complex correlation structure.
+\end{triangles}
+
 \end{document}
+
 
 
 \foilhead[-1cm]{Reduction to the previous building blocks}
@@ -598,5 +624,7 @@ However if some value does not occur for $X_i$ in the training sample we get ove
 p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}+1}{\#\set{\text{data points form class 0}}+2}\\
 q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}+1}{\#\set{\text{data points form class 1}}+2}
 \end{align*}
+
+\end{document}
 
 
