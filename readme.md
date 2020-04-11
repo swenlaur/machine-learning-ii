@@ -32,6 +32,7 @@ conda install -n machine-learning pandas
 conda install -n machine-learning matplotlib
 conda install -n machine-learning seaborn
 conda install -n machine-learning -c conda-forge plotnine
+conda install -n machine-learning mizani
 conda install -n machine-learning scipy
 
 conda install -n machine-learning psycopg2
