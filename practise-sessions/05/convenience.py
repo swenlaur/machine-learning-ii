@@ -60,7 +60,7 @@ def reset_column_index(df: DataFrame, level: List[Any], drop: bool=True, inplace
         return result
 
 
-def mdisplay(dfs: List[DataFrame], names:List[str]=[]):
+def mdisplay(dfs: List[DataFrame], names:List[str]=[], index=False):
     """
     Displays several data frames side by side
     
@@ -74,7 +74,7 @@ def mdisplay(dfs: List[DataFrame], names:List[str]=[]):
                      ''.join(f'<td style="text-align:center">{name}</td>' for name in names) + 
                      '</tr>')
     html_str += ('<tr>' + 
-                 ''.join(f'<td style="vertical-align:top"> {df.to_html(index=False)}</td>' 
+                 ''.join(f'<td style="vertical-align:top"> {df.to_html(index=index)}</td>' 
                          for df in dfs) + 
                  '</tr>')
     html_str = f'<table>{html_str}</table>'
