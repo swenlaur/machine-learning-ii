@@ -278,6 +278,40 @@ the sum of squares of the projections $\vec{w}_1^T \vec{y}_i$ is maximal.\vspace
 
 Alternatively, we can view the last components of the source signal $\vec{x}$ as the uninformative noise. The overall noise component should be small.\lastline
 
+\foilhead[-1cm]{Connection to autoencoders}
+
+\begin{tabular}{cc}
+Linear autonecoder & RELU autoencoder\\
+
+\includegraphics[scale=0.8]{linear-autoencoder}
+&\includegraphics[scale=0.8]{relu-autoencoder}\\
+\end{tabular}
+
+Fix mean square error as optimisation target. %\vspace*{-1ex}
+\begin{triangles}
+\item Linear-autoencoder is a reformulation of PCA.  
+\item RELU-autoencoder is a reformulation of non-negative matrix~factorisation.
+\end{triangles}
+
+
+
+\foilhead[-1cm]{Connection to convolutional neural networks}
+
+\begin{tabular}{cc}
+Hierarchical NMF & Convolutional network\\
+
+\includegraphics[scale=0.7]{hierarchical-nmf}
+&\includegraphics[scale=0.7]{convolutional-network}\\
+\end{tabular}
+
+\begin{triangles}
+\item Hierarchical NMF applies the same transformation on patches.
+\item Convolutional layer applies the same transformation to sliding windows.
+\item Then it picks the strongest response among shifts of the transformation.
+\end{triangles}
+
+
+
 \middlefoil{Linear discriminant\vspace*{1ex}\\ analysis}
 
 \foilhead[-1cm]{Underlying assumptions and inference task}
@@ -442,6 +476,46 @@ Whitening matrix $\Sigma_W$ can be non-invertible and it can also depend heavily
 \Sigma_W^*=\Sigma_W+\rho I
 \end{align*}   
 for small value $\rho>0$ makes linear discriminant analysis more stable.
+
+\foilhead[-1cm]{Connection to neural networks}
+
+\begin{tabular}{cc}
+Linear + SoftMax & RELU + SoftMax\\
+
+\includegraphics[scale=0.8]{linear-softmax-classifer}
+&\includegraphics[scale=0.8]{relu-softmax-classifer}\\
+\end{tabular}
+
+\begin{triangles}
+\item LDA is equivalent to a linear layer \mbox{followed~by~a~soft-max~layer.}
+\item Neural networks usually use RELU nodes instead of pure linear nodes.   
+\item This again introduces non-negativity constraint to features. 
+\end{triangles}
+
+
+\foilhead[-1cm]{Reconstruction vs discrimination}
+
+\begin{triangles}
+\item PCA and LDA reduce dimensionality.
+\item PCA preserves recoverability of the original data.
+\item LDA preserves distinguishability between different classes. \vspace*{1cm}     
+\end{triangles}
+
+Sometimes discriminative are overly selective:
+\begin{triangles}
+\item Decision is made based on minute details of the data
+\item Predictions are not robust against malicious perturbations.\vspace*{1cm} 
+\end{triangles}
+
+We can quantify the balance between reconstruction vs discrimination. 
+\begin{triangles}
+\item We can measure how much variation LDA projection explains.
+\item We can measure robustness against input perturbations. 
+\item Same measures are applicable for other models such as neural networks.
+\end{triangles} 
+
+
+
 
 \middlefoil{Going beyond basics}
 

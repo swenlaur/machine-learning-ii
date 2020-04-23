@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=12cm, paperheight=12cm, margin = 0cm, top=0.5cm]{geometry}
+\usepackage{amsmath}
+
+
+\usepackage{pgf}
+\usepackage{tikz}
+
+
+\usetikzlibrary{arrows,automata, positioning}
+
+\tikzstyle{source}  = [draw,circle,fill=black,thick,inner sep=0mm,minimum size=2mm]
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+                    
+\node[state] (Y1)               {$y_{1}$}; 
+\node[state] (Y2) [below of=Y1] {$y_{2}$};                   
+\node[state] (Y3) [below of=Y2] {$y_{3}$};                   
+\node[state] (Y4) [below of=Y3] {$y_{4}$};                   
+\node[state] (Y5) [below of=Y4] {$y_{5}$};                   
+\node[state] (Y6) [below of=Y5] {$y_{6}$};                   
+\node[state] (Y7) [below of=Y6] {$y_{7}$};                   
+\node[state] (Y8) [below of=Y7] {$y_{8}$};                   
+\node[state] (Y9) [below of=Y8] {$y_{9}$}; 
+
+\node[state, fill=LimeGreen] (X1) [right=2cm of Y2] {$\xi_{1}$}; 
+\node[state, fill=LimeGreen] (X2) [right=2cm of Y5] {$\xi_{2}$}; 
+\node[state, fill=LimeGreen] (X3) [right=2cm of Y8] {$\xi_{3}$}; 
+
+\node[state, fill=LimeGreen] (XP1) [right=1cm of X1] {$\xi_{1}^+$}; 
+\node[state, fill=LimeGreen] (XP2) [right=1cm of X2] {$\xi_{2}^+$}; 
+\node[state, fill=LimeGreen] (XP3) [right=1cm of X3] {$\xi_{3}^+$}; 
+
+
+\node[state] (Z1) [right=2cm of XP2] {$\eta_{1}$};                   
+
+\path (Y1) edge[->] (X1)
+      (Y2) edge[->] (X1)
+      (Y3) edge[->] (X1)
+      (Y4) edge[->] (X2)
+      (Y5) edge[->] (X2)
+      (Y6) edge[->] (X2)
+      (Y7) edge[->] (X3)
+      (Y8) edge[->] (X3)
+      (Y9) edge[->] (X3);
+\path (X1) edge[->] (XP1)
+      (X2) edge[->] (XP2)
+      (X3) edge[->] (XP3);
+
+\path (XP1) edge[->] (Z1)
+      (XP2) edge[->] (Z1)
+      (XP3) edge[->] (Z1);
+\end{tikzpicture}
+\end{center}
+
+\end{document}
