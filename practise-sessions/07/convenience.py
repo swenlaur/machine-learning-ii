@@ -7,25 +7,25 @@ from IPython.display import display_html
 
 def head(df: DataFrame, *args, **kwargs) -> DataFrame:
     """
-    Convenience function for R users 
-    """ 
-    
+    Convenience function for R users
+    """
+
     return df.head( *args, **kwargs)
 
 
 def tail(df: DataFrame, *args, **kwargs) -> DataFrame:
     """
-    Convenience function for R users 
-    """    
+    Convenience function for R users
+    """
 
     return df.tail( *args, **kwargs)
 
 
 def dim(df: DataFrame) -> DataFrame:
     """
-    Convenience function for R users 
-    """ 
-    
+    Convenience function for R users
+    """
+
     return df.shape
 
 
@@ -33,7 +33,7 @@ def dim(df: DataFrame) -> DataFrame:
 def combine_categories(cat_dict:Dict[str, List[Any]]) -> DataFrame:
     """
     Creates a data frame that contains all possible combinations of list elements
-    """    
+    """
 
     return DataFrame(list(it.product(*cat_dict.values())), columns = cat_dict.keys())
 
@@ -44,7 +44,7 @@ def reset_column_index(df: DataFrame, level: List[Any], drop: bool=True, inplace
     """
     Removes specified levels from the column index. Works analogously to reset_index
     """
-    
+
     if inplace:
         if drop:
             df.columns = df.columns.droplevel(level)
@@ -60,28 +60,28 @@ def reset_column_index(df: DataFrame, level: List[Any], drop: bool=True, inplace
         return result
 
 
-def mdisplay(dfs: List[DataFrame], names:List[str]=[]):
+def mdisplay(dfs: List[DataFrame], names:List[str]=[], index=False):
     """
     Displays several data frames side by side
-    
+
     Adapded form
     https://stackoverflow.com/questions/38783027/jupyter-notebook-display-two-pandas-tables-side-by-side
     """
-    
+
     html_str = ''
     if names:
-        html_str += ('<tr>' + 
-                     ''.join(f'<td style="text-align:center">{name}</td>' for name in names) + 
+        html_str += ('<tr>' +
+                     ''.join(f'<td style="text-align:center">{name}</td>' for name in names) +
                      '</tr>')
-    html_str += ('<tr>' + 
-                 ''.join(f'<td style="vertical-align:top"> {df.to_html(index=False)}</td>' 
-                         for df in dfs) + 
+    html_str += ('<tr>' +
+                 ''.join(f'<td style="vertical-align:top"> {df.to_html(index=index)}</td>'
+                         for df in dfs) +
                  '</tr>')
     html_str = f'<table>{html_str}</table>'
     html_str = html_str.replace('table','table style="display:inline"')
     display_html(html_str, raw=True)
-    
-    
+
+
 def combine_columns(df: DataFrame, cols:List[str], sep:str="|") -> Series:
     """
     Combines two or more dataframe string columns into a singe column
