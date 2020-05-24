@@ -1,0 +1,181 @@
+\documentclass[landscape,footrule]{foils}
+\usepackage[lecture-serie]{foiltex-extra}
+\usepackage{crysymb}
+\usepackage{graphics}
+\usepackage[pdftex]{graphicx} 
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+
+
+
+
+\newcommand{\lecture}{Missing roadmap to\\ Expectation-maximisation algorithm}
+\newcommand{\lserie}{LTAT.02.004 Machine Learning II}
+\newcommand{\ldate}{May 25, 2020}
+\newcommand{\lauthor}{Sven Laur}
+\newcommand{\linst}{University of Tartu}
+\graphicspath{{./illustrations/}}
+\MyLogo{\lserie,\  EM algorithm, \ldate}
+
+
+\newcommand{\leqm}{\ \leq_m}
+
+%:
+\newcommand\redsout{\bgroup\markoverwith{\textcolor{red}{\rule[0.3ex]{2pt}{4.0pt}}}\ULon}
+
+\newcommand{\bigvskip}{\vskip 2em}
+\newcommand{\lastline}{\vspace*{-2ex}}
+\newcommand{\spreadappart}{\vspace*{\fill}}
+
+
+\newcommand{\pd}[1]{\mathrm{p}[#1]}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+\begin{document}
+\titlefoil
+
+\foilhead[-1cm]{Hard clustering versus soft clustering}
+
+\hspace*{-0.3cm}
+\begin{tabular}{|l|c|c|}
+\hline
+& Hard clustering & Soft clustering\\
+\hline
+Maximisation goal \rule[-0.75cm]{0cm}{2cm}
+& $\pd{\vec{x}_1,\ldots,\vec{x}_n|\textcolor{red}{\vec{z}},\vec{\Theta}}$
+& $\pd{\vec{\Theta}}\cdot
+  \sum\limits_{\textcolor{red}{\vec{z}}}\pd{\vec{x}_1,\ldots,\vec{x}_n,\textcolor{red}{\vec{z}}|\vec{\Theta}}$\\
+\hline
+Optimisation method \rule[-0.75cm]{0cm}{2cm}\hspace*{-1cm}
+& \multicolumn{2}{|c|}{Two-step maximisation algorithm}\\
+\hline
+Tactical objective\rule[-0.75cm]{0cm}{2cm}
+& $F(\textcolor{red}{\vec{z}},\vec{\Theta})$
+& $F(\textcolor{red}{q},\vec{\Theta})$\\
+\hline
+Mixture proportions \rule[-0.75cm]{0cm}{2cm}
+& Ignored by design
+& Core of the model\\
+\hline 
+Cluster labels \rule[-0.75cm]{0cm}{2cm}
+& Search goal
+& Integrated out\\
+\hline 
+\end{tabular}
+
+\foilhead[-1cm]{Desired properties of the tactical objective}
+%\enlargethispage{1cm}
+
+\textbf{Property I.}
+Let $q_{\boldsymbol{\Theta}}(\cdot)$ be the optimal probability distribution for label vectors $\vec{z}$ for fixed model parameters $\boldsymbol{\Theta}$. Then the tactical objective coincides with the actual objective:
+\begin{align*}
+ F(q_{\boldsymbol{\Theta}},\vec{\Theta})=\log \pd{\vec{\Theta}|\vec{x}_1,\ldots,\vec{x}_n}\enspace.
+\end{align*}
+
+\textbf{Property II.}
+For fixed model parameters $\boldsymbol{\Theta}$ the optimal probability distribution can be found as the posterior probability of label vectors:
+\begin{align*}
+q_{\boldsymbol{\Theta}}(\vec{z})&=\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}\enspace.
+\end{align*}\vspace*{-3ex}
+
+\textbf{Rationale}
+\begin{triangles}
+\item The first property is essential for obtaining a local maxima. 
+\item The second property is needed to justify the practical algorithm. 
+\vspace*{-1ex}
+\end{triangles}  
+
+\foilhead[-1cm]{The derivation of the tactical objective}
+\enlargethispage{1cm}
+Let $q(\vec{z})$ be an arbitrary probability distribution over label vectors $\vec{z}$.
+Then tautology together with Jensen's inequality assures 
+\begin{align*}
+\log \pd{\vec{\Theta}|\vec{x}_1,\ldots\vec{x}_n}%
+&=\log\left(\sum_{\vec{z}}q(\vec{z})\cdot\frac{\pd{\vec{\Theta}, \vec{z}|\vec{x}_1,\ldots,\vec{x}_n}}{q(\vec{z})}\right)\\
+&\geq \sum_{\vec{z}}q(\vec{z})\cdot\log\left(\frac{\pd{\vec{\Theta},\vec{z}|\vec{x}_1,\ldots,\vec{x}_n}}{q(\vec{z})}\right)=F(q,\vec{\Theta})
+\end{align*}
+For the probability assignment $q_{\boldsymbol{\Theta}}(\vec{z})=\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}$ we get
+\begin{align*}
+F(q_{\boldsymbol{\Theta}},\vec{\Theta})
+&=\sum_{\vec{z}}q_{\boldsymbol{\Theta}}(\vec{z})\cdot\log\left(\frac{\pd{\vec{\Theta},\vec{z}|\vec{x}_1,\ldots,\vec{x}_n}}{\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}}\right)\\
+&=\sum_{\vec{z}}q_{\boldsymbol{\Theta}}(\vec{z})\cdot\log\left(\pd{\vec{\Theta}|\vec{x}_1,\ldots,\vec{x}_n}\right)
+= \log \pd{\vec{\Theta}|\vec{x}_1,\ldots\vec{x}_n}\enspace.
+\end{align*}
+
+\foilhead[-1cm]{Tactical objective as a linearisation}
+
+The expectation-maximisation algorithm can be viewed as follows:
+\begin{triangles}
+\item Guess model parameters $\vec{\Theta}^{(i)}$.
+\item Compute probability assignments $q_{\boldsymbol{\Theta}^{(i)}}(\vec{z})=\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}^{(i)}}$.
+\item Approximate $\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}$ with a linearisation $F(q_{\boldsymbol{\Theta}^{(i)}},\vec{\Theta})$.
+\item Fix a new guess $\vec{\Theta}^{(i+1)}$ that maximises $F(q_{\boldsymbol{\Theta}^{(i)}},\vec{\Theta})$. 
+\end{triangles}
+\vspace*{1cm}
+
+
+As the actual value and linearisation can be expressed as
+\begin{align*}
+\log \pd{\vec{\Theta}|\vec{x}_1,\ldots\vec{x}_n}
+&=\sum_{\vec{z}}q_{\boldsymbol{\Theta}^{(i)}}(\vec{z})\cdot\log\left(\frac{\pd{\vec{\Theta},\vec{z}|\vec{x}_1,\ldots,\vec{x}_n}}{\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}}\right) \\
+F(q_{\boldsymbol{\Theta}^{(i)}},\vec{\Theta})&= \sum_{\vec{z}}q_{\boldsymbol{\Theta}^{(i)}}(\vec{z})\cdot\log\left(\frac{\pd{\vec{\Theta},\vec{z}|\vec{x}_1,\ldots,\vec{x}_n}}{\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}^{(i)}}}\right)
+\end{align*}
+
+\foilhead[-1cm]{Tactical objective as a linearisation}
+
+\begin{triangles}
+\item Guess model parameters $\vec{\Theta}^{(i)}$.
+\item Compute probability assignments $q_{\boldsymbol{\Theta}^{(i)}}(\vec{z})=\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}^{(i)}}$.
+\item Approximate $\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}$ with the linear function $F(q_{\boldsymbol{\Theta}^{(i)}},\vec{\Theta})$.
+\item Fix a new guess $\vec{\Theta}^{(i+1)}$ that maximises $F(q_{\boldsymbol{\Theta}^{(i)}},\vec{\Theta})$ 
+\end{triangles}
+\vspace*{1cm}
+
+Kullback-Leibler divergence between probability assignments for label vectors 
+\begin{align*}
+D(q_{\boldsymbol{\Theta}^{(i)}}||q_{\boldsymbol{\Theta}})&=\sum_{\vec{z}}q_{\boldsymbol{\Theta}^{(i)}}(\vec{z})\cdot\log\left(\frac{\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}^{(i)}}}{\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}}}\right) 
+\end{align*}
+measures the linearisation error $\pd{\vec{z}|\vec{x}_1,\ldots,\vec{x}_n, \vec{\Theta}^{(i)}}-F(q_{\boldsymbol{\Theta}^{(i)}},\vec{\Theta})$.
+
+
+\foilhead[-1cm]{Simplification of the lower bound}
+
+\textbf{Observation I.}
+The  distribution $q_{\vec{\Theta}}$ decomposes into a product of posteriors:
+\begin{align*}
+q_{\vec{\Theta}}(\vec{z})=\prod_{i=1}^n \pd{z_i|\vec{x_i},\boldsymbol{\Theta}}\enspace.
+\end{align*}\vspace*{-3ex}
+ 
+\textbf{Observation II.}
+Let $\boldsymbol{W}$ be matrix of weights $w_{ij}=\pd{z_i=j|\vec{x_i},\boldsymbol{\Theta}^{(*)}}$. 
+The lower bound can be expressed only in terms of $\boldsymbol{W}$ and $\vec{\Theta}$:
+\begin{align*}
+F(q_{\vec{\Theta}^{(*)}},\vec{\Theta})
+&=\log p[\boldsymbol{\Theta}] -
+\sum_{i=1}^n \sum_{j=1}^k w_{ij}\log w_{ij}\\
+&+
+\sum_{i=1}^n \sum_{j=1}^k w_{ij}\cdot \log\lambda_j
++
+\sum_{i=1}^n 
+\sum_{j=1}^k w_{ij}\cdot \log\left(p[\boldsymbol{x}_i|\boldsymbol{\Theta}_j]\right)\enspace.
+\end{align*}
+
+
+\foilhead[-1cm]{Parameter optimisation}
+
+Hard clustering finds model parameters of the $j$th cluster by solving 
+\begin{align*}
+\sum_{i=1}^n [z_i=j]\cdot\log\left(p[\boldsymbol{x}_i|\boldsymbol{\Theta}_j]\right)\to\max\enspace.
+\end{align*}
+
+Soft clustering finds model parameters of the $j$th cluster by solving 
+\begin{align*}
+\sum_{i=1}^n 
+\sum_{j=1}^k w_{ij}\cdot \log\left(p[\boldsymbol{x}_i|\boldsymbol{\Theta}_j]\right)\to\max\enspace.
+\end{align*}
+and additionally updates mixture proportions $\lambda_1,\ldots,\lambda_k$.
+
+\end{document}
