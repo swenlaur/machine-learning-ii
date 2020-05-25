@@ -100,7 +100,7 @@ Gaussian mixture model is a discrete time-system.
 \end{align*}
 
 
-\foilhead[-1cm]{Continuous Hidden Markov Model}
+\foilhead[-1cm]{Hidden Markov Model with continuous output}
 
 \illustration[scale=1.0]{continuous-hidden-markov-model}
 
@@ -158,7 +158,7 @@ Kalman filter is a refinement of multivariate linear transformation.
 
 The lower bound function used in the EM algorithm is current notation
 \begin{align*}
-F(\vec{q},\vec{\Theta})= -\sum_{\vec{x}}q(\vec{x})\cdot\log q(\vec{x})+
+F(q,\vec{\Theta})= -\sum_{\vec{x}}q(\vec{x})\cdot\log q(\vec{x})+
  \sum_{\vec{x}}q(\vec{x})\cdot\log\left(\pd{\vec{\Theta},\vec{x}|\vec{y}}\right)
 \end{align*}
 
