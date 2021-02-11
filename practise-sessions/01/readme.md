@@ -1,6 +1,6 @@
 ## Home exercises
 
-Home exercises are skattered between the files. Starred exercises cover interesting optional aspects.
+Home exercises are scattered between the files. Starred exercises cover interesting optional aspects.
 
 * 01\_convergence.ipynb
 * 02\_test\_error\_variability.ipynb
