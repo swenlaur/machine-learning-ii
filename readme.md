@@ -11,20 +11,20 @@ You are welcome to use materials elsewhere provided that you:
 
 ## Setting up the environment
 
-As the course will be held in Pyhton you have two options:
+As the course will be held in Python you have two options:
 
-* Manage your Pyhton installation by yourself
+* Manage your Python installation by yourself
 * [Use binary package manager Anaconda for it](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands)
 
 The following provides the shortest list of shell commands to set up necessary libraries. The list may change during the course.
 
-First you have to set up a virtual environment for the course so that you do not destroy your current Pyhton distribution and later on changes in your current Python distribution do not create random incompatibilities with libraries needed for machine learning course:
+First, you have to set up a virtual environment for the course so that you do not destroy your current Python distribution and later on changes in your current Python distribution do not create random incompatibilities with libraries needed for machine learning course:
 
 ```
 conda create --name machine-learning python=3.6
 ```
 
-Next you have to install a lot of libraries to get a lift-off:
+Next, you have to install a lot of libraries to get a lift-off:
 
 ```
 conda install -n machine-learning jupyter
@@ -58,7 +58,7 @@ The second block sets up packages needed for more complex input-output pipelines
 The third block contains libraries for various machine learning methods.
 The fourth block contains various utility packages.
 
-If tensowflow does not work out of the box do the following steps
+If tensorflow does not work out of the box do the following steps
 ```
 conda activate machine-learning
 pip install --ignore-installed --upgrade tensorflow
@@ -76,7 +76,7 @@ pip install tensorflow-gpu
 
 ## Using the environment
 
-The simples way to use it is through a command line
+The simplest way to use it is through a command line
 
 ```
 conda activate machine-learning
@@ -89,15 +89,15 @@ The second command launches [Jupyter](https://jupyter.org) shell in your web bro
 
 ## How to use Jupyter
 
-Jupyter is a cell based computational environment for data scripting and explorative programming. It helps if you know:
+Jupyter is a cell-based computational environment for data scripting and explorative programming. It helps if you know:
 
 * [The cheat sheet](https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/) 
 * [Magic commands for code completion](https://forums.fast.ai/t/jupyter-notebook-how-to-enable-intellisense/8636)  
 
 ## How not to delete your local changes!
 
-As this is evolving repository, we might happen to update files modified by you during exercise sessions.
-This introduces conflicts! If you work with GIT without thinking ***you might loose all your work!***
+As this is an evolving repository, we might happen to update files modified by you during exercise sessions.
+This introduces conflicts! If you work with GIT without thinking ***you might lose all your work!***
 The simplest way to handle this is to rename files you have locally modified or move them out of the repository.
 If you want to play GIT hero you can create your local branch and pull changes from the master.
 May the force be with you!
