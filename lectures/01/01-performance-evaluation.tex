@@ -9,7 +9,7 @@
 
 \newcommand{\lecture}{Performance evaluation}
 \newcommand{\lserie}{LTAT.02.004 Machine Learning II}
-\newcommand{\ldate}{10 February, 2020}
+\newcommand{\ldate}{9 February, 2021}
 \newcommand{\lauthor}{Sven Laur}
 \newcommand{\linst}{University of Tartu}
 \graphicspath{{./illustrations/}}
@@ -65,6 +65,8 @@
 
 \end{triangles}
 
+\foilhead[-1cm]{}
+
 
 \foilhead[-1cm]{Short list of goodness measures}
 
@@ -83,12 +85,19 @@ Some goodness measures for regression
 \item Trimmed mean square and absolute error estimates  
 \end{triangles}
 
+\foilhead[-1cm]{}
+
+
+
 \foilhead[-1cm]{Performance}
 \enlargethispage{1cm}
 \illustration[scale=0.8]{convergence-small}
 \vspace*{-0.0cm}
 $\triangleright$  depends on data and a target function\\
 $\triangleright$  depends on the size of training data and method itself
+
+
+\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{How to estimate performance in the future}
@@ -111,6 +120,8 @@ For any prediction algorithm we can find its expected goodness in the future.
 \item Expected value exists even if the number of future samples is limited.
 \end{triangles} 
 \bigskip
+
+\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Are these assumptions satisfied in practice?}
@@ -151,6 +162,9 @@ For any prediction algorithm we can find its expected goodness in the future.
 \begin{triangles}
 \item $L:\YYY\times\YYY\to\RRR$ --  the cost of using prediction $\hat{y}$ instead of $y$
 \end{triangles}
+ 
+\foilhead[-1cm]{}
+
  
 \foilhead[-1cm]{Theoretical formulation}
 
@@ -259,6 +273,9 @@ for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))
 \end{triangles}
 \bigskip
 
+\foilhead[-1cm]{}
+
+
 \foilhead[-1cm]{What does the convergence speed mean}
 
 \begin{center}
@@ -295,6 +312,9 @@ The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsi
 \item Clearly the risk of both rules $R(f_0)=R(f_1)=0.5$.
 \item The risk of of our learning algorithm $R(f)$ is also $0.5$. 
 \end{triangles}
+
+
+\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Simulation outcomes for other methods}
