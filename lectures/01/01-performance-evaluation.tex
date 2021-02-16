@@ -273,6 +273,9 @@ for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))
 \end{triangles}
 \bigskip
 
+
+\foilhead[-1cm]{}
+
 \foilhead[-1cm]{}
 
 
@@ -289,6 +292,7 @@ The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsi
 \item To increase precision $10$ times you need $100$ times more samples!
 \end{triangles}
 
+\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Why do we need a test set at all}
@@ -371,7 +375,6 @@ The holdout sample must be quite large or otherwise the precision is low
 \item Roughly $400$ data points to get precision $0.1$ in classification accuracy.
 \end{triangles}
 
-
 \foilhead[-1cm]{Moment matching}
 
 We know that the empirical risk $R_N(f)$ converges to normal distribution
@@ -414,7 +417,7 @@ Typical tradeoffs between learning-bias and variance of the validation error.
 \enlargethispage{0.7cm}
 
 To reduce holdout error, we can do several holdout experiments. 
-Since we have not enough data, we redo splitting and training on the same data. 
+Since we do not have enough data, we redo splitting and training on the same data. 
 
 This idea yields a generic crossvalidation scheme
 \begin{enumerate}
@@ -438,6 +441,9 @@ This idea yields a generic crossvalidation scheme
 \item Compute averages $E=\frac{1}{k}(E_1+\cdots+E_k)$ and $\Delta=\frac{1}{k}(\Delta_1+\cdots+\Delta_k)$
 \item Visualise results and compute confidence intervals for estimates if needed. 
 \end{enumerate}
+
+\foilhead[-1cm]{}
+
 
 \foilhead[-1cm]{What does crossvalidation measure?}
 
@@ -468,6 +474,9 @@ To estimate the performance of a classifier $f$ trained on the entire data:
 \item Quite often these effects are quite small in practice. 
 \end{triangles}
 
+\foilhead[-1cm]{}
+
+
 \foilhead[-1cm]{Theoretical explanation}
 
 \textbf{Theorem.} 
@@ -497,6 +506,8 @@ where
 \item This must be accounted in the estimates of optimism and test error. 
 \end{triangles}
 
+\foilhead[-1cm]{}
+
 
 \foilhead[-1cm]{Theoretical explanation}
 
@@ -508,7 +519,7 @@ The variance of crossvalidation error $E =\frac{1}{k}(E_1+\cdots+E_k)$ is a weig
 where
 \begin{triangles}
 \item $m$ is the number of samples in each fold, i.e., $m\approx n/k$. 
-\item $\sigma^2$ is the average variance of true test examples all possible training sets.
+\item $\sigma^2$ is the average variance of true test examples.
 \item $\omega$ is the within-block covariance of test errors sharing the same test set. 
 \item $\gamma$ is the between-block covariance of test errors cause by the fact that 
 \begin{diamonds}
