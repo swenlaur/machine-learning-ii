@@ -11,3 +11,4 @@ Home exercises are scattered between the files. Starred exercises cover interest
 * 07\_crossvalidation\_error\_and\_its\_variance\_decomposition.ipynb 
 * 08\_crossvalidation\_and\_hyper\_parameter\_selection.ipynb
 * 09\_bootstrapping\_methods.ipynb
+* 10\_optimism\_and\_coherence.ipynb
