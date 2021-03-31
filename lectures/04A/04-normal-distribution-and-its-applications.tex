@@ -1,0 +1,746 @@
+\documentclass[landscape,footrule]{foils}
+\usepackage[lecture-serie]{foiltex-extra}
+\usepackage{crysymb}
+\usepackage{graphics}
+\usepackage[pdftex]{graphicx} 
+
+
+\newcommand{\lserie}{LTAT.02.004 Machine Learning II}
+\newcommand{\lecture}{Multivariate normal distribution\\ {\large Direct applications}}
+\newcommand{\ldate}{March 26, 2019}
+\newcommand{\lauthor}{Sven Laur}
+\newcommand{\linst}{University of Tartu}
+\MyLogo{\lserie,\ Multivariate normal distribution, \ldate}
+
+\graphicspath{{./illustrations/}}
+
+\renewcommand{\VAR}{\mathbf{Var}}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand{\leqm}{\ \leq_m}
+
+
+\newcommand{\bigvskip}{\vskip 2em}
+\newcommand{\lastline}{\vspace*{-2ex}}
+\newcommand{\spreadappart}{\vspace*{\fill}}
+
+
+\newcommand{\EVPOS}{\textcolor{red}{\mathsf{evidence}^+}}
+\newcommand{\EVPOSI}{\textcolor{red}{\mathsf{evidence}^+_i}}
+\newcommand{\EVNEG}{\textcolor{blue}{\mathsf{evidence}^-}}
+
+\newcommand{\COV}{\mathbf{Cov}}
+\begin{document}
+\titlefoil
+
+\middlefoil{Motivating examples\vspace*{1ex}\\ {\large Supervised learning}}
+
+\foilhead[-1cm]{Repeated controlled coin tosses}
+
+\illustration[scale=1.25]{general-model}
+
+\textbf{Linear regression models}
+\begin{triangles}
+\item We assume that $y_i$ depends only on the values of $x_{i1}, \ldots, x_{i\ell}$ 
+\item A linear model assumes $y_{i}=\beta_{1}x_{i1}+\cdots+ \beta_\ell x_{i\ell}+ \beta_{0}+\varepsilon_i$.
+\item All error terms $\varepsilon_i$ are assumed to be independent.
+\item  All error terms $\varepsilon_i$ are drawn from a normal distribution $\mathcal{N}(0,\sigma)$.
+\end{triangles}
+
+
+
+
+\foilhead[-1cm]{Higher-order Markov chains}
+\illustration[scale=1.25]{markov-chain}
+
+\textbf{Time-series models}
+\begin{triangles}
+\item We assume that $x_{i+1}$ depends only on the values of $x_i, \ldots, x_{i-\ell}$ 
+\item A linear model assumes $x_{i+1}=\alpha_{0}x_i+\cdots+ \alpha_\ell x_{i-\ell}+ \alpha_{\ell+1}+\varepsilon_i$.
+\item All error terms $\varepsilon_i$ are assumed to be independent.
+\item  All error terms $\varepsilon_i$ are drawn from a normal distribution $\mathcal{N}(0,\sigma)$.
+\end{triangles}
+
+
+
+
+\middlefoil{Univariate normal\vspace*{2ex}\\ distribution}
+
+\foilhead[-1cm]{Probability density function}
+
+\illustration[scale=0.5]{pdf_vs_pmf}
+\textbf{Definition.}
+A real-valued random variable $X$ comes from a continuous distribution with \emph{a probability density function} $p:\RR\to\RR^+\cup\set{0}$ if the following limit exists for any $x\in\RR$:
+\begin{align*}
+p(x)=\lim_{\Delta x \to 0^+} \frac{\pr{x -\Delta x \leq X\leq x+\Delta x}}{2\cdot \Delta x}\enspace.
+\end{align*} 
+
+
+\foilhead[-1cm]{Probability mass function}
+
+\illustration[scale=0.5]{pdf_vs_pmf}
+
+\textbf{Definition.}
+A real-valued random variable $X$ comes from a discrete distribution with \emph{a probability mass function} $p:\RR\to\RR^+\cup\set{0}$ defined as 
+\begin{align*}
+p(x)=\pr{X=x}=\lim_{\Delta x \to 0^+} \pr{x-\Delta x \leq X\leq x+\Delta x}
+\end{align*}  
+if there exist a sequence $(x_i)_{i=1}^\infty$ such that $p(x_1)+\ldots+p(x_i)+\ldots =1$.
+
+
+\foilhead[-1cm]{Standard normal distribution }
+
+\illustration[scale=0.5]{standard_normal_distribution}
+
+Standard normal distribution $\NNN(\mu=0,\sigma=1)$ is a continuous distribution with a probability density function 
+\begin{align*}
+p(x)=\frac{1}{\sqrt{2\pi}}\cdot\exp{-\frac{x^2}{2}}
+\end{align*}
+The mean value $\mu=0$ and variance $\sigma^2=1$ for this distribution.
+
+
+\foilhead[-1cm]{Univariate normal distribution}
+
+\textbf{Definition.}
+A random variable $y$ is distributed according to a normal distribution $\NNN(\mu=a,\sigma=b)$ if it can be expressed 
+\begin{align*}
+y=bx+a
+\end{align*}
+where $x$ is distributed according to standardised normal distribution~$\NNN(0,1)$. \vspace*{1cm}
+
+The corresponding probability density functions is
+\begin{align*}
+p[y|\mu,\sigma]=\frac{1}{\sqrt{2\pi}\sigma}\cdot\exp{\frac{(x-\mu)^2}{2\sigma^2}}
+\end{align*}
+and the mean value $\mu$ and variance $\sigma^2$ for this distribution.
+
+
+\foilhead[-1cm]{Density derivation}
+
+\centerline{
+\includegraphics[scale=0.5]{1d_source_distribution}\hspace*{1cm}
+\includegraphics[scale=0.5]{1d_target_distribution}}
+
+Let $y=ax + b$ the the relation between densities 
+\begin{align*}
+p_x(x)=\sigma\cdot p_y(y)
+\end{align*}
+follows form the fact that areas of red and blue columns must be the same.
+
+
+\foilhead[-1cm]{Univariate linear regression}
+
+\begin{triangles}
+\item Fix a set of inputs $x_1, \ldots, x_n\in \RR$. 
+\item A probabilistic model is defined by three coefficients $a, b,\in\RR$.
+\item The model assigns a probability to outcomes $y_1,\ldots, y_n$ through the following observation generation mechanism
+\begin{align*}
+  y_i=ax_i+b+\varepsilon_i,\qquad \varepsilon_i\sim\NNN(0,\sigma)
+\end{align*}
+\item Consequently 
+\begin{align*}
+  p[\vec{y}|\vec{x},a,b]&=\prod_{i=1}^n\frac{1}{\sqrt{2\pi}
+    \sigma}\cdot\exp{-\frac{(y_i-ax_i-b)^2}{2\sigma^2}}
+\end{align*}
+\end{triangles}
+
+\foilhead[-1cm]{Maximum likelihood estimate}
+
+As usual we can find  $a,b,\sigma\in\RR$ that maximise the log-likelihood
+\begin{align*}
+\log p[\vec{y}|\vec{x},a,b,\sigma]&= const -n\log \sigma-\sum_{i=1}^n\frac{(y_i-ax_i-b)^2}{2\sigma^2}
+\end{align*}
+and thus we can find $a$ and $b$ by minimising 
+\begin{align*}
+\text{MSE}=\frac{1}{n}\cdot \sum_{i=1}^n(y_i-ax_i-b)^2\enspace.
+\end{align*}
+
+
+\foilhead[-1cm]{Residuals and the variance parameter}
+
+For fixed $a, b\in\RR$ we can define predictions and residuals 
+\begin{align*}
+\hat{y}_i&= ax_i-b\\
+r_i&=y_i-\hat{y}_i
+\end{align*}
+To find the optimal variance $\sigma^2$ we need to maximise
+\begin{align*}
+\log p[\vec{y}|\vec{x},a,b,\sigma]&= const -n\log \sigma-\sum_{i=1}^n\frac{r_i^2}{2\sigma^2}
+\end{align*}
+The resulting solution is 
+\begin{align*}
+\sigma^2=\frac{1}{n}\cdot \sum_{i=1}^n (y_i-\hat{y}_i)^2
+\end{align*}
+
+\foilhead[-1cm]{Linear time-series model}
+
+\begin{triangles}
+\item Fix a set of initial inputs $x_{-\ell}, \ldots, x_{0}\in \RR$. Denote them by $\vec{x}_\circ$. 
+\item Think of $x_{1},x_{2},\ldots, x_n$ as observations. Denote them by $\vec{x}$.  
+\item A probabilistic model for state transitions is defined as follows
+\begin{align*}
+  x_{i+1}=\underbrace{\alpha_0x_i+\ldots \alpha_\ell x_{i-\ell}+\alpha_{\ell+1}}_{\hat{x}_{i+1}}+\varepsilon_i,\qquad \varepsilon_i\sim\NNN(0,\sigma)
+\end{align*}
+\item Consequently 
+\begin{align*}
+ p[\vec{x}|\vec{x}_\circ,\vec{\beta},\sigma]&=\prod_{i=1}^n\frac{1}{\sqrt{2\pi}
+    \sigma}\cdot\exp{-\frac{(x_i-\hat{x}_i)^2}{2\sigma^2}}
+\end{align*}
+\end{triangles}
+
+
+ \foilhead[-1cm]{Maximum likelihood estimate}
+
+As usual we can find  $\vec{\alpha}\in \RR^{\ell+1}$ and $\sigma\in\RR$ that maximise the log-likelihood
+\begin{align*}
+\log p[\vec{x}|\vec{x}_\circ,\vec{\beta},\sigma]&= const -n\log \sigma-\sum_{i=1}^n\frac{(x_i-\hat{x}_i)^2}{2\sigma^2}
+\end{align*}
+and thus we can find $\vec{\beta}$ by minimising 
+\begin{align*}
+\text{MSE}=\frac{1}{n}\cdot \sum_{i=1}^n(x_i-\alpha_0x_{i-1}+\ldots \alpha_\ell x_{i-1-\ell}+\alpha_{\ell+1})^2\enspace.
+\end{align*}
+
+The latter is the standard multivariate linear regression setup. The variance of the model $\sigma^2$ can be found by the same formula as for linear regression.
+ 
+ 
+\middlefoil{Motivating examples\vspace*{1ex}\\ {\large Unsupervised learning}}
+
+
+\foilhead[-1cm]{Hidden Markov Model}
+
+
+\illustration[scale=1.0]{hidden-markov-model}
+
+\textbf{Sensor fusion problem}
+
+\begin{triangles}
+\item Several sensors measure a physical system
+\item Measurements are observable as $\vec{y}\in\RR^p$.
+\item Physical system has an hidden state $\vec{x}\in\RR^n$.
+\item Physical system evolves linearly $\vec{x}_{i+1}=A\vec{x}_i+\vec{w}_i$.
+\item Measurements are linear from the state $\vec{y}_{i}=C\vec{x}_i+\vec{v}_i$.
+\end{triangles}
+\vspace*{1cm}
+
+\foilhead[-1cm]{Belief propagation for continous distibutions}
+
+\illustration[scale=1.0]{hidden-markov-model}
+
+\begin{triangles}
+\item Continuous distributions are rarely compatible with belief propagation.
+\begin{align*}
+\pi_{X_i}(\vec{x}_i)
+&\propto \int_{\vec{x}_{i-1}} \alpha[\vec{x}_{i-1}, \vec{x}_i]\cdot\lambda_{i-1}^*(\vec{x}_{i-1})\cdot \pi_{X_{i-1}}(\vec{x}_{i-1})d\vec{x}_{i-1}\\
+\lambda_{X_i}(x_i)
+&\propto \int_{\vec{x}_{i+1}} \alpha[\vec{x}_{i}, \vec{x}_{i+1}]\cdot\lambda_{i}^*(\vec{x}_{i})\cdot\lambda_{X_{i+1}}(\vec{x}_{i+1})\ d\vec{x}_{i+1}
+\end{align*}
+\item Family of normal distributions is compatible with belief propagation.
+ 
+\end{triangles}
+
+
+\foilhead[-1cm]{Kalman filter}
+
+\illustration[scale=1.0]{hidden-markov-model}
+
+Belief propagation becomes tractable under following assumptions:
+\begin{triangles}
+\item Measurement noise $\vec{v}_t$ is modelled with a normal distribution.
+\item Unknown control signal $\vec{w}_i$ is modelled with a normal distribution.
+\item Unknown initial state $\vec{x}_0$ is modelled with a normal distribution.
+\item Quantities $\vec{x}_0, \vec{v}_i, \vec{w}_i$ are assumed to be independent.
+\item All normal distributions can have complex correlation structure.
+\end{triangles}
+
+
+\foilhead[-1cm]{Image synthesis}
+
+
+
+\foilhead[-1cm]{Background model for digital images}
+\illustration[scale=0.8]{markov-random-field-i}
+
+In most images intensity of pixel is influenced only by its neighbours:
+\begin{triangles}
+\item For simple textures the neighbourhood consist of four adjacent pixels.
+\item For complex textures the the neighbourhood contains much more pixels.
+\item For homogenous textures the conditional probabilities are universal\vspace*{0.5ex}.
+\begin{diamonds}
+\item Generative repetitive patterns for textile and grass\vspace*{1ex}   
+\end{diamonds}
+
+\item For complex patterns conditional probabilities can be location dependent.\vspace*{0.5ex}
+
+\begin{diamonds}
+\item Generative patterns for human faces and fashion accessories 
+\end{diamonds}
+\end{triangles}
+
+\foilhead[-1cm]{Random Markov Fields}
+
+\illustration[scale=1.2]{markov-random-field}
+
+\textbf{Definition.}
+Markov random field is specified by undirected graph connecting random variables $X_1,X_2,\ldots$ such that for any node $X_i$ 
+\begin{align*}
+\pr{x_i|(x_j)_{j\neq i}}=\pr{x_i| (x_j)_{j\in\NNN(X_i)} }
+\end{align*}
+where the set of neighbours $\NNN(X_i)$ is also known as \emph{Markov blanket} for $X_i$. 
+
+
+\foilhead[-1cm]{Hammersley-Clifford theorem}
+
+The probability of an observation $\vec{x}=(x_1,x_2,\ldots)$ generated by a Markov random field can be expressed in the form 
+\begin{align*}
+\pr{\vec{x}}=\frac{1}{Z(\omega)}\cdot\exp{-\sum_{c\in\textsf{MaxClique}}\Psi_c(\vec{x}_c,\omega)} 
+\end{align*}  
+where
+\begin{triangles}
+\item $Z(\omega)$ is a normalising constant
+\item $\textsf{MaxClique}$ is the set of maximal cliques in the Markov random field
+\item $\Psi_c$ is defined on the variables in the clique $c$ 
+\end{triangles}
+\vspace*{2ex}
+
+The formula implies that the distribution belongs to the exponential family.
+
+\begin{triangles}
+\item Multivariate normal distribution belongs to the exponential family
+\end{triangles}
+
+
+\foilhead[-1cm]{Conditional Random Fields}
+
+\illustration[scale=1.5]{conditional-random-field}
+
+\textbf{Definition.}
+Let $X_1,X_2,\ldots$ and $Y_1,Y_2,\ldots$ be random variables. The entire process is conditional random field if random variables $Y_1,Y_2,\ldots$ conditioned for any sequence of observations $x_1,x_2,\ldots$ form a Markov random field
+\begin{align*}
+\pr{y_i|(x_k)_{k=1}^\infty, (y_j)_{j\neq i}}=\pr{y_i|(x_k)_{k=1}^\infty, (y_j)_{j\in\NNN(Y_i)} }
+\end{align*}
+where the set of neighbours $\NNN(Y_i)$ is a \emph{conditional Markov blanket} for $Y_i$. 
+
+
+
+\foilhead[-1cm]{Image segmentation and sequence labelling}
+\enlargethispage{1cm}
+\illustration[scale=1.0]{conditional-random-field}
+
+
+\begin{triangles}
+\item The input $\vec{x}$ is used to predict labels $y_1,y_2,\ldots$.
+\item A correct label sequence must satisfy possibly unknown restrictions.
+\item These restrictions are captured by conditional random random field.
+\end{triangles}\vspace*{0.5cm}
+
+
+\textbf{Consequences of Hammersley-Clifford theorem}
+\begin{triangles}
+\item Clique features $\Psi_c$ can depend on $(y_i)_{i\in c}$, $(x_i)_{i=1}^\infty$ 
+\item Features can be defined as linear combination of vertex and edge features.
+\item A vertex feature looks only variable $y_i$ associated with the vertex.
+\item An edge feature looks only variables $y_i, y_j$ associated with the edge.
+\end{triangles}
+
+
+
+
+
+
+
+
+
+
+\middlefoil{Multivariate normal\vspace*{2ex}\\ distribution}
+
+
+\foilhead[-1cm]{White Gaussian noise}
+
+\illustration[scale=0.4]{white_gaussian_noise}
+\vspace*{-1.0cm}
+
+\textbf{Definition.} A random vector $X_1,\ldots, X_n$ is a standard normal random vector if all of its components are independent and and $X_i\sim \NNN(0,1)$.
+\begin{triangles}
+\item The density can be computed based on independence:
+\begin{align*}
+p(x_1,\ldots,x_n)=p(x_1)\cdots p(x_n)=\frac{1}{(2\pi)^{n/2}}\cdot\mathsf{exp}\Biggl(-\frac{x_1^2+\cdots+x_n^2}{2}\Biggl)\enspace.
+\end{align*}
+\end{triangles}
+
+\foilhead[-1cm]{Scaling and shifting}
+
+By shifting and scaling the source distribution $\NNN(\vec{0},I)$ we can obtain some other instances of multivariate normal distribution.
+\vspace*{-1cm}
+
+\begin{center}
+\includegraphics[scale=0.65]{source-distribution.pdf}
+\includegraphics[scale=0.65]{scaled-distribution.pdf}
+\end{center}\vspace*{-10cm}
+
+
+
+
+
+\foilhead[-1cm]{Necessity of rotations}
+
+As the choice of coordinate axis is sometimes arbitrary, there must be other ways to form a normal distribution -- rotations of coordinate axis.\vspace*{-1cm}  
+
+\begin{center}
+\includegraphics[scale=0.65]{two-dimensional-normal-distribution-i.pdf}
+\includegraphics[scale=0.65]{two-dimensional-normal-distribution-ii.pdf}
+\end{center}\vspace*{-1cm}
+
+Any affine transformation can be expressed as scaling, rotating and shifting.
+
+
+
+
+\foilhead[-1cm]{Affine transformations}
+
+Let $\vec{x}$ be standard normal random vector and let $\vec{y}$ be obtained the scaling,  translation and rotation of the coordinate plane.
+
+Then we can express $\vec{x}$ and $\vec{y}$ in terms of an affine transformation
+\begin{align*}
+  \vec{y}&=A\vec{x}+\vec{\mu} \enspace,\\
+  \vec{x}&=A^{-1}(\vec{y}-\vec{\mu}) \enspace.
+\end{align*}
+
+\textbf{Observation.}
+Affine transformations are closed with respect to composition, i.e., applying two affine transformations yields a new affine transformation. \vspace*{2ex}
+
+\textbf{Remark.} Not all affine transformations are invertible.\lastline
+
+
+\foilhead[-1cm]{What is density in 2D?}
+
+
+Recall that density assigns probability to small enough regions $\RRR$:
+\begin{align*}
+\Pr_{x_1^*,x_2^*}
+\left[\begin{aligned}
+   &x_1\leq x_1^*\leq x_1+\Delta x_1\\ 
+   &x_2\leq x_2^*\leq x_2+\Delta x_2
+\end{aligned}\right]= p(x_1,x_2)\cdot\underbrace{\Delta x_1\Delta x_2}_S +\, \varepsilon
+\end{align*}
+where $\varepsilon=o(\Delta x_1\cdot\Delta x_2)$ in the process $\Delta x_1\to 0$ and $\Delta x_2\to 0$.\vspace*{1cm}
+
+\textbf{Remark.} Regions $\RRR$ do not have to be rectangular as long as:
+\begin{triangles}
+\item The area $S(\RRR)$ of a region can be computed.  
+\item Probability can be assigned to the region $\RRR$ and its scalings.
+\end{triangles}
+Then $\varepsilon=o(S)$ when we rescale the region $\RRR$ around the point $(x_1,x_2)$.
+
+
+\foilhead[-1cm]{Density recalibration}
+
+Any affine transformation changes a square grid into parallelograms. \vspace*{-1cm}
+\begin{center}
+\includegraphics[scale=0.55]{original-grid.pdf}
+\raisebox{4.0cm}{$\quad\xrightarrow{\vec{y}=A\vec{x}+\vec{\mu}}\quad$}
+\includegraphics[scale=0.55]{transformed-grid.pdf}
+\end{center}\vspace*{-1cm}
+
+As a result, the area of the regions is different on the left and on the right:
+\begin{align*}
+p(x_1,x_2)\cdot S_1\approx q(y_1,y_2)\cdot S_2\qquad\Longrightarrow\qquad q(y_1,y_2)={\frac{S_1}{S_2}}\cdot p(x_1,x_2) 
+\end{align*}
+Fortunately, the ratio between areas are constant over the entire plane!\lastline
+
+  
+\foilhead[-1cm]{Density of two-variate normal distribution}
+
+\enlargethispage{1cm}
+The density of $(x_1,x_2)$ pairs can be computed based on independence:
+\begin{align*}
+p(x_1,x_2)=p(x_1)\cdot p(x_2)=\frac{1}{2\pi}\cdot\mathsf{exp}\Biggl(-\frac{x_1^2+x_2^2}{2}\Biggl)\enspace.
+\end{align*}
+\vspace*{-3ex}
+
+To estimate density $q(y_1,y_2)$, we must find the corresponding $(x_1,x_2)$:
+\begin{align*}
+ \vec{y}=A\vec{x}+\vec{\mu}\quad\Leftrightarrow\quad \vec{x}=A^{-1}(\vec{y}-\vec{\mu})\enspace. 
+\end{align*}
+Thus we get \vspace*{-2ex}
+\begin{align*}
+q(y_1,y_2)&=\frac{S_1}{S_2}\cdot\frac{1}{2\pi}\cdot
+\exp{-\frac{(\vec{y}-\vec{\mu})^T A^{-T}A^{-1}(\vec{y}-\vec{\mu})}{2}}\\
+&=\frac{1}{\sqrt{\det(\Sigma)}}\cdot\frac{1}{2\pi}\cdot
+\exp{-\frac{(\vec{y}-\vec{\mu})^T \Sigma^{-1}(\vec{y}-\vec{\mu})}{2}}\enspace.
+\end{align*}
+
+ 
+
+\foilhead[-1cm]{Illustrative example}
+ 
+\begin{center}
+\includegraphics[scale=0.55]{original-contours.pdf}
+\raisebox{4.0cm}{$\quad\xrightarrow{\vec{y}=A\vec{x}+\vec{\mu}}\quad$}
+\includegraphics[scale=0.55]{transformed-contours.pdf}
+\end{center}\vspace*{-0cm}
+
+\begin{triangles}
+\item Affine transformation changes the square grid into parallelograms. 
+\item Affine transformation changes circular equiprobability lines into ellipses. 
+\item The axes of the ellipses may intersect with the sides of parallelograms.
+\end{triangles}
+
+
+
+\foilhead[-1cm]{Generalisation to multivariate case}
+
+If observed quantities $\vec{y}$ are generated by applying the affine transformation 
+\begin{align*}
+ \vec{y}=A\vec{x}+\vec{\mu}\quad\Leftrightarrow\quad \vec{x}=A^{-1}(\vec{y}-\vec{\mu})\enspace
+\end{align*}
+to the \emph{independent source signals} $x_1,\ldots, x_n\sim\NNN(0,1)$, then the resulting distribution is \emph{a multivariate normal distribution} with the density:
+\begin{align*}
+p(\vec{y})&=\frac{1}{(2\pi)^{n/2}}\cdot\frac{1}{\sqrt{\det(\Sigma)}}\cdot
+\exp{-\frac{(\vec{y}-\vec{\mu})^T \Sigma^{-1}(\vec{y}-\vec{\mu})}{2}}\enspace
+\end{align*} 
+where $\Sigma^{-1}=A^{-T}A^{-1}$ is \emph{a positively definite symmetric matrix}.
+
+
+\middlefoil{Markov fields\vspace*{0ex}\\ with\vspace*{1ex}\\ multivariate normal distributions}
+
+
+
+\foilhead[-1cm]{General form of the likelihood function}
+
+The celebrated Hammersley-Clifford theorem fixes the format in which the corresponding probability distribution must be sought:
+\begin{align*}
+p[\vec{x}|\omega]=\frac{1}{Z(\omega)}\cdot\exp{-\sum_{c\in\textsf{MaxClique}}\Psi_c(\vec{x}_c,\omega)} 
+\end{align*} 
+where 
+\begin{triangles}
+\item $\omega$ is a set of model parameters
+\item $Z(\omega)$ is a normalising constant
+\item $\textsf{MaxClique}$ is the set of maximal cliques in the Markov random field
+\item $\Psi_c$ is defined on the variables $x_i$ in the clique $c$. 
+\end{triangles}
+
+\foilhead[-1cm]{Multivariate normal distribution as likelihood}
+
+If individual sub-potentials $\Psi_c(\vec{x}_c,\omega)$ are quadratic forms then the energy 
+\begin{align*}
+\Psi(\vec{x})=\sum_{c\in\textsf{MaxClique}}\Psi_c(\vec{x}_c,\omega) 
+\end{align*} 
+is also a quadratic form and thus $p[\vec{x}|\omega]$ is a multivariate normal distribution.\vspace*{1cm}
+
+Sub-potentials are often fixed directly based on smoothness constraints
+\begin{triangles}
+\item Intensities have bounded variance: $\Psi_e=\delta^2 x_{ij}^2$. 
+\item Intensity changes smoothly vertically: $\Psi_e=\beta(x_{i,j}-x_{i+1,j})^2$.
+\item Intensity changes smoothly horizontally: $\Psi_e=\alpha(x_{i,j}-x_{i,j+1})^2$.
+\end{triangles} 
+
+\foilhead[-1cm]{Toy example}
+
+\illustration[scale=1.0]{markov-random-field-iv}\vspace*{-0.6cm}
+
+Sub-potentials corresponding four edges are:  
+\begin{align*}
+\Psi_1(x_1,x_2)&= \alpha_1(x_{1}-x_2)^2=\alpha_1 x_1^2-2\alpha_1 x_1x_2+\alpha_1 x_2^2\\
+\Psi_2(x_2,x_3)&= \alpha_2(x_{2}-x_3)^2=\alpha_2 x_2^2-2\alpha_2 x_2x_3+\alpha_2 x_3^2\\
+\Psi_3(x_3,x_4)&= \alpha_3(x_{3}-x_4)^2=\alpha_3 x_3^2-2\alpha_3 x_3x_4+\alpha_3 x_4^2\\
+\Psi_4(x_4,x_1)&= \alpha_4(x_{4}-x_1)^2=\alpha_4 x_4^2-2\alpha_4 x_4x_1+\alpha_4 x_1^2
+\end{align*}
+Sub-potentials corresponding to four vertices are $\Psi_i^*(x_i)=\delta_i^2 x_i^2$ 
+
+\foilhead[-1cm]{Resulting potential function}
+
+\begin{align*}
+\Psi(\vec{x})=\vec{x}^T
+\begin{pmatrix}
+\alpha_1+\alpha_4+\delta_1^2 & -\alpha_1 & 0 & -\alpha_4\\
+-\alpha_1 &\alpha_1+\alpha_2+\delta_2^2 & -\alpha_2 & 0 \\
+0 &-\alpha_2 &\alpha_2+\alpha_3+\delta_3^2 & -\alpha_3 \\
+-\alpha_4 & 0 &-\alpha_3 &\alpha_3+\alpha_4+\delta_4^2 
+\end{pmatrix}
+\vec{x}
+\end{align*}
+and thus the covariance matrix $\Sigma$ and mean $\vec{\mu}$ can be computed by matching the shape of the multivariate normal density
+\begin{align*}
+p[\vec{x}|\vec{\mu},\Sigma]\propto\frac{1}{\sqrt{\det\Sigma}}\cdot\exp{-\frac{1}{2}\cdot 
+(\vec{x}-\vec{\mu})^T\Sigma^{-1}(\vec{x}-\vec{\mu})}
+\end{align*}
+
+
+\middlefoil{Important properties of\vspace*{1ex}\\ normal distributions}
+
+\foilhead[-1cm]{Closeness under marginalisation}
+
+Let $\vec{x}_{\III}=(x_i)_{i\in\III}$ be a subvector determined by the coordinate set $\III$.
+Then $\vec{x}_{\III}$ is distributed according to a multivariate normal distribution as long as 
+the vector $\vec{x}$ comes form a multivariate normal distribution $\NNN(\vec{\mu},\Sigma)$.
+
+\begin{triangles}
+\item Moment matching gives the parameters of the resulting distribution 
+\begin{align*}
+\EXP(\vec{x}_{\III})&= \EXP(\vec{x})_{\III}=\vec{\mu}_{\III} \\
+\COV(\vec{x}_{\III})&=\COV(\vec{x})_{\III\times \III}=\Sigma[\III, \III]
+\end{align*}
+\end{triangles}
+
+\foilhead[-1cm]{Closeness under linear combinations}
+
+Linear combination $y=\vec{\alpha}_1^T \vec{x}_1+\vec{\alpha}_2^T\vec{x}_2$ of independent multivariate normal distributions $\vec{x}_1\sim\NNN(\vec{\mu}_1,\Sigma_1)$ and $\vec{x}_2\sim\NNN(\vec{\mu}_2,\Sigma_2)$ is also  a multivariate normal distribution.
+
+\begin{triangles}
+\item Moment matching gives the parameters of the resulting distribution 
+\begin{align*}
+\EXP(y)&= \vec{\alpha}_1^T\EXP(\vec{x}_1)+\vec{\alpha}_2^T\EXP(\vec{x}_2)=
+\vec{\alpha}_1^T\vec{\mu}_1+\vec{\alpha}_2^T\vec{\mu}_2\\
+\VAR(y)&=\COV(\vec{\alpha}_1^T \vec{x}_1) + \COV(\vec{\alpha}_2^T \vec{x}_2)\\
+&=\vec{\alpha}_1^T \COV(\vec{x}_1)\vec{\alpha}_1+ \vec{\alpha}_2^T \COV(\vec{x}_2)\vec{\alpha}_2\\
+&=\vec{\alpha}_1^T \Sigma_1\vec{\alpha}_1+ \vec{\alpha}_2^T \Sigma_2\vec{\alpha}_2
+\end{align*}
+\item Closeness under linear combinations holds also for matrix combinations. 
+\end{triangles}
+
+\foilhead[-1cm]{Closeness under conditioning}
+
+Let $\vec{x}$ and $\vec{y}$ be related random variables. 
+Let $\vec{x}|\vec{y}_*$ denote the conditional distribution of $\vec{x}$ given that a random variable $\vec{y}$ has a fixed value $\vec{y}_*$.
+Then $\vec{x}|\vec{y}_*$ is distributed according to a multivariate normal distribution provided that 
+ $(\vec{x},\vec{y})$ comes form a multivariate normal distribution $\NNN((\vec{\mu}_i),(\Sigma_{ij}))$
+
+\begin{triangles}
+\item Moment matching gives the parameters of the resulting distribution 
+\begin{align*}
+\EXP(\vec{x}|\vec{y}_*)&= \vec{\mu}_1+ \Sigma_{1,2}\Sigma_{2,2}^{-1}(\vec{y}-\vec{\mu}_2)\\
+\COV(\vec{x}|\vec{y}_*)&= \Sigma_{1,1}-\Sigma_{1,2}\Sigma_{2,2}^{-1}\Sigma_{2,1}\\
+\end{align*}
+\end{triangles}
+
+\middlefoil{Kalman filter\vspace*{1ex}\\ \textcolor{red}{\normalsize To be completed next year}}
+
+
+
+
+\end{document}
+
+
+
+\foilhead[-1cm]{Reduction to the previous building blocks}
+
+The problem simplifies when we know the vector of hidden states $\vec{x}$: 
+\begin{triangles}
+\item Inference of emission probabilities $\delta[\ldots]$ reduce to dice throwing.
+\item Inference of the chain parameters $\alpha[\ldots]$ and $\beta[\ldots]$ is also possible.
+\end{triangles}
+\vspace*{2ex}
+
+We can use Viterbi algorithm for finding the most probable hidden state $\vec{x}$ is easy if all parameters are known.
+\vspace*{2ex}
+
+
+\textbf{Naive inference algorithm:} Fix random parameters and repeat steps:
+\begin{triangles}
+\item Given parameters $\alpha, \beta, \delta$  learn the most probable hidden state $\vec{x}$.
+\item Given the most probable hidden state $\vec{x}$ learn model parameters $\alpha, \beta, \delta$.
+\end{triangles}
+\vspace*{2ex}
+This algorithm overfits as all hidden states can have similar probability. 
+
+
+
+
+\foilhead[-1cm]{Going beyond naive Bayesian models}
+\illustration[scale=0.8]{bayesian-network}
+
+Complex causal models are often defined through Bayesian networks
+\begin{triangles}
+\item A complex processes is first split into sub-events
+\item Direct causal dependencies between sub-events are detected
+\item Causation mechanisms are characterised with probability tables
+\end{triangles} 
+  
+\foilhead[-1cm]{Strength and weaknesses of Bayesian networks}
+
+\textbf{Strengths}
+\begin{triangles}
+\item Bayesian networks are easy to interpret
+\item Bayesian networks are good for formalising fuzzy background knowledge
+\item Estimation of individual probability tables is tractable
+\item There are tools for doing inference with Bayesian networks  
+\end{triangles}
+\vspace*{1cm}
+
+\textbf{Weaknesses}
+\begin{triangles}
+\item You must know the causal structure of sub-events  
+\item Identification of causal structure form data alone is very difficult
+\item It is notoriously difficult to model non-trivial causal dependencies
+\item Standard inference procedures often do not have closed solutions 
+\end{triangles}
+
+
+
+%----
+
+
+\foilhead[-0cm]{Model behind naive Bayes classifier}
+
+%\illustration[scale=0.8]{naive-bayes-scheme}
+
+Underlying class value determines observed attributes 
+\begin{triangles}
+\item Each attribute $X_i$ is binary 
+\item All variables are independent if class is fixed
+\item Sometimes we just ignore dependancies for easier modelling
+\end{triangles}
+
+\foilhead[-0cm]{Likelihood of the data}
+
+Let us assume that we know the probabilities
+\begin{align*}
+p_i&=\pr{X_i=1|Class=0}\\
+q_i&=\pr{X_i=1|Class=1}
+\end{align*}
+Then using the independence assumption we get
+\begin{align*}
+\pr{X_1=a_1,\ldots,X_n=a_n|Class=0}&=\prod_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\\
+\pr{X_1=a_1,\ldots,X_n=a_n|Class=1}&=\prod_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}
+\end{align*}
+
+\foilhead[-1cm]{Prior and posterior for the class labels}
+
+\enlargethispage{1.5cm}
+Now it is straightforward to derive
+\begin{align*}
+\pr{Class=0|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\cdot\pr{Class=0}}{\pr{\vec{X}=\vec{a}}}\\
+\pr{Class=1|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}\cdot\pr{Class=1}}{\pr{\vec{X}=\vec{a}}}
+\end{align*}
+which gives an \emph{odd ratio} 
+\begin{align*}
+\frac{\pr{Class=0|\vec{X}=\vec{a}}}{\pr{Class=1|\vec{X}=\vec{a}}}&=\frac{\pr{Class=0}}{\pr{Class=1}}\cdot\frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}}{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}}
+\end{align*} 
+ 
+\foilhead[-1cm]{The resulting classifier is a linear classifer}
+ 
+By taking logarithm form the odd ratio we get
+\begin{align*}
+\log\left(\frac{\pr{Class=0|\vec{X}=\vec{a}}}{\pr{Class=1|\vec{X}=\vec{a}}}\right)&= w_0+\sum_{i=1}^n w_ia_i
+\end{align*} 
+where 
+\begin{align*}
+w_0&=\log\left(\frac{\pr{Class=0}}{\pr{Class=1}}\right)+\sum_{i=1}^n\log\left(\frac{1-p_i}{1-q_i}\right)\\
+w_i&=\log \left(\frac{p_i}{1-p_i}\cdot\frac{1-q_i}{q_i}\right) 
+\end{align*}
+
+\foilhead[-1cm]{How to train the classifier?}
+A frequentistic approach is to fix probabilities from the training sample
+\begin{align*}
+p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}}{\#\set{\text{data points form class 0}}}\\
+q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}}{\#\set{\text{data points form class 1}}}
+\end{align*}
+However if some value does not occur for $X_i$ in the training sample we get overly confident results. Thus, Bayesian mean estimate is better alternative  
+\begin{align*}
+p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}+1}{\#\set{\text{data points form class 0}}+2}\\
+q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}+1}{\#\set{\text{data points form class 1}}+2}
+\end{align*}
+
+\end{document}
+
+
