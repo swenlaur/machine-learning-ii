@@ -209,7 +209,7 @@ The latter is the standard multivariate linear regression setup. The variance of
 \foilhead[-1cm]{Hidden Markov Model}
 
 
-\illustration[scale=1.0]{hidden-markov-model}
+\illustration[scale=1.0]{continuous-hidden-markov-model}
 
 \textbf{Sensor fusion problem}
 
@@ -219,29 +219,28 @@ The latter is the standard multivariate linear regression setup. The variance of
 \item Physical system has an hidden state $\vec{x}\in\RR^n$.
 \item Physical system evolves linearly $\vec{x}_{i+1}=A\vec{x}_i+\vec{w}_i$.
 \item Measurements are linear from the state $\vec{y}_{i}=C\vec{x}_i+\vec{v}_i$.
+\item Distribution of error terms $\vec{v}_i$ and $\vec{w}_i$ is known.  
+\item Error terms $\vec{v}_i$ and $\vec{w}_i$ are independently drawn.
 \end{triangles}
-\vspace*{1cm}
 
 \foilhead[-1cm]{Belief propagation for continous distibutions}
 
-\illustration[scale=1.0]{hidden-markov-model}
+\illustration[scale=1.0]{continuous-hidden-markov-model}
 
-\begin{triangles}
-\item Continuous distributions are rarely compatible with belief propagation.
+Continuous distributions are rarely compatible with belief propagation
 \begin{align*}
 \pi_{X_i}(\vec{x}_i)
 &\propto \int_{\vec{x}_{i-1}} \alpha[\vec{x}_{i-1}, \vec{x}_i]\cdot\lambda_{i-1}^*(\vec{x}_{i-1})\cdot \pi_{X_{i-1}}(\vec{x}_{i-1})d\vec{x}_{i-1}\\
 \lambda_{X_i}(x_i)
 &\propto \int_{\vec{x}_{i+1}} \alpha[\vec{x}_{i}, \vec{x}_{i+1}]\cdot\lambda_{i}^*(\vec{x}_{i})\cdot\lambda_{X_{i+1}}(\vec{x}_{i+1})\ d\vec{x}_{i+1}
 \end{align*}
-\item Family of normal distributions is compatible with belief propagation.
+but normal distributions form a rare exception.
  
-\end{triangles}
 
 
 \foilhead[-1cm]{Kalman filter}
 
-\illustration[scale=1.0]{hidden-markov-model}
+\illustration[scale=1.0]{continuous-hidden-markov-model}
 
 Belief propagation becomes tractable under following assumptions:
 \begin{triangles}
@@ -251,9 +250,6 @@ Belief propagation becomes tractable under following assumptions:
 \item Quantities $\vec{x}_0, \vec{v}_i, \vec{w}_i$ are assumed to be independent.
 \item All normal distributions can have complex correlation structure.
 \end{triangles}
-
-
-\foilhead[-1cm]{Image synthesis}
 
 
 
