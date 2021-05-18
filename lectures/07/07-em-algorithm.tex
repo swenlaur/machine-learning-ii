@@ -4,7 +4,7 @@
 \usepackage{graphics}
 \usepackage[pdftex]{graphicx} 
 \usepackage{soul}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage[normalem]{ulem}
 
 
@@ -359,6 +359,37 @@ Hence, we can solve the optimisation task
 P(\vec{\Theta})=\sum_{\vec{z}}\pd{\vec{x}_1,\ldots,\vec{x}_n,\vec{z}|\vec{\Theta}}\to\max 
 \end{align*}
 
+\foilhead[-1cm]{Roadmap revisited}
+
+\hspace*{-0.3cm}
+\begin{tabular}{|l|c|c|}
+\hline
+& Hard clustering & Soft clustering\\
+\hline
+Maximisation goal \rule[-0.75cm]{0cm}{2cm}
+& $\pd{\vec{x}_1,\ldots,\vec{x}_n|\textcolor{red}{\vec{z}},\vec{\Theta}}$
+& \cellcolor{green!25}
+$\pd{\vec{\Theta}}\cdot
+  \sum\limits_{\textcolor{red}{\vec{z}}}\pd{\vec{x}_1,\ldots,\vec{x}_n,\textcolor{red}{\vec{z}}|\vec{\Theta}}$\\
+\hline
+Optimisation method \rule[-0.75cm]{0cm}{2cm}\hspace*{-1cm}
+& \multicolumn{2}{|c|}{\cellcolor{red!25} Two-step maximisation algorithm}\\
+\hline
+Tactical objective\rule[-0.75cm]{0cm}{2cm}
+& $F(\textcolor{red}{\vec{z}},\vec{\Theta})$
+&  \cellcolor{red!25} $F(\textcolor{red}{q},\vec{\Theta})$\\
+\hline
+Mixture proportions \rule[-0.75cm]{0cm}{2cm}
+& Ignored by design
+&  \cellcolor{green!25} Core of the model\\
+\hline 
+Cluster labels \rule[-0.75cm]{0cm}{2cm}
+& Search goal
+&  \cellcolor{green!25} Integrated out\\
+\hline 
+\end{tabular}
+
+
 \foilhead[-1cm]{Decomposition into individual draws}
 The maximisation task is hard, since $P(\vec{\Theta})$ has no nice form 
 \begin{align*}
@@ -443,6 +474,37 @@ F(\vec{q},\vec{\Theta})&= \sum_{\vec{z}}q(\vec{z})\cdot\log\left(\frac{\pd{\vec{
 &= \sum_{\vec{z}}q(\vec{z})\cdot\log\left(\pd{\vec{\Theta}|\vec{x}_1,\ldots,\vec{x}_n}\right)\\
 &= \colorbox{orange}{$\log\left(\pd{\vec{\Theta}|\vec{x}_1,\ldots,\vec{x}_n}\right)$}
 \end{align*}
+
+
+\foilhead[-1cm]{Roadmap completed}
+
+\hspace*{-0.3cm}
+\begin{tabular}{|l|c|c|}
+\hline
+& Hard clustering & Soft clustering\\
+\hline
+Maximisation goal \rule[-0.75cm]{0cm}{2cm}
+& $\pd{\vec{x}_1,\ldots,\vec{x}_n|\textcolor{red}{\vec{z}},\vec{\Theta}}$
+& \cellcolor{green!25}
+$\pd{\vec{\Theta}}\cdot
+  \sum\limits_{\textcolor{red}{\vec{z}}}\pd{\vec{x}_1,\ldots,\vec{x}_n,\textcolor{red}{\vec{z}}|\vec{\Theta}}$\\
+\hline
+Optimisation method \rule[-0.75cm]{0cm}{2cm}\hspace*{-1cm}
+& \multicolumn{2}{|c|}{\cellcolor{green!25} Two-step maximisation algorithm}\\
+\hline
+Tactical objective\rule[-0.75cm]{0cm}{2cm}
+& $F(\textcolor{red}{\vec{z}},\vec{\Theta})$
+&  \cellcolor{green!25} $F(\textcolor{red}{q},\vec{\Theta})$\\
+\hline
+Mixture proportions \rule[-0.75cm]{0cm}{2cm}
+& Ignored by design
+&  \cellcolor{green!25} Core of the model\\
+\hline 
+Cluster labels \rule[-0.75cm]{0cm}{2cm}
+& Search goal
+&  \cellcolor{green!25} Integrated out\\
+\hline 
+\end{tabular}
 
 
 \foilhead[-1cm]{Connection with the hard-clustering algorithm}
