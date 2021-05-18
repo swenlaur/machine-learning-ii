@@ -37,6 +37,36 @@
 \begin{document}
 \titlefoil
 
+\foilhead[-1cm]{Hard clustering versus soft clustering}
+
+\hspace*{-0.3cm}
+\begin{tabular}{|l|c|c|}
+\hline
+& Hard clustering & Soft clustering\\
+\hline
+Maximisation goal \rule[-0.75cm]{0cm}{2cm}
+& $\pd{\vec{x}_1,\ldots,\vec{x}_n|\textcolor{red}{\vec{z}},\vec{\Theta}}$
+& $\pd{\vec{\Theta}}\cdot
+  \sum\limits_{\textcolor{red}{\vec{z}}}\pd{\vec{x}_1,\ldots,\vec{x}_n,\textcolor{red}{\vec{z}}|\vec{\Theta}}$\\
+\hline
+Optimisation method \rule[-0.75cm]{0cm}{2cm}\hspace*{-1cm}
+& \multicolumn{2}{|c|}{Two-step maximisation algorithm}\\
+\hline
+Tactical objective\rule[-0.75cm]{0cm}{2cm}
+& $F(\textcolor{red}{\vec{z}},\vec{\Theta})$
+& $F(\textcolor{red}{q},\vec{\Theta})$\\
+\hline
+Mixture proportions \rule[-0.75cm]{0cm}{2cm}
+& Ignored by design
+& Core of the model\\
+\hline 
+Cluster labels \rule[-0.75cm]{0cm}{2cm}
+& Search goal
+& Integrated out\\
+\hline 
+\end{tabular}
+
+
 \foilhead[-1cm]{Quick recap of hard clustering}
 
 %\enlargethispage{1cm}
