@@ -1,6 +1,6 @@
 # Machine Learning II
 
-This is a repository for [Machine Learning II course](https://courses.cs.ut.ee/2019/ml-ii/spring/Main/HomePage) held in [University of Tartu](https://www.cs.ut.ee/et) 
+This is a repository for [Machine Learning II course](https://courses.cs.ut.ee/2019/ml-ii/spring/Main/HomePage) held in [University of Tartu](https://www.cs.ut.ee/et)
 
 You are welcome to use materials elsewhere provided that you:
 
@@ -16,63 +16,93 @@ As the course will be held in Python you have two options:
 * Manage your Python installation by yourself
 * [Use binary package manager Anaconda for it](https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands)
 
-The following provides the shortest list of shell commands to set up necessary libraries. The list may change during the course.
+The following provides the shortest list of shell commands to set up necessary libraries.
+The list may change during the course.
 
 First, you have to set up a virtual environment for the course so that you do not destroy your current Python distribution and later on changes in your current Python distribution do not create random incompatibilities with libraries needed for machine learning course:
 
 ```
-conda create --name machine-learning python=3.6
+conda create --name machine-learning python=3.8
 ```
 
 Next, you have to install a lot of libraries to get a lift-off:
 
 ```
+# Minimal environment for data analysis
 conda install -n machine-learning jupyter
+conda install -n machine-learning tqdm
 conda install -n machine-learning pandas
+conda install -n machine-learning scipy
+conda install -n machine-learning scikit-learn
+
+# Various visualisation packages
 conda install -n machine-learning matplotlib
-conda install -n machine-learning seaborn
 conda install -n machine-learning -c conda-forge plotnine
 conda install -n machine-learning mizani
-conda install -n machine-learning scipy
+conda install -n machine-learning seaborn
+conda install -n machine-learning -c conda-forge ipyvolume
 
+# Interfaces for databases and web resources
 conda install -n machine-learning psycopg2
 conda install -n machine-learning pandas-datareader
 
-conda install -n machine-learning scikit-learn
-conda install -n machine-learning tensorflow
-conda install -n machine-learning -c conda-forge tensorflow-probability
-conda install -n machine-learning keras
-
-conda install tqdm -n machine-learning
-
+# Task specific packages
 conda install -n machine-learning sympy
-
-conda install -n machine-learning -c conda-forge ipyvolume
-conda install -n machine-learning ipywidgets
 conda install -n machine-learning -c conda-forge editdistance
 conda install -n machine-learning -c etetoolkit ete3
 ```
 
-First four packages set up a minimal environment for data analysis and visualisation.
-The second block sets up packages needed for more complex input-output pipelines: databases and websources.
-The third block contains libraries for various machine learning methods.
-The fourth block contains various utility packages.
+### Optional neural networks packages
 
-If tensorflow does not work out of the box do the following steps
+Neural networks are not essential in this course but the following allows you to set up most relevant packages:
+
+```
+conda install -n machine-learning tensorflow
+conda install -n machine-learning -c conda-forge tensorflow-probability
+conda install -n machine-learning keras
+```
+
+If tensorflow does not work out of the box do the following steps:
+
 ```
 conda activate machine-learning
 pip install --ignore-installed --upgrade tensorflow
 pip install --ignore-installed --upgrade tensorflow-probability
 ```
 
-
-
-If you feel advantageous you can also install TensorFlow GPU library. In my environment I had to do it manually as Anaconda did not provide a binary package for it:
+If you feel advantageous you can also install TensorFlow GPU library.
+In my environment I had to do it manually as Anaconda did not provide a binary package for it:
 
 ```
 conda activate machine-learning
 pip install tensorflow-gpu
 ```
+
+
+If you work on Apple silicon then the pip setup is slightly different, see [MakeOptim's tutorial](https://makeoptim.com/en/deep-learning/tensorflow-metal).
+For some odd reason the necessary package `tensorflow-deps` is not available in `miniconda` and you have to use a [`miniforge` fork](https://github.com/conda-forge/miniforge) instead.
+This alters your `.zshrc` file and renders `miniconda` distribution unreachable by redefining `PATH` variable.
+By setting path differently you can switch between distributions if you really need it.
+
+After that you have to recreate the environment and then add tensorflow.
+
+```
+conda install -n machine-learning -c apple tensorflow-deps
+
+conda activate machine-learning
+python -m pip install tensorflow-macos
+python -m pip install tensorflow-metal
+conda install -n machine-learning -c conda-forge tensorflow-probability
+```
+
+Note that setup automatically sets up GPU for evaluating and training of neural networks.
+Further details can be found    
+
+
+### Optional packages for Markov-Chain-Monte-Carlo methods
+
+To be updated, see https://github.com/Gabriel-p/pythonMCMC for large list of packages
+
 
 ## Using the environment
 
@@ -82,16 +112,16 @@ The simplest way to use it is through a command line
 conda activate machine-learning
 jupyter notebook
 conda deactivate
-``` 
- 
-The first command activates `machine-learning` environment. 
+```
+
+The first command activates `machine-learning` environment.
 The second command launches [Jupyter](https://jupyter.org) shell in your web browser window and the last command deactivates the environment after you have finished with Jupyter. If you do not want to think about it you can package it as a bash script.
 
 ## How to use Jupyter
 
 Jupyter is a cell-based computational environment for data scripting and explorative programming. It helps if you know:
 
-* [The cheat sheet](https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/) 
+* [The cheat sheet](https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/)
 * [Magic commands for code completion](https://forums.fast.ai/t/jupyter-notebook-how-to-enable-intellisense/8636)  
 
 ## How not to delete your local changes!
