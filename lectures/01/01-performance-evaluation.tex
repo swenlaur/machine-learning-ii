@@ -22,6 +22,7 @@
 \newcommand{\bigvskip}{\vskip 2em}
 \newcommand{\lastline}{\vspace*{-2ex}}
 \newcommand{\spreadappart}{\vspace*{\fill}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\conf}{conf}
@@ -34,6 +35,15 @@
 \begin{document}
 \titlefoil
 
+\foilhead[-1.0cm]{Is this a good model?}
+\illustration[scale=0.6, trim = 0cm 0cm 0cm 0cm, clip]{example-problem}
+
+\vspace*{3ex}
+\begin{triangles}
+\item What should I measure?
+\item How reliable is the measurement?
+\item How do I compare different models? 
+\end{triangles}
 
 \foilhead[-1cm]{Why do we estimate performance?}
 
@@ -65,7 +75,6 @@
 
 \end{triangles}
 
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Short list of goodness measures}
@@ -85,7 +94,6 @@ Some goodness measures for regression
 \item Trimmed mean square and absolute error estimates  
 \end{triangles}
 
-\foilhead[-1cm]{}
 
 
 
@@ -93,11 +101,9 @@ Some goodness measures for regression
 \enlargethispage{1cm}
 \illustration[scale=0.8]{convergence-small}
 \vspace*{-0.0cm}
-$\triangleright$  depends on data and a target function\\
-$\triangleright$  depends on the size of training data and method itself
+$\triangleright$  Depends on data and a target function\\
+$\triangleright$  Depends on the size of training data and method itself
 
-
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{How to estimate performance in the future}
@@ -121,7 +127,6 @@ For any prediction algorithm we can find its expected goodness in the future.
 \end{triangles} 
 \bigskip
 
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Are these assumptions satisfied in practice?}
@@ -163,7 +168,6 @@ For any prediction algorithm we can find its expected goodness in the future.
 \item $L:\YYY\times\YYY\to\RRR$ --  the cost of using prediction $\hat{y}$ instead of $y$
 \end{triangles}
  
-\foilhead[-1cm]{}
 
  
 \foilhead[-1cm]{Theoretical formulation}
@@ -274,10 +278,6 @@ for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))
 \bigskip
 
 
-\foilhead[-1cm]{}
-
-\foilhead[-1cm]{}
-
 
 \foilhead[-1cm]{What does the convergence speed mean}
 
@@ -291,8 +291,6 @@ The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsi
 \begin{triangles}
 \item To increase precision $10$ times you need $100$ times more samples!
 \end{triangles}
-
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Why do we need a test set at all}
@@ -316,9 +314,6 @@ The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsi
 \item Clearly the risk of both rules $R(f_0)=R(f_1)=0.5$.
 \item The risk of of our learning algorithm $R(f)$ is also $0.5$. 
 \end{triangles}
-
-
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Simulation outcomes for other methods}
@@ -442,8 +437,6 @@ This idea yields a generic crossvalidation scheme
 \item Visualise results and compute confidence intervals for estimates if needed. 
 \end{enumerate}
 
-\foilhead[-1cm]{}
-
 
 \foilhead[-1cm]{What does crossvalidation measure?}
 
@@ -474,7 +467,6 @@ To estimate the performance of a classifier $f$ trained on the entire data:
 \item Quite often these effects are quite small in practice. 
 \end{triangles}
 
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Theoretical explanation}
@@ -506,7 +498,6 @@ where
 \item This must be accounted in the estimates of optimism and test error. 
 \end{triangles}
 
-\foilhead[-1cm]{}
 
 
 \foilhead[-1cm]{Theoretical explanation}
