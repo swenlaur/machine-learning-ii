@@ -32,9 +32,43 @@
 \begin{document}
 \titlefoil
 
+\foilhead[-1.5cm]{Why there are no self-driving cars?}
+\illustration[scale=0.8, trim = 3cm 15.5cm 2.5cm 2cm, clip]{scalability-problem}
+
+\begin{triangles}
+\item Gathered data,  Background knowledge
+\item Computational resources, Learning algorithms
+\item Uncanny valley, Public perception
+\end{triangles}
+\enlargethispage{1cm}
+
+
 \foilhead[-1.5cm]{What is this course about?}
 \enlargethispage{1cm}
 \illustration[scale=1.1]{course-placement}
+
+\foilhead[-1.5cm]{Course plan}
+\enlargethispage{1cm}
+\begin{small}
+\begin{triangles}
+\item \textbf{Performance evaluation}\\ $\rightsquigarrow$ absolute risk, relative risk, CLT, crossvalidation, bootstrap 
+\item \textbf{Probabilistic modelling}\\ $\rightsquigarrow$ 
+frequentism, bayesianism, statistical tests, confidence intervals 
+\item \textbf{Sequence models}\\ $\rightsquigarrow$ 
+Markov chain, Hidden Markov Mode, belief propagation 
+\item \textbf{Multivariate normal distribution}\\ $\rightsquigarrow$
+Models behind linear regression and linear time series analysis   
+\item \textbf{Affine transformations}\\ $\rightsquigarrow$
+Blind Source Separation, PCA, LDA, ICA, NMF   
+\item \textbf{Model based clustering}\\ $\rightsquigarrow$
+Hierarchical clustering, k-means, gaussian mixture model  
+\item \textbf{Expectation-maximisation algorithm}\\ $\rightsquigarrow$
+weighted data, gaussian mixture model
+\item \textbf{Expectation-maximisation algorithm for sequential models}\\ $\rightsquigarrow$
+Hidden Markov Model, Kalman filter
+\end{triangles}
+\end{small}
+
 
 
 \foilhead[-1cm]{Four basic tasks in machine learning}
@@ -74,6 +108,26 @@ Usually no machine learning method works on real data without tweaking
  \item The method uses wrong features for its predictions 
 \end{triangles}
 
+
+\foilhead[-1cm]{Data gathering is programming}
+
+\textbf{How to increase volume}
+\begin{triangles}
+\item Self-labelled data vs manual labelling
+\item Symmetries and data augmentation
+\item Consistency and data augmentation
+\item Backgroung knowledge and data augmentation
+\end{triangles}
+\vspace*{3ex}
+
+\textbf{Software engineering practices}
+\begin{triangles}
+\item Version control $\rightsquigarrow$ Data and model versioning
+\item Code differences (blame) $\rightsquigarrow$ Model comparison
+\item Bugtracking $\rightsquigarrow$ Model diagnostics \& Abalation studies  
+\item Tests $\rightsquigarrow$  Dedicated testsets
+\item Automatic testing $\rightsquigarrow$ Robustness analysis and Advdersarial learning
+\end{triangles}
 
 \foilhead[-1cm]{Features are more important than method}
 
