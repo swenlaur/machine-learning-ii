@@ -38,6 +38,7 @@ conda install -n machine-learning scikit-learn
 # Various visualisation packages
 conda install -n machine-learning matplotlib
 conda install -n machine-learning -c conda-forge plotnine
+conda install -n machine-learning -c conda-forge scikit-misc
 conda install -n machine-learning mizani
 conda install -n machine-learning seaborn
 conda install -n machine-learning -c conda-forge ipyvolume
@@ -51,6 +52,11 @@ conda install -n machine-learning sympy
 conda install -n machine-learning -c conda-forge editdistance
 conda install -n machine-learning -c etetoolkit ete3
 ```
+
+As Apple Silicon is relatively new you might have to play with `pip install` to
+install some packages from other channels.
+For that you must first activate the environment and only the proceed with installation.
+See the discussion in the next section for further details.
 
 ### Optional neural networks packages
 

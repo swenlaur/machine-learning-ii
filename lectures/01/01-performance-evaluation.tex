@@ -95,6 +95,35 @@ Some goodness measures for regression
 \end{triangles}
 
 
+\foilhead[-1cm]{Accuracy as a function of trainingset size}
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_performance}
+\vspace{-3ex}
+\begin{triangles}
+\item Two models were trained on the MNIST dataset of handwritten digits
+\item Both test and training error where reported for various trainingset sizes
+\end{triangles}
+
+
+\foilhead[-1cm]{Accuracy depends on the test set}
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_performanceover_folds}
+\vspace{-3ex}
+\begin{triangles}
+\item The MNIST test set consits of 10000 samples 
+\item Accuracy for reduced test sets consisting of 1000 samples
+\end{triangles}
+
+\foilhead[-1cm]{Accuracy depends on the training set}
+
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_stability_match}
+\vspace{2ex}
+\begin{triangles}
+\item We trained two models on independently sampled training sets
+\item We measured the fraction of coinciding lables on the fixed test set
+\end{triangles}
+
 
 
 \foilhead[-1cm]{Performance}
@@ -290,6 +319,37 @@ for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))
 The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsilon^2)$. 
 \begin{triangles}
 \item To increase precision $10$ times you need $100$ times more samples!
+\end{triangles}
+
+\foilhead[-1cm]{Illustrative example}
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_performanceover_folds}
+\vspace{-3ex}
+\begin{triangles}
+\item Accuracy for 1000 element test sets
+\item Accuracy estimetes vary more that the increase in the accuracy
+\end{triangles}
+
+
+\foilhead[-1cm]{Absolute vs relative performace}
+
+Relative difference in accuracy can be measured more precisely.
+\begin{triangles}
+\item Make predictions $\hat{\vec{y}}_1$ and $\hat{\vec{y}}_2$ on unlabelled data.
+\item Find data points on which predictions differ $\mathcal{D}=\set{i: \hat{\vec{y}}_1[i]\neq \hat{\vec{y}}_2[i]}$.
+\item Estimate relative difference in accuracies $\Delta_\mathcal{D}$ on the set of differences $\mathcal{D}$.
+\item Estimate the relative size $p$ of $\mathcal{D}$ and rescale the difference:
+\begin{align*}
+A_1-A_2= p\cdot \Delta_\mathcal{D}\enspace.
+\end{align*}  
+\end{triangles}
+\vspace*{2ex}
+
+This formula is more precise as
+\begin{triangles}
+\item $p$ can be computed without knowing true labels,
+\item $\Delta_\mathcal{D}$ can be estimated by labelling 1000 random samples form $\mathcal{D}$,
+\item the bound $\abs{A_1-A_2}\leq p$ can be computed without knowing true labels.
 \end{triangles}
 
 
