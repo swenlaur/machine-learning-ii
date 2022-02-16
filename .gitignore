@@ -13,8 +13,16 @@ lectures/**/*.synctex.gz
 **/__pycache__/**
 **/.ipynb_checkpoints/**
 
+# Unfinished trials
+**/Untitled*.ipynb
+
 # Private directory for materials
 lectures/materials/
 
 # Ignore session transcripts
 practise-sessions/**/*_a.ipynb
+
+# Ignore specific files
+practise-sessions/01/tutorials/*.hdf5
+practise-sessions/01/tutorials/*.csv
+practise-sessions/01/tutorials/*.pdf
