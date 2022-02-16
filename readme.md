@@ -64,6 +64,7 @@ Neural networks are not essential in this course but the following allows you to
 
 ```
 conda install -n machine-learning tensorflow
+conda install -n machine-learning tensorflow-addons
 conda install -n machine-learning -c conda-forge tensorflow-probability
 conda install -n machine-learning keras
 ```
@@ -99,6 +100,8 @@ conda activate machine-learning
 python -m pip install tensorflow-macos
 python -m pip install tensorflow-metal
 conda install -n machine-learning -c conda-forge tensorflow-probability
+
+pip install -e git+https://github.com/tensorflow/addons#egg=tensorflow_addons
 ```
 
 Note that setup automatically sets up GPU for evaluating and training of neural networks.
