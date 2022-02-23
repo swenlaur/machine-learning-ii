@@ -6,6 +6,7 @@
 * Overfitting as model variability   
 * Pessimistic nature of holdout error
 * Optimism aka generalisation gap
+* Relative performance estimation on unlabelled data
 * Cross-validation with naive variance estimate
 * Various applications of cross-validation
 * Bootstrapping as an alternative to cross-validation
@@ -23,3 +24,4 @@ Home exercises are scattered between the files. Starred exercises cover interest
 * 08\_crossvalidation\_and\_hyper\_parameter\_selection.ipynb
 * 09\_bootstrapping\_methods.ipynb
 * 10\_optimism\_and\_coherence.ipynb
+* 11\_relative\_performance.ipynb
