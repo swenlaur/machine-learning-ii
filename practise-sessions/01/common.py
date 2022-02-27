@@ -33,6 +33,17 @@ def data_sampler(n:int, k:int,  f:callable) -> DataFrame:
             .assign(y = lambda df: df.apply(f, axis=1)))
 
 
+def regr_sampler(n: int) -> DataFrame:
+    """
+    Data generator that generates dataframe with columns x and y
+    
+    The data follows approximate rule y = x^2 + 0.5 with gaussian error term.
+    """
+    x = random.uniform(size = n)
+    y = x**2 + 0.5 + 0.1 * random.normal(size=n)
+    return DataFrame({'x': x, 'y': y})
+
+
 def empirical_risk(clf, X: DataFrame, y: Series) -> float:
     """
     Computes empirical risk for standard symmetrical loss function
