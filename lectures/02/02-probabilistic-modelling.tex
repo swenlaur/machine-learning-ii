@@ -26,6 +26,7 @@
 \DeclareMathOperator{\conf}{conf}
 \DeclareMathOperator{\precision}{precision}
 \DeclareMathOperator{\recall}{recall}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 
 \begin{document}
@@ -106,6 +107,17 @@ Events with small enough probability do not occur
 \end{triangles}
 
 \middlefoil{Frequentistic methods}
+
+\foilhead[-1cm]{Central question in statistical testing}
+
+\vspace*{1ex}
+\illustration[scale=1.1, trim=3cm 18cm 3cm 3cm, clip]{effect_signifficance_tradeoff}
+\vspace*{-2ex}
+The question is my observation relevant has two aspects
+\begin{triangles}
+\item Can we explain the difference by sheer luck? 
+\item Is the difference between expected and observed big enough?
+\end{triangles}
 
 \foilhead[-1cm]{Causation between zero-one events}
 
@@ -257,6 +269,19 @@ By increasing the length of the interval we increase the fraction of runs for wh
 \item We can use p-value adjustment methods are used to correct the issue.
 \end{triangles}  
 
+\foilhead[-1cm]{Bonferroni correction for tests}
+
+Assume that data is generated so that null hypotheses $\HHH_1,\ldots, \HHH_n$ hold.
+\begin{triangles}
+\item Then we can still reject some the tests due to bad luck.
+\item We can use really naive enough bound visualised below. 
+\end{triangles}  
+
+\vspace*{3ex}
+\illustration[scale=1.1, trim=3cm 18cm 4cm 3cm, clip]{union_bound}
+\vspace*{-2ex}
+
+
 
 \foilhead[-1cm]{Prediction intervals}
 
@@ -337,7 +362,6 @@ Estimate how probable is to achieve equal or higher accuracy than was observed o
 \item The test completely neglect the effect size, i.e., how much results differ.
 \item Statistical significance does not imply utility!      
 \end{triangles}  
-
 
 
 \middlefoil{Bayesian methods}
