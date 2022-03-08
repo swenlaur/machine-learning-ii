@@ -3,7 +3,8 @@
 \usepackage{crysymb}
 \usepackage{graphics}
 \usepackage[pdftex]{graphicx} 
-
+\usepackage[dvipsnames]{xcolor}
+\usepackage{soul}
 
 
 
@@ -189,6 +190,19 @@ Several p-value adjustment methods are used to correct the issue:
 \end{triangles}  
  
 
+\foilhead[-1cm]{Bonferroni correction for tests}
+
+Assume that data is generated so that null hypotheses $\HHH_1,\ldots, \HHH_n$ hold.
+\begin{triangles}
+\item Then we can still reject some the tests due to bad luck.
+\item We can use really naive enough bound visualised below. 
+\end{triangles}  
+
+\vspace*{3ex}
+\illustration[scale=1.1, trim=3cm 18cm 4cm 3cm, clip]{union_bound}
+\vspace*{-2ex}
+
+
 \foilhead[-1cm]{How to build confidence intervals}
  
 \textbf{I. Construct a family of statistical tests:}
@@ -269,17 +283,6 @@ By increasing the length of the interval we increase the fraction of runs for wh
 \item We can use p-value adjustment methods are used to correct the issue.
 \end{triangles}  
 
-\foilhead[-1cm]{Bonferroni correction for tests}
-
-Assume that data is generated so that null hypotheses $\HHH_1,\ldots, \HHH_n$ hold.
-\begin{triangles}
-\item Then we can still reject some the tests due to bad luck.
-\item We can use really naive enough bound visualised below. 
-\end{triangles}  
-
-\vspace*{3ex}
-\illustration[scale=1.1, trim=3cm 18cm 4cm 3cm, clip]{union_bound}
-\vspace*{-2ex}
 
 
 
@@ -447,7 +450,8 @@ p_1=\pr{D_i=1},\quad\ldots,\quad p_m=\pr{D_i=m}
 \begin{triangles}
 \item Let $B_i$ denote the event that $D_i=j$.
 \item Then $B_1,\ldots, B_n$ is a coinflipping sequence with bias $\pr{B_i=1}=p_j$.
-\item Non-informative prior for dice throwing goes to the non-informative prior.
+\setstcolor{red}
+\item \colorbox{black!20}{\st{Non-informative prior for dice throwing goes to the non-informative prior.}}
 \item Informative priors can be marginalised to the right format.
 \item The same reduction can be done for all faces of the dice.    
 \end{triangles} 
