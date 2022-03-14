@@ -14,6 +14,7 @@
 \newcommand{\linst}{University of Tartu}
 \graphicspath{{./illustrations/}}
 
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 \newcommand{\leqm}{\ \leq_m}
 
@@ -33,6 +34,10 @@
 \begin{document}
 \titlefoil
 
+
+\foilhead[-1cm]{How to write a good touchscreen keyboard?}
+
+\illustration[width=22cm]{word-prediction}
 
 \foilhead[-1cm]{Discrete random variables}
 
@@ -227,7 +232,37 @@ where
 \item $*$ is a wildcard symbol in the count queries
 \item $m$ is the number of  states and $c$ is a constant for Laplacian smoothing. 
 \end{triangles}
- 
+
+\foilhead[-1cm]{Why discrete Markov chains fail in practice?}
+\enlargethispage{0.5cm}
+\illustration[width=22cm, trim = 4cm 22.2cm 2cm 1.5cm, clip]{image-generation}
+
+The number of possible observation is to big already for $8\times 8$ patch:
+\begin{align*}
+256^{8\times 8}\times 256^{8}\times 2^{10} = 2^{8\times 8\times 8+ 8\times 8 +10}= 2^{586}
+\end{align*}
+$8\times 9$ pathces are needed to estimate probabilities within $\pm 3$ percent points.
+
+\foilhead[-1cm]{Two ways to build continious Markov chains}
+
+\begin{triangles}
+\item Replace a list of discrete states with continous variable.
+ \begin{diamonds}
+ \item We get $8\times 8$ input features and $8$ output features. 
+ \item We need 8 functions of type $f_i:\RR^{64}\to \RR$ to fix expectation.
+ \item We need 8 functions of type $g_i:\RR^{64}\to \RR$ to fix variance.
+ \item If we use linear functions then we need $8\times 65\times 2$ parameters.
+ \vspace{2ex} 
+ \end{diamonds}
+\item Embed discrete states into lower-dimensional feature space.
+ \begin{diamonds}
+ \item Ideally, these features are have semantical meaning.
+ \item In practice, features are fixed up to affine transformations. 
+ \item Thus, features do not have clear interpretation.   
+
+ \end{diamonds}  
+   
+\end{triangles}
 
  
 
