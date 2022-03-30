@@ -15,21 +15,17 @@
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.3cm,semithick]
                     
 
-\node[state, fill=SpringGreen, draw=blue, line width=2pt, minimum size=1cm] (X1) {$x_{i1}$};                   
-\node[state, fill=SpringGreen, draw=blue, line width=2pt, minimum size=1cm] (X2) [below of=X1] {$x_{i2}$};                   
-\node[state, fill=SpringGreen, draw=blue, line width=2pt, minimum size=1cm] (X3) [below of=X2] {$x_{i3}$};                   
+\node[state, fill=SpringGreen, draw=blue, line width=2pt, minimum size=1cm] (X1) {$X_{1}$};                   
+\node[state, fill=SpringGreen, draw=blue, line width=2pt, minimum size=1cm] (X2) [below of=X1] {$X_{2}$};                   
+\node[state, fill=SpringGreen, draw=blue, line width=2pt, minimum size=1cm] (X3) [below of=X2] {$X_{3}$};                   
 \node[state, fill=red, opacity = 0.3, draw opacity=1,  draw=red, line width=2pt, text opacity =1, minimum size=1cm] 
-(Y) [right = 3cm of X2] {$y_{i}$}       ;                   
+(Y) [right = 3cm of X2] {$Y$}       ;                   
 
 \path
 	(X1) edge node {} (Y)
 	(X2) edge node {} (Y)
 	(X3) edge node {} (Y)
 	;
-
-\node (A) [left = 2cm of X2] {$\cdots$};
-
-\node (B) [right = 2cm of Y] {$\cdots$};
 
 \end{tikzpicture}
 \end{center}

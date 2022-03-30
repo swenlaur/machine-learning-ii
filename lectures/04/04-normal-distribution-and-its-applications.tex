@@ -108,7 +108,7 @@ follows form the fact that areas of red and blue columns must be the same.
 \textbf{Linear regression models}
 \begin{triangles}
 \item We assume that $y_i$ depends only on the values of $x_{i1}, \ldots, x_{i\ell}$ 
-\item A linear model assumes $y_{i}=\beta_{1}x_{i1}+\cdots+ \beta_\ell x_{i\ell}+ \beta_{0}+\varepsilon_i$.
+\item A linear model assumes $y_{i}=w_{1}x_{i1}+\cdots+ w_\ell x_{i\ell}+ w_{0}+\varepsilon_i$.
 \item All error terms $\varepsilon_i$ are assumed to be independent.
 \item  All error terms $\varepsilon_i$ are drawn from a normal distribution $\mathcal{N}(0,\sigma)$.
 \end{triangles}
@@ -122,7 +122,7 @@ follows form the fact that areas of red and blue columns must be the same.
 \textbf{Time-series models}
 \begin{triangles}
 \item We assume that $x_{i+1}$ depends only on the values of $x_i, \ldots, x_{i-\ell}$ 
-\item A linear model assumes $x_{i+1}=\alpha_{0}x_i+\cdots+ \alpha_\ell x_{i-\ell}+ \alpha_{\ell+1}+\varepsilon_i$.
+\item A linear model assumes $x_{i+1}=w_0+w_{1}x_i+\cdots+ w_{\ell+1} x_{i-\ell}+\varepsilon_i$.
 \item All error terms $\varepsilon_i$ are assumed to be independent.
 \item  All error terms $\varepsilon_i$ are drawn from a normal distribution $\mathcal{N}(0,\sigma)$.
 \end{triangles}
@@ -178,6 +178,8 @@ The resulting solution is
 
 
 \foilhead[-1cm]{Linear time-series model}
+
+???
 
 \begin{triangles}
 \item Fix a set of initial inputs $x_{-\ell}, \ldots, x_{0}\in \RR$. Denote them by $\vec{x}_\circ$. 

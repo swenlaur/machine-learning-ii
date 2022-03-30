@@ -14,12 +14,12 @@
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
                     
 \node        (X0) {$\cdots$}; 
-\node[state] (X1) [right of=X0] {$x_{i-3}$}; 
-\node[state, fill=SpringGreen, draw=blue, line width=2pt] (X2) [right of=X1] {$x_{i-2}$};                   
-\node[state, fill=SpringGreen, draw=blue, line width=2pt] (X3) [right of=X2] {$x_{i-1}$};                   
-\node[state, fill=LimeGreen, draw=blue, line width=2pt] (X4) [right of=X3] {$\hspace{0.5em}x_{i}\hspace{0.5em}$};                   
+\node[state] (X1) [right of=X0] {$X_{i-3}$}; 
+\node[state, fill=SpringGreen, draw=blue, line width=2pt] (X2) [right of=X1] {$X_{i-2}$};                   
+\node[state, fill=SpringGreen, draw=blue, line width=2pt] (X3) [right of=X2] {$X_{i-1}$};                   
+\node[state, fill=LimeGreen, draw=blue, line width=2pt] (X4) [right of=X3] {$\hspace{0.5em}X_{i}\hspace{0.5em}$};                   
 \node[state] (X5) [right of=X4, fill=red, 
-opacity = 0.3, draw opacity=1,  draw=red, line width=2pt, text opacity =1] {$x_{i+1}$};                   
+opacity = 0.3, draw opacity=1,  draw=red, line width=2pt, text opacity =1] {$X_{i+1}$};                   
 \node        (X6) [right of=X5] {$\cdots$};                   
 
 \path
