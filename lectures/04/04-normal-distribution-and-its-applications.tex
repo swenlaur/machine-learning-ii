@@ -179,18 +179,16 @@ The resulting solution is
 
 \foilhead[-1cm]{Linear time-series model}
 
-???
-
 \begin{triangles}
 \item Fix a set of initial inputs $x_{-\ell}, \ldots, x_{0}\in \RR$. Denote them by $\vec{x}_\circ$. 
 \item Think of $x_{1},x_{2},\ldots, x_n$ as observations. Denote them by $\vec{x}$.  
 \item A probabilistic model for state transitions is defined as follows
 \begin{align*}
-  x_{i+1}=\underbrace{\alpha_0x_i+\ldots \alpha_\ell x_{i-\ell}+\alpha_{\ell+1}}_{\hat{x}_{i+1}}+\varepsilon_i,\qquad \varepsilon_i\sim\NNN(0,\sigma)
+  x_{i+1}=\underbrace{w_0 +w_1x_i+\ldots w_{\ell+1} x_{i-\ell}}_{\hat{x}_{i+1}}+\varepsilon_i,\qquad \varepsilon_i\sim\NNN(0,\sigma)
 \end{align*}
 \item Consequently 
 \begin{align*}
- p[\vec{x}|\vec{x}_\circ,\vec{\beta},\sigma]&=\prod_{i=1}^n\frac{1}{\sqrt{2\pi}
+ p[\vec{x}|\vec{x}_\circ,\vec{w},\sigma]&=\prod_{i=1}^n\frac{1}{\sqrt{2\pi}
     \sigma}\cdot\exp{-\frac{(x_i-\hat{x}_i)^2}{2\sigma^2}}
 \end{align*}
 \end{triangles}
@@ -198,13 +196,13 @@ The resulting solution is
 
  \foilhead[-1cm]{Maximum likelihood estimate}
 
-As usual we can find  $\vec{\alpha}\in \RR^{\ell+1}$ and $\sigma\in\RR$ that maximise the log-likelihood
+As usual we can find  $\vec{w}\in \RR^{\ell+2}$ and $\sigma\in\RR$ that maximise the log-likelihood
 \begin{align*}
 \log p[\vec{x}|\vec{x}_\circ,\vec{\beta},\sigma]&= const -n\log \sigma-\sum_{i=1}^n\frac{(x_i-\hat{x}_i)^2}{2\sigma^2}
 \end{align*}
-and thus we can find $\vec{\beta}$ by minimising 
+and thus we can find $\vec{w}$ by minimising 
 \begin{align*}
-\text{MSE}=\frac{1}{n}\cdot \sum_{i=1}^n(x_i-\alpha_0x_{i-1}+\ldots \alpha_\ell x_{i-1-\ell}+\alpha_{\ell+1})^2\enspace.
+\text{MSE}=\frac{1}{n}\cdot \sum_{i=1}^n(x_i-w_0-w_1x_{i-1}-\ldots- w_{\ell+1} x_{i-1-\ell})^2\enspace.
 \end{align*}
 
 The latter is the standard multivariate linear regression setup. The variance of the model $\sigma^2$ can be found by the same formula as for linear regression.
@@ -225,7 +223,7 @@ A small error in a point with big leverage can make linear regression function a
 
 \foilhead[-1cm]{Ridge regression}
 %\enlargethispage{1cm}
-Let us seek the prediction as a function $f(\vec{x})=\alpha_1x_1+\cdots+\alpha_kx_k$ with restriction $f(\vec{x})\leq c$ inside a unit ball $\norm{\vec{x}}_2^2=x_1^2+x_2^2+\cdots+x_k^2\leq 1$. 
+Let us seek the prediction as a function $f(\vec{x})=w_1x_1+\cdots+w_kx_k$ with restriction $f(\vec{x})\leq c$ inside a unit ball $\norm{\vec{x}}_2^2=x_1^2+x_2^2+\cdots+x_k^2\leq 1$. 
 
 \centerline{\includegraphics[scale=0.55]{ridge-constraint}}
 \vspace*{-2ex}
@@ -234,7 +232,7 @@ Let us seek the prediction as a function $f(\vec{x})=\alpha_1x_1+\cdots+\alpha_k
 Then we should solve the following task instead: \vspace*{-1.5ex}
 \begin{align*}
 &\frac{1}{N}\cdot\sum_{i=1}^N\bigl(y_i-f(\vec{x}_i)\bigr)^2\to \min\\
-&\text{s.t. } \alpha_1^2+\cdots+ \alpha_k^2\leq c
+&\text{s.t. } w_1^2+\cdots+ w_k^2\leq c^2
 \end{align*}
 
 
@@ -243,16 +241,16 @@ Then we should solve the following task instead: \vspace*{-1.5ex}
 \foilhead[-1cm]{LASSO regression}
 
 \enlargethispage{1cm}
-Let us seek the prediction as a function $f(\vec{x})=\alpha_1x_1+\cdots+\alpha_kx_k$ with restriction $f(\vec{x})\leq c$ inside a unit ball $\norm{\vec{x}}_\infty=\max\set{\abs{x_1},\ldots,\abs{x_k}}\leq 1$. 
+Let us seek the prediction as a function $f(\vec{x})=w_1x_1+\cdots+w_kx_k$ with restriction $f(\vec{x})\leq c$ inside a unit ball $\norm{\vec{x}}_\infty=\max\set{\abs{x_1},\ldots,\abs{x_k}}\leq 1$. 
 
 \centerline{\includegraphics[scale=0.55]{lasso-constraint}}
 \vspace*{-2ex}
 
 
-Then we should solve the following task instead: 
+Then we should solve the following task instead: \vspace*{-1.5ex}
 \begin{align*}
 &\frac{1}{N}\cdot\sum_{i=1}^N(y_i-f(\vec{x}_i))^2\to \min\\
-&\text{s.t. } \abs{\alpha_1}+\cdots+\abs{\alpha_k}\leq c
+&\text{s.t. } \abs{w_1}+\cdots+\abs{w_k}\leq c
 \end{align*}
 
 
