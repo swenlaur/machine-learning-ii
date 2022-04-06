@@ -32,17 +32,17 @@
 \node[state] (Y5) [above of=X5] {$Y_5$}; 
 	
 \path
-    (X0) edge node {$\vec{\alpha}(\cdot,\cdot)$}        (X1)  
-	(X1) edge node {$\vec{\alpha}(\cdot,\cdot)$} (X2)
-	(X2) edge node {$\vec{\alpha}(\cdot,\cdot)$} (X3)
-	(X3) edge node {$\vec{\alpha}(\cdot,\cdot)$} (X4)
-	(X4) edge node {$\vec{\alpha}(\cdot,\cdot)$} (X5);
+    (X0) edge  (X1)  
+	(X1) edge  (X2)
+	(X2) edge  (X3)
+	(X3) edge  (X4)
+	(X4) edge  (X5);
 \path	
-	(X1) edge node {$\vec{\delta}(\cdot,\cdot)$} (Y1)
-	(X2) edge node {$\vec{\delta}(\cdot,\cdot)$} (Y2)
-	(X3) edge node {$\vec{\delta}(\cdot,\cdot)$} (Y3)
-	(X4) edge node {$\vec{\delta}(\cdot,\cdot)$} (Y4)
-	(X5) edge node {$\vec{\delta}(\cdot,\cdot)$} (Y5);
+	(X1) edge  (Y1)
+	(X2) edge  (Y2)
+	(X3) edge  (Y3)
+	(X4) edge  (Y4)
+	(X5) edge  (Y5);
 \end{tikzpicture}
 \end{center}
 

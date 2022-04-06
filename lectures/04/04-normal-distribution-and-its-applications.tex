@@ -422,16 +422,92 @@ where $\Sigma^{-1}=A^{-T}A^{-1}$ is \emph{a positively definite symmetric matrix
 
 
 
-\middlefoil{Motivating examples\vspace*{1ex}\\ {\large Unsupervised learning}}
+\middlefoil{Important properties of\vspace*{1ex}\\ normal distributions}
+
+\foilhead[-1cm]{Closeness under marginalisation}
+
+Let $\vec{x}_{\III}=(x_i)_{i\in\III}$ be a subvector determined by the coordinate set $\III$.
+Then $\vec{x}_{\III}$ is distributed according to a multivariate normal distribution as long as 
+the vector $\vec{x}$ comes form a multivariate normal distribution $\NNN(\vec{\mu},\Sigma)$.
+
+\begin{triangles}
+\item Moment matching gives the parameters of the resulting distribution 
+\begin{align*}
+\EXP(\vec{x}_{\III})&= \EXP(\vec{x})_{\III}=\vec{\mu}_{\III} \\
+\COV(\vec{x}_{\III})&=\COV(\vec{x})_{\III\times \III}=\Sigma[\III, \III]
+\end{align*}
+\end{triangles}
+
+\foilhead[-1cm]{Closeness under linear combinations}
+
+Linear combination $y=\vec{\alpha}_1^T \vec{x}_1+\vec{\alpha}_2^T\vec{x}_2$ of independent multivariate normal distributions $\vec{x}_1\sim\NNN(\vec{\mu}_1,\Sigma_1)$ and $\vec{x}_2\sim\NNN(\vec{\mu}_2,\Sigma_2)$ is also  a multivariate normal distribution.
+
+\begin{triangles}
+\item Moment matching gives the parameters of the resulting distribution 
+\begin{align*}
+\EXP(y)&= \vec{\alpha}_1^T\EXP(\vec{x}_1)+\vec{\alpha}_2^T\EXP(\vec{x}_2)=
+\vec{\alpha}_1^T\vec{\mu}_1+\vec{\alpha}_2^T\vec{\mu}_2\\
+\VAR(y)&=\COV(\vec{\alpha}_1^T \vec{x}_1) + \COV(\vec{\alpha}_2^T \vec{x}_2)\\
+&=\vec{\alpha}_1^T \COV(\vec{x}_1)\vec{\alpha}_1+ \vec{\alpha}_2^T \COV(\vec{x}_2)\vec{\alpha}_2\\
+&=\vec{\alpha}_1^T \Sigma_1\vec{\alpha}_1+ \vec{\alpha}_2^T \Sigma_2\vec{\alpha}_2
+\end{align*}
+\item Closeness under linear combinations holds also for matrix combinations. 
+\end{triangles}
+
+\foilhead[-1cm]{Closeness under conditioning}
+
+Let $\vec{x}$ and $\vec{y}$ be related random variables. 
+Let $\vec{x}|\vec{y}_*$ denote the conditional distribution of $\vec{x}$ given that a random variable $\vec{y}$ has a fixed value $\vec{y}_*$.
+Then $\vec{x}|\vec{y}_*$ is distributed according to a multivariate normal distribution provided that 
+ $(\vec{x},\vec{y})$ comes form a multivariate normal distribution $\NNN((\vec{\mu}_i),(\Sigma_{ij}))$
+
+\begin{triangles}
+\item Moment matching gives the parameters of the resulting distribution 
+\begin{align*}
+\EXP(\vec{x}|\vec{y}_*)&= \vec{\mu}_1+ \Sigma_{1,2}\Sigma_{2,2}^{-1}(\vec{y}-\vec{\mu}_2)\\
+\COV(\vec{x}|\vec{y}_*)&= \Sigma_{1,1}-\Sigma_{1,2}\Sigma_{2,2}^{-1}\Sigma_{2,1}\\
+\end{align*}
+\end{triangles}
 
 
-\foilhead[-1cm]{Hidden Markov Model}
+\middlefoil{Motivating examples\vspace*{1ex}\\ {\large Filtering and smoothing}}
+
+\foilhead[-1cm]{Prediction intervals for time-series}
+
+\illustration{markov-chain}
+
+After we have fitted the linear regrssion model to timeseries data we might want to compute prediction intervals for iterative stepwise predictions.
+
+\begin{triangles}
+\item Let $\vec{x}_0$ be the known initial state and $\vec{x}_1, \ldots, \vec{x}_n$ iterative predictions.
+\item We need priors $\pi[\vec{x}_i]=p[\vec{x}_i|\vec{x}_0]$ to compute confidence intervals.
+\item It turns out that all priors $p[\vec{x}_i]$ are normal distributions.
+\item Moment matching allows us to learn the parameters of the distributions.
+\end{triangles}
+
+
+\foilhead[-1cm]{Smoothing and reverse Markov chain}
+
+\illustration{reverse-markov-chain}
+
+Sometimes we have to interpolate observations in the time series. This can be stated as amoothing task where we know $\vec{x}_0$ and $\vec{x}_n$.
+
+\begin{triangles}
+\item We need likelihoods $\lambda[\vec{x}_i]=p[\vec{x}_n|\vec{x}_i]$ for the smoothing.
+\item Likelihood propagation formula is analogous to the prior propagation.
+\item We can define a reverse Markov chain such that the prior $\pi^*[\vec{x}_i]\propto \lambda[\vec{x}_i]$. 
+\item The resulting chain has reversed dynamics. 
+\item It turns out that all likelihoods $\lambda[\vec{x}_i]$ are normal distributions.
+\item The posterior as product $\pi[\vec{x}_i]\cdot \lambda[\vec{x}_i]$ is also a normal distribution.
+\end{triangles}
+
+
+\foilhead[-1cm]{Sensor fusion with Hidden Markov Models}
 
 
 \illustration[scale=1.0]{continuous-hidden-markov-model}
 
-\textbf{Sensor fusion problem}
-
+A standard problem in robotics or machine perception is following.
 \begin{triangles}
 \item Several sensors measure a physical system
 \item Measurements are observable as $\vec{y}\in\RR^p$.
@@ -442,33 +518,33 @@ where $\Sigma^{-1}=A^{-T}A^{-1}$ is \emph{a positively definite symmetric matrix
 \item Error terms $\vec{v}_i$ and $\vec{w}_i$ are independently drawn.
 \end{triangles}
 
-\foilhead[-1cm]{Belief propagation for continous distibutions}
-
-\illustration[scale=1.0]{continuous-hidden-markov-model}
-
-Continuous distributions are rarely compatible with belief propagation
-\begin{align*}
-\pi_{X_i}(\vec{x}_i)
-&\propto \int_{\vec{x}_{i-1}} \alpha[\vec{x}_{i-1}, \vec{x}_i]\cdot\lambda_{i-1}^*(\vec{x}_{i-1})\cdot \pi_{X_{i-1}}(\vec{x}_{i-1})d\vec{x}_{i-1}\\
-\lambda_{X_i}(x_i)
-&\propto \int_{\vec{x}_{i+1}} \alpha[\vec{x}_{i}, \vec{x}_{i+1}]\cdot\lambda_{i}^*(\vec{x}_{i})\cdot\lambda_{X_{i+1}}(\vec{x}_{i+1})\ d\vec{x}_{i+1}
-\end{align*}
-but normal distributions form a rare exception.
- 
-
-
 \foilhead[-1cm]{Kalman filter}
 
-\illustration[scale=1.0]{continuous-hidden-markov-model}
+\illustration[scale=1.0]{kalman-filter}
 
-Belief propagation becomes tractable under following assumptions:
+As before we can consider the prior and filter densities
+\begin{align*}
+\pi[\vec{x}_i]&=p[\vec{x}_i|\vec{y}_1,\ldots, \vec{y}_{i-1}]\\
+f[\vec{x}_i]&=p[\vec{x}_i|\vec{y}_1,\ldots, \vec{y}_{i}]\propto \pi[\vec{x}_i]\cdot p[\vec{y}_i|\vec{x}_i]
+\end{align*}
+A similar update logic assures that both distributions are normal distributions and that we can only compute the parameters of these normal distributions. 
+ 
+\foilhead[-1cm]{Smoothing and reverse Hidden Markov Model}
+
+\illustration[scale=1.0]{reverse-hidden-markov-model}
+
 \begin{triangles}
-\item Measurement noise $\vec{v}_t$ is modelled with a normal distribution.
-\item Unknown control signal $\vec{w}_i$ is modelled with a normal distribution.
-\item Unknown initial state $\vec{x}_0$ is modelled with a normal distribution.
-\item Quantities $\vec{x}_0, \vec{v}_i, \vec{w}_i$ are assumed to be independent.
-\item All normal distributions can have complex correlation structure.
+\item We need likelihoods $\lambda[\vec{x}_i]=p[\vec{y}_{i+1},\ldots, \vec{y_n}|\vec{x}_i]$ for the smoothing.
+\item Likelihood propagation formula is analogous to the prior propagation.
+\item We can define a reverse HMM such that the prior $\pi^*[\vec{x}_i]\propto \lambda[\vec{x}_i]$.
+\item The resulting HMM has reversed dynamics. 
+\item It turns out that all likelihoods $\lambda[\vec{x}_i]$ are normal distributions.
+\item The posterior as product $\pi[\vec{x}_i]\cdot \lambda[\vec{x}_i]\cdot p[\vec{y}_i|\vec{x}_i]$ is also a normal distribution.
 \end{triangles}
+
+
+\middlefoil{Motivating examples\vspace*{1ex}\\ {\large Markov fields}}
+
 
 
 
@@ -626,184 +702,7 @@ p[\vec{x}|\vec{\mu},\Sigma]\propto\frac{1}{\sqrt{\det\Sigma}}\cdot\exp{-\frac{1}
 \end{align*}
 
 
-\middlefoil{Important properties of\vspace*{1ex}\\ normal distributions}
-
-\foilhead[-1cm]{Closeness under marginalisation}
-
-Let $\vec{x}_{\III}=(x_i)_{i\in\III}$ be a subvector determined by the coordinate set $\III$.
-Then $\vec{x}_{\III}$ is distributed according to a multivariate normal distribution as long as 
-the vector $\vec{x}$ comes form a multivariate normal distribution $\NNN(\vec{\mu},\Sigma)$.
-
-\begin{triangles}
-\item Moment matching gives the parameters of the resulting distribution 
-\begin{align*}
-\EXP(\vec{x}_{\III})&= \EXP(\vec{x})_{\III}=\vec{\mu}_{\III} \\
-\COV(\vec{x}_{\III})&=\COV(\vec{x})_{\III\times \III}=\Sigma[\III, \III]
-\end{align*}
-\end{triangles}
-
-\foilhead[-1cm]{Closeness under linear combinations}
-
-Linear combination $y=\vec{\alpha}_1^T \vec{x}_1+\vec{\alpha}_2^T\vec{x}_2$ of independent multivariate normal distributions $\vec{x}_1\sim\NNN(\vec{\mu}_1,\Sigma_1)$ and $\vec{x}_2\sim\NNN(\vec{\mu}_2,\Sigma_2)$ is also  a multivariate normal distribution.
-
-\begin{triangles}
-\item Moment matching gives the parameters of the resulting distribution 
-\begin{align*}
-\EXP(y)&= \vec{\alpha}_1^T\EXP(\vec{x}_1)+\vec{\alpha}_2^T\EXP(\vec{x}_2)=
-\vec{\alpha}_1^T\vec{\mu}_1+\vec{\alpha}_2^T\vec{\mu}_2\\
-\VAR(y)&=\COV(\vec{\alpha}_1^T \vec{x}_1) + \COV(\vec{\alpha}_2^T \vec{x}_2)\\
-&=\vec{\alpha}_1^T \COV(\vec{x}_1)\vec{\alpha}_1+ \vec{\alpha}_2^T \COV(\vec{x}_2)\vec{\alpha}_2\\
-&=\vec{\alpha}_1^T \Sigma_1\vec{\alpha}_1+ \vec{\alpha}_2^T \Sigma_2\vec{\alpha}_2
-\end{align*}
-\item Closeness under linear combinations holds also for matrix combinations. 
-\end{triangles}
-
-\foilhead[-1cm]{Closeness under conditioning}
-
-Let $\vec{x}$ and $\vec{y}$ be related random variables. 
-Let $\vec{x}|\vec{y}_*$ denote the conditional distribution of $\vec{x}$ given that a random variable $\vec{y}$ has a fixed value $\vec{y}_*$.
-Then $\vec{x}|\vec{y}_*$ is distributed according to a multivariate normal distribution provided that 
- $(\vec{x},\vec{y})$ comes form a multivariate normal distribution $\NNN((\vec{\mu}_i),(\Sigma_{ij}))$
-
-\begin{triangles}
-\item Moment matching gives the parameters of the resulting distribution 
-\begin{align*}
-\EXP(\vec{x}|\vec{y}_*)&= \vec{\mu}_1+ \Sigma_{1,2}\Sigma_{2,2}^{-1}(\vec{y}-\vec{\mu}_2)\\
-\COV(\vec{x}|\vec{y}_*)&= \Sigma_{1,1}-\Sigma_{1,2}\Sigma_{2,2}^{-1}\Sigma_{2,1}\\
-\end{align*}
-\end{triangles}
-
-\foilhead[-1cm]{Closeness under conditioning}
-
-
-\middlefoil{Kalman filter\vspace*{1ex}\\ \textcolor{red}{\normalsize To be completed next year}}
-
 
 
 
 \end{document}
-
-
-
-\foilhead[-1cm]{Reduction to the previous building blocks}
-
-The problem simplifies when we know the vector of hidden states $\vec{x}$: 
-\begin{triangles}
-\item Inference of emission probabilities $\delta[\ldots]$ reduce to dice throwing.
-\item Inference of the chain parameters $\alpha[\ldots]$ and $\beta[\ldots]$ is also possible.
-\end{triangles}
-\vspace*{2ex}
-
-We can use Viterbi algorithm for finding the most probable hidden state $\vec{x}$ is easy if all parameters are known.
-\vspace*{2ex}
-
-
-\textbf{Naive inference algorithm:} Fix random parameters and repeat steps:
-\begin{triangles}
-\item Given parameters $\alpha, \beta, \delta$  learn the most probable hidden state $\vec{x}$.
-\item Given the most probable hidden state $\vec{x}$ learn model parameters $\alpha, \beta, \delta$.
-\end{triangles}
-\vspace*{2ex}
-This algorithm overfits as all hidden states can have similar probability. 
-
-
-
-
-\foilhead[-1cm]{Going beyond naive Bayesian models}
-\illustration[scale=0.8]{bayesian-network}
-
-Complex causal models are often defined through Bayesian networks
-\begin{triangles}
-\item A complex processes is first split into sub-events
-\item Direct causal dependencies between sub-events are detected
-\item Causation mechanisms are characterised with probability tables
-\end{triangles} 
-  
-\foilhead[-1cm]{Strength and weaknesses of Bayesian networks}
-
-\textbf{Strengths}
-\begin{triangles}
-\item Bayesian networks are easy to interpret
-\item Bayesian networks are good for formalising fuzzy background knowledge
-\item Estimation of individual probability tables is tractable
-\item There are tools for doing inference with Bayesian networks  
-\end{triangles}
-\vspace*{1cm}
-
-\textbf{Weaknesses}
-\begin{triangles}
-\item You must know the causal structure of sub-events  
-\item Identification of causal structure form data alone is very difficult
-\item It is notoriously difficult to model non-trivial causal dependencies
-\item Standard inference procedures often do not have closed solutions 
-\end{triangles}
-
-
-
-%----
-
-
-\foilhead[-0cm]{Model behind naive Bayes classifier}
-
-%\illustration[scale=0.8]{naive-bayes-scheme}
-
-Underlying class value determines observed attributes 
-\begin{triangles}
-\item Each attribute $X_i$ is binary 
-\item All variables are independent if class is fixed
-\item Sometimes we just ignore dependancies for easier modelling
-\end{triangles}
-
-\foilhead[-0cm]{Likelihood of the data}
-
-Let us assume that we know the probabilities
-\begin{align*}
-p_i&=\pr{X_i=1|Class=0}\\
-q_i&=\pr{X_i=1|Class=1}
-\end{align*}
-Then using the independence assumption we get
-\begin{align*}
-\pr{X_1=a_1,\ldots,X_n=a_n|Class=0}&=\prod_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\\
-\pr{X_1=a_1,\ldots,X_n=a_n|Class=1}&=\prod_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}
-\end{align*}
-
-\foilhead[-1cm]{Prior and posterior for the class labels}
-
-\enlargethispage{1.5cm}
-Now it is straightforward to derive
-\begin{align*}
-\pr{Class=0|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\cdot\pr{Class=0}}{\pr{\vec{X}=\vec{a}}}\\
-\pr{Class=1|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}\cdot\pr{Class=1}}{\pr{\vec{X}=\vec{a}}}
-\end{align*}
-which gives an \emph{odd ratio} 
-\begin{align*}
-\frac{\pr{Class=0|\vec{X}=\vec{a}}}{\pr{Class=1|\vec{X}=\vec{a}}}&=\frac{\pr{Class=0}}{\pr{Class=1}}\cdot\frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}}{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}}
-\end{align*} 
- 
-\foilhead[-1cm]{The resulting classifier is a linear classifer}
- 
-By taking logarithm form the odd ratio we get
-\begin{align*}
-\log\left(\frac{\pr{Class=0|\vec{X}=\vec{a}}}{\pr{Class=1|\vec{X}=\vec{a}}}\right)&= w_0+\sum_{i=1}^n w_ia_i
-\end{align*} 
-where 
-\begin{align*}
-w_0&=\log\left(\frac{\pr{Class=0}}{\pr{Class=1}}\right)+\sum_{i=1}^n\log\left(\frac{1-p_i}{1-q_i}\right)\\
-w_i&=\log \left(\frac{p_i}{1-p_i}\cdot\frac{1-q_i}{q_i}\right) 
-\end{align*}
-
-\foilhead[-1cm]{How to train the classifier?}
-A frequentistic approach is to fix probabilities from the training sample
-\begin{align*}
-p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}}{\#\set{\text{data points form class 0}}}\\
-q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}}{\#\set{\text{data points form class 1}}}
-\end{align*}
-However if some value does not occur for $X_i$ in the training sample we get overly confident results. Thus, Bayesian mean estimate is better alternative  
-\begin{align*}
-p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}+1}{\#\set{\text{data points form class 0}}+2}\\
-q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}+1}{\#\set{\text{data points form class 1}}+2}
-\end{align*}
-
-\end{document}
-
-
