@@ -101,11 +101,21 @@ python -m pip install tensorflow-macos
 python -m pip install tensorflow-metal
 conda install -n machine-learning -c conda-forge tensorflow-probability
 
+python -m pip install tensorflow-addons
+```
+
+If `tensorflow_addons` does not install then as a last resource try installing from sources directly
+
+```
+pip install compilers
 pip install -e git+https://github.com/tensorflow/addons#egg=tensorflow_addons
 ```
 
+
 Note that setup automatically sets up GPU for evaluating and training of neural networks.
 Further details can be found    
+
+
 
 
 ### Optional packages for Markov-Chain-Monte-Carlo methods
