@@ -35,15 +35,192 @@
 \begin{document}
 \titlefoil
 
-\foilhead[-1.0cm]{Is this a good model?}
-\illustration[scale=0.6, trim = 0cm 0cm 0cm 0cm, clip]{example-problem}
+\foilhead[-0.5cm]{Can we quantify model performance at all?}
 
-\vspace*{3ex}
+\centerline{
+\includegraphics[height=4cm]{midjourney_01}\hspace*{0.5cm}
+\includegraphics[height=4cm]{midjourney_02}\hspace*{0.5cm}
+\includegraphics[height=4cm]{midjourney_03}\hspace*{0.5cm}
+}
+
+For some machine learning tasks there is no direct performance measure
 \begin{triangles}
-\item What should I measure?
-\item How reliable is the measurement?
-\item How do I compare different models? 
+\item speech synthesis
+\item conversational chat bots
+\item image and music generation tasks
 \end{triangles}
+\vspace*{1cm}
+
+For all of these tasks we can define many surrogate measures
+\begin{triangles}
+\item understandability and expressiveness of speech
+\item grammatical correctness and adherence of other implicit patterns  
+\end{triangles}   
+
+\foilhead[-1cm]{Short list of goodness measures}
+
+Some goodness measures for classification
+\begin{triangles}
+\item Accuracy -- the percentage of correctly classified observations
+\item Precision -- the percentage of correct labels among positive guesses 
+\item Recall -- the percentage of positive cases that are detected
+\end{triangles}
+\vspace*{1cm}
+
+Some goodness measures for regression
+\begin{triangles}
+\item Normalised mean square error
+\item Normalised mean absolute error
+\item Trimmed mean square and absolute error estimates  
+\end{triangles}
+
+
+\foilhead[-1.0cm]{Which model is better?}
+\illustration[scale=1.0, angle=0, trim = 0cm 0cm 0cm 0cm, clip]{accuracy_challenge}
+
+\begin{triangles}
+\item Method A outputs the correct label in 75\% cases on average
+\item Method B outputs the correct lable in 85\% cases on average
+\item Which method works significantly better on future data? 
+\end{triangles} 
+
+\foilhead[-1.0cm]{How to model future?}
+
+\illustration[scale=0.9, angle=0, trim = 0cm 0cm 0cm 0cm, clip]{future_modelling}
+
+
+\foilhead[-0.0cm]{Future holds only 100 prediction tasks}
+
+\illustration[scale=0.7, trim = 0cm 0cm 0cm 0cm, clip]{accuracy_challenge_100}
+
+Both methods are roughly equal although the accuracies are very different. 
+
+\foilhead[-0.0cm]{Future holds 10000 prediction tasks}
+
+\illustration[scale=0.7, trim = 0cm 0cm 0cm 0cm, clip]{accuracy_challenge_10000}
+
+The method B is clearly superior to the method A as expected. 
+
+\foilhead[-1.0cm]{Direct consequences}
+
+\begin{triangles}
+\item The performance of a method fluctuates over all possible futures
+\item The magnitude of fluctuations decreases with the sample size
+\item True performance is defined as a limit over the infinite sample
+\item A finite estimate will always fluctuate around the true performance
+\end{triangles}
+\vspace*{1.5cm}
+
+Finite number of new observations in the future means that
+\begin{triangles}
+\item certain performance differences are irrelevant
+\item the pursuit of optimal performance is pointless
+\end{triangles}
+
+\vspace*{2.0cm}
+\textbf{Simplifying assumption}
+\begin{triangles}
+\item We assume that the number of new observations is unbounded.
+\end{triangles}
+
+
+\foilhead[-0.0cm]{How much samples are needed?}
+
+\illustration[scale=0.65, trim = 0cm 0cm 0cm 0cm, clip]{sample_size_vs_precision}
+
+\begin{triangles}
+\item 9600 samples are needed to estimate accuracy with precision $1\%$
+\item If true accuracy $\geq$ 90\% then the number of samples drops to 3500
+\item Performance increments of size $0.1-0.5\%$ are relevant in practice
+\item This means test sets with sizes around $35,000-960,000$ 
+\end{triangles}
+
+
+\foilhead[-0.5cm]{Absolute vs relative performance}
+
+\illustration[scale=1.0, trim = 0cm 0.3cm 0cm 0cm, clip]{relative_accuracy}
+
+Relative difference in accuracy can be measured more precisely.
+\begin{triangles}
+\item Make predictions $\hat{\vec{y}}_A$ and $\hat{\vec{y}}_B$ on unlabelled data.
+\item Find data points on which predictions differ $\mathcal{D}=\set{i: \hat{\vec{y}}_A[i]\neq \hat{\vec{y}}_B[i]}$.
+\item Estimate relative difference in accuracies $\Delta_\mathcal{D}$ on the set of differences $\mathcal{D}$.
+\item Estimate the relative size $p_\mathcal{D}$ of $\mathcal{D}$ and rescale the difference:
+\begin{align*}
+\mathsf{accuracy}_A-\mathsf{accuracy}_B= p_\mathcal{D}\cdot \Delta_\mathcal{D}\enspace.
+\end{align*}  
+\end{triangles}
+
+\foilhead[-0.5cm]{Shortcuts for relative performance}
+
+\illustration[scale=1.0, trim = 0cm 0.3cm 0cm 0cm, clip]{relative_accuracy}
+
+The alternative formula $p_\mathcal{D}\cdot \Delta_\mathcal{D}$ is more approachable
+\begin{triangles}
+\item The proportion $p_\mathcal{D}$ can be computed without knowing true labels
+\item $\Delta_\mathcal{D}$ can be estimated by labelling 1000 random samples form $\mathcal{D}$
+\end{triangles}
+\vspace*{1cm}
+
+We can bound the relative difference without knowing true labels:
+\begin{align*}
+\abs{\mathsf{accuracy}_A-\mathsf{accuracy}_B}\leq p
+\end{align*}
+
+
+\foilhead[-1.0cm]{Data-bound learning tasks}
+\illustration[scale=1.1, trim = 0cm 0cm 0cm 0cm, clip]{data_bound_task}
+
+A learning task can be hard for following reasons:
+\begin{triangles}
+\item data bound -- there is not enough (labelled) data
+\item algorithm bound -- we do not have the right algorithm
+\item compute bound -- we cannot finalise optimisation
+\end{triangles}
+
+\foilhead[-1.0cm]{What is overfitting?}
+
+\illustration[scale=1.25, trim = 0cm 0cm 0cm 0cm, clip]{overfitting}
+
+\begin{triangles}
+\item Overfitting occurs when only the training performance decreases
+\item Overfitting = difference between training and limiting performance
+\item Overfitting is inevitable for stabilised models. The extent is important
+\end{triangles}
+
+
+
+
+\foilhead[-1cm]{Accuracy as a function of training set size}
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_performance}
+\vspace{-3ex}
+\begin{triangles}
+\item Two models were trained on the MNIST dataset of handwritten digits
+\item Both test and training error where reported for various training set sizes
+\end{triangles}
+
+
+\foilhead[-1cm]{Accuracy depends on the test set}
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_performanceover_folds}
+\vspace{-3ex}
+\begin{triangles}
+\item The MNIST test set consits of 10000 samples 
+\item Accuracy for reduced test sets consisting of 1000 samples
+\end{triangles}
+
+\foilhead[-1cm]{Accuracy depends on the training set}
+
+\enlargethispage{1cm}
+\illustration[scale=1.2]{perceptron_vs_conv_network_stability_match}
+\vspace{2ex}
+\begin{triangles}
+\item We trained two models on independently sampled training sets
+\item We measured the fraction of coinciding lables on the fixed test set
+\end{triangles}
+
+
 
 \foilhead[-1cm]{Why do we estimate performance?}
 
@@ -77,56 +254,7 @@
 
 
 
-\foilhead[-1cm]{Short list of goodness measures}
-
-Some goodness measures for classification
-\begin{triangles}
-\item Accuracy -- the percentage of correctly classified observations
-\item Precision -- the percentage of correct labels among positive guesses 
-\item Recall -- the percentage of positive cases that are detected
-\end{triangles}
-\vspace*{1cm}
-
-Some goodness measures for regression
-\begin{triangles}
-\item Normalised mean square error
-\item Normalised mean absolute error
-\item Trimmed mean square and absolute error estimates  
-\end{triangles}
-
-
-\foilhead[-1cm]{Accuracy as a function of trainingset size}
-\enlargethispage{1cm}
-\illustration[scale=1.2]{perceptron_vs_conv_network_performance}
-\vspace{-3ex}
-\begin{triangles}
-\item Two models were trained on the MNIST dataset of handwritten digits
-\item Both test and training error where reported for various trainingset sizes
-\end{triangles}
-
-
-\foilhead[-1cm]{Accuracy depends on the test set}
-\enlargethispage{1cm}
-\illustration[scale=1.2]{perceptron_vs_conv_network_performanceover_folds}
-\vspace{-3ex}
-\begin{triangles}
-\item The MNIST test set consits of 10000 samples 
-\item Accuracy for reduced test sets consisting of 1000 samples
-\end{triangles}
-
-\foilhead[-1cm]{Accuracy depends on the training set}
-
-\enlargethispage{1cm}
-\illustration[scale=1.2]{perceptron_vs_conv_network_stability_match}
-\vspace{2ex}
-\begin{triangles}
-\item We trained two models on independently sampled training sets
-\item We measured the fraction of coinciding lables on the fixed test set
-\end{triangles}
-
-
-
-\foilhead[-1cm]{Performance}
+\foilhead[-1cm]{Different methods vs typical learning tasks}
 \enlargethispage{1cm}
 \illustration[scale=0.8]{convergence-small}
 \vspace*{-0.0cm}
@@ -331,26 +459,6 @@ The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsi
 \end{triangles}
 
 
-\foilhead[-1cm]{Absolute vs relative performace}
-
-Relative difference in accuracy can be measured more precisely.
-\begin{triangles}
-\item Make predictions $\hat{\vec{y}}_1$ and $\hat{\vec{y}}_2$ on unlabelled data.
-\item Find data points on which predictions differ $\mathcal{D}=\set{i: \hat{\vec{y}}_1[i]\neq \hat{\vec{y}}_2[i]}$.
-\item Estimate relative difference in accuracies $\Delta_\mathcal{D}$ on the set of differences $\mathcal{D}$.
-\item Estimate the relative size $p$ of $\mathcal{D}$ and rescale the difference:
-\begin{align*}
-A_1-A_2= p\cdot \Delta_\mathcal{D}\enspace.
-\end{align*}  
-\end{triangles}
-\vspace*{2ex}
-
-This formula is more precise as
-\begin{triangles}
-\item $p$ can be computed without knowing true labels,
-\item $\Delta_\mathcal{D}$ can be estimated by labelling 1000 random samples form $\mathcal{D}$,
-\item the bound $\abs{A_1-A_2}\leq p$ can be computed without knowing true labels.
-\end{triangles}
 
 
 \foilhead[-1cm]{Why do we need a test set at all}
