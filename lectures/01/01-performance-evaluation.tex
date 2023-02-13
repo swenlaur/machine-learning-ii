@@ -9,7 +9,7 @@
 
 \newcommand{\lecture}{Performance evaluation}
 \newcommand{\lserie}{LTAT.02.004 Machine Learning II}
-\newcommand{\ldate}{9 February, 2021}
+\newcommand{\ldate}{14 February, 2022}
 \newcommand{\lauthor}{Sven Laur}
 \newcommand{\linst}{University of Tartu}
 \graphicspath{{./illustrations/}}
@@ -403,19 +403,6 @@ S=\sqrt{N}\Biggl(\frac{1}{N}\cdot \sum_{i=1}^N z_i -\mu\Biggr)
 \end{align*}
 converges \emph{in distribution} to normal distribution $\NNN(mean=0, sd=\sigma)$.  
 
-
-\foilhead[-1cm]{Visual representation}
-
-\illustration[scale=0.8]{normal_approximation}
-
-\vspace*{-0.5cm}
-
-Convergence implies that the centre area of is well approximated 
-\begin{triangles}
-\item 90\% confidence intervals are roughly the same for both distributions
-\end{triangles}
-
-
 \foilhead[-1cm]{Translation}
 
 
@@ -433,6 +420,33 @@ for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))
 \item CLT assumes that risk $\mu$ is finite and standard deviation $\sigma$ is finite.
 \end{triangles}
 \bigskip
+
+
+\foilhead[-1cm]{Visual representation}
+
+\illustration[scale=0.8]{normal_approximation}
+
+\vspace*{-0.5cm}
+
+Convergence implies that the centre area of is well approximated 
+\begin{triangles}
+\item 90\% confidence intervals are roughly the same for both distributions
+\end{triangles}
+
+
+\foilhead[-1cm]{Moment matching}
+
+We know that the empirical risk $R_N(f)$ converges to normal distribution
+\begin{triangles}
+\item Normal distribution is fixed by a mean $\mu$ and variance $\sigma^2$
+\item We can estimate mean $\hat{\mu}$ and variance $\hat{\sigma}^2$ of a loss term $L(f(\vec{x}), y)$ 
+\item Then the estimates of mean and variance of the empirical risk are
+\begin{align*}
+\EXP(R_N(f))&\approx \hat{\mu}\\
+\VAR(R_N(f))&\approx \frac{\hat{\sigma}^2}{N}
+\end{align*}
+\item This allows us to approximate $R_N(f)$ with normal distribution 
+\end{triangles}
 
 
 
@@ -481,6 +495,15 @@ The number of samples needed to get a precision $\varepsilon$ is $\Oh(1/\varepsi
 \begin{triangles}
 \item Clearly the risk of both rules $R(f_0)=R(f_1)=0.5$.
 \item The risk of of our learning algorithm $R(f)$ is also $0.5$. 
+\end{triangles}
+
+\foilhead[-1cm]{What happens during the training phase}
+
+\illustration[scale=1.0]{empirical_risk_and_learning}
+
+\begin{triangles}
+\item We always choose the function $f_i$ that underestimates the true risk!
+\item The probability that we go below the range effectively doubles. 
 \end{triangles}
 
 
@@ -538,19 +561,6 @@ The holdout sample must be quite large or otherwise the precision is low
 \item Roughly $400$ data points to get precision $0.1$ in classification accuracy.
 \end{triangles}
 
-\foilhead[-1cm]{Moment matching}
-
-We know that the empirical risk $R_N(f)$ converges to normal distribution
-\begin{triangles}
-\item Normal distribution is fixed by a mean $\mu$ and variance $\sigma^2$
-\item We can estimate mean $\hat{\mu}$ and variance $\hat{\sigma}^2$ of a loss term $L(f(\vec{x}), y)$ 
-\item Then the estimates of mean and variance of the empirical risk are
-\begin{align*}
-\EXP(R_N(f))&\approx \hat{\mu}\\
-\VAR(R_N(f))&\approx \frac{\hat{\sigma}^2}{N}
-\end{align*}
-\item This allows us to approximate $R_N(f)$ with normal distribution 
-\end{triangles}
 
 
 
@@ -604,6 +614,16 @@ This idea yields a generic crossvalidation scheme
 \item Compute averages $E=\frac{1}{k}(E_1+\cdots+E_k)$ and $\Delta=\frac{1}{k}(\Delta_1+\cdots+\Delta_k)$
 \item Visualise results and compute confidence intervals for estimates if needed. 
 \end{enumerate}
+
+\foilhead[-0.5cm]{How many splits should we take?}
+
+\illustration[scale=0.9]{crossvalidation_and_moment_matching}
+
+Moment matching provides variability estimates for cross-validation. 
+\begin{triangles}
+\item Resulting bounds are incorrect and underestimate the error.
+\item The main reason is the correlation between splits.   
+\end{triangles}
 
 
 \foilhead[-1cm]{What does crossvalidation measure?}
