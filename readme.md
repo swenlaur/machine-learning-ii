@@ -58,6 +58,18 @@ install some packages from other channels.
 For that you must first activate the environment and only the proceed with installation.
 See the discussion in the next section for further details.
 
+conda install -n machine-learning -c conda-forge scikit-misc
+fails for some unknown reason
+
+conda install jupyter tornado==6.1
+
+conda activate machine-learning
+conda install -c conda-forge gfortran
+pip install scikit-misc
+
+
+pip install tornado==6.1 // tornado does not work
+
 ### Optional neural networks packages
 
 Neural networks are not essential in this course but the following allows you to set up most relevant packages:
