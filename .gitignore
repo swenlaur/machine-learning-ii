@@ -12,6 +12,8 @@ lectures/**/*.synctex.gz
 # Python trash
 **/__pycache__/**
 **/.ipynb_checkpoints/**
+**/.idea/**
+
 
 # Unfinished trials
 **/Untitled*.ipynb
@@ -26,3 +28,7 @@ practise-sessions/**/*_a.ipynb
 practise-sessions/01/tutorials/*.hdf5
 practise-sessions/01/tutorials/*.csv
 practise-sessions/01/tutorials/*.pdf
+
+# Ingnore specific directories
+practise-sessions/01/image-generation/data/
+practise-sessions/01/image-generation/models/
