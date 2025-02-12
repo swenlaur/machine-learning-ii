@@ -10,4 +10,8 @@ pip install "diffusers>=0.29.0"
 conda install conda-forge::matplotlib
 pip install -q git+https://github.com/tensorflow/docs
 conda install conda-forge::imageio
+conda install pandas
+conda install anaconda::scikit-learn
+conda install seaborn
+conda install plotnine
 ```

@@ -5,7 +5,7 @@ import tensorflow as tf
 from keras import ops
 
 
-def generate_samples(generator, config, label: int, sample_count: int):
+def generate_samples(generator, config, label: int, sample_count: int, **kwargs):
     """
     Generates random elements from the fixed image class.
     Return tensor (sample_count, image_size, image_size, 1) of floats in the range [0, 1].
@@ -20,10 +20,10 @@ def generate_samples(generator, config, label: int, sample_count: int):
     label_tensor = tf.tile(label_tensor, [sample_count, 1])
     generator_input = ops.concatenate([generator_noise, label_tensor], 1)
 
-    return generator.predict(generator_input)
+    return tf.squeeze(generator.predict(generator_input, **kwargs), -1)
 
 
-def generate_spurious_samples(generator, config, label_1: int, label_2: int, prop_vec: np.array):
+def generate_spurious_samples(generator, config, label_1: int, label_2: int, prop_vec: np.array, **kwargs):
     """
     Generates random surrogate elements between two image classes.
     Elements in prop_vec show the contribution of the first image class.
@@ -44,4 +44,4 @@ def generate_spurious_samples(generator, config, label_1: int, label_2: int, pro
     label_tensor = label_1 * prop_vec + label_2 * (1 - prop_vec)
     generator_input = ops.concatenate([generator_noise, label_tensor], 1)
 
-    return generator.predict(generator_input)
+    return tf.squeeze(generator.predict(generator_input, **kwargs), -1)
