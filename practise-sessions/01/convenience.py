@@ -1,8 +1,13 @@
+import inspect
 import itertools as it
 from pandas import Series
 from pandas import DataFrame
 from typing import Dict, List, Any
+from types import CodeType
+
 from IPython.display import display_html
+from IPython.display import display
+from IPython.display import Markdown
 
 
 def head(df: DataFrame, *args, **kwargs) -> DataFrame:
@@ -88,3 +93,10 @@ def combine_columns(df: DataFrame, cols:List[str], sep:str="|") -> Series:
     """
     assert len(cols) > 1, 'There must be at least two columns to combine'
     return df[cols[0]].str.cat([df[col] for col in cols[1:]], sep=sep)
+
+
+def display_source(function: CodeType):
+    """
+    Displays source code of the function with syntactical highlighting.
+    """
+    display(Markdown(f"```python\n{inspect.getsource(function)}\n```"))
