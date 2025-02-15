@@ -28,6 +28,7 @@ practise-sessions/**/*_a.ipynb
 practise-sessions/01/tutorials/*.hdf5
 practise-sessions/01/tutorials/*.csv
 practise-sessions/01/tutorials/*.pdf
+practise-sessions/01/results/*
 
 # Ingnore specific directories
 practise-sessions/01/image-generation/data/
