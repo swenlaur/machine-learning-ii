@@ -13,5 +13,5 @@
 Home exercises are scattered between the files. Starred exercises cover interesting optional aspects.
 
 * 01\_scaling\_laws\_on\_minst\_data.ipynb
-* 02_\empirical\_risk\_minimisation.ipynb
+* 02\_empirical\_risk\_minimisation.ipynb
 * 03\_test\_error\_variability.ipynb
