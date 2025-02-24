@@ -10,7 +10,7 @@
 
 \newcommand{\lecture}{Basics of probabilistic modelling}
 \newcommand{\lserie}{LTAT.02.004 Machine Learning II}
-\newcommand{\ldate}{February 23, 2021}
+\newcommand{\ldate}{February 24, 2025}
 \newcommand{\lauthor}{Sven Laur}
 \newcommand{\linst}{University of Tartu}
 \graphicspath{{./illustrations/}}
@@ -32,6 +32,48 @@
 
 \begin{document}
 \titlefoil
+
+\foilhead[-1cm]{Why does empirical risk converge at all?}
+\enlargethispage{1cm}
+\centerline{
+\includegraphics[scale=0.8]{test_error_fluctuations_1}\hspace*{0.5cm}
+\includegraphics[scale=0.8]{test_error_fluctuations_2}}
+
+\vspace*{-0.0cm}
+$\triangleright$  Depends on the test set.\\
+$\triangleright$  Statistical fluctuations decrease with size.
+
+
+\foilhead[-1cm]{Empirical risk as mean of random variables}
+
+\illustration[height=4cm]{single-loss-term}
+
+Recall that empirical risk is computed through the following formula
+\begin{align*}
+  R_N(f)=\frac{1}{N}\cdot\sum_{i=1}^N L(f(\vec{x}_i), y_i) = \frac{1}{N}\cdot\sum_{i=1}^N z_i
+\end{align*} 
+where all samples $(\vec{x}_i, y_i)$ are assumed to be
+\begin{triangles}
+\item independent from each other,
+\item coming from the same distribution.
+\end{triangles}
+
+\foilhead[-1cm]{Law of large numbers}
+
+\textbf{Central limit theorem.}
+Let $z_1, \ldots, z_N$ be independent and identically distributed samples form a \emph{real-valued distribution} with a \emph{finite standard deviation} $\sigma$ and \emph{mean} $\mu$. Then the random variable 
+\begin{align*}
+S=\sqrt{N}\Biggl(\frac{1}{N}\cdot \sum_{i=1}^N z_i -\mu\Biggr)
+\end{align*}
+converges \emph{in distribution} to normal distribution $\NNN(mean=0, sd=\sigma)$.  
+\vspace{1ex}
+
+\begin{triangles}
+\item Under mild assumptions the empirical risk $R_N(f)$ converges to risk $R(f)$.
+\item The result is not precise enough to quantify approximation error.
+\end{triangles}
+
+
 
 \foilhead[-0cm]{What is probability?}
 
@@ -102,7 +144,7 @@ Events with small enough probability do not occur
 
 \textbf{Bayesian goal}
 \begin{triangles}
-\item The aim of statistics is to design algorithms that allow \emph{rational individuals} to reliably update their beliefs through Bayes formula
+\item The aim of statistics is to design algorithms that allow \emph{rational individuals} to reliably update their beliefs through Bayes formula.
 \item Besides the data source model one has to provide model for initial beliefs.
 \item Correctness of an algorithm does not make sense.
 \end{triangles}
@@ -142,6 +184,23 @@ The number of ones in known to have a \emph{binomial distribution}
 
 The distribution of  $B_1+\ldots+B_n$ depends solely on the number of trials $n$ and the probability $p$. Some values of $B_1+\ldots+B_n$ are very unlikely.
 
+\foilhead[-1cm]{Does a classifier beat a random guess?}
+
+\illustration[width=10cm]{binomial_distribution}
+
+Consider three algorithms on twenty element test set:
+\begin{diamonds}
+\item Algorithm A gets 9 correct answers;
+\item Algorithm B gets 13 correct answers;
+\item Algorithm C gets 17 correct answers.
+\end{diamonds}
+\vspace*{3ex}
+\begin{triangles}
+\item Which of them are better than random classifiers?
+\item Which of them are classifiers good enough for practical applications?
+\end{triangles}
+
+
 \foilhead[-1cm]{How to build a statistical test}
 
 \textbf{I. Null hypothesis:}
@@ -168,6 +227,7 @@ The distribution of  $B_1+\ldots+B_n$ depends solely on the number of trials $n$
 \begin{triangles}
 \item Reject null hypotesis at \emph{significance level} $5\%$ if $|B_1+\ldots+B_n-10|\geq 6$.  
 \end{triangles}
+ 
  
 \foilhead[-1cm]{Properties of statistical tests}
 
@@ -201,6 +261,15 @@ Assume that data is generated so that null hypotheses $\HHH_1,\ldots, \HHH_n$ ho
 \vspace*{3ex}
 \illustration[scale=1.1, trim=3cm 18cm 4cm 3cm, clip]{union_bound}
 \vspace*{-2ex}
+
+\foilhead[-1cm]{How far is the true risk?}
+
+\illustration[scale=0.8]{test_error_fluctuations_2}
+
+\begin{triangles}
+\item How wide error bars cover true risk for \emph{all} observations? 
+\item How wide error bars  cover true risk for \emph{most} observations? 
+\end{triangles}
 
 
 \foilhead[-1cm]{How to build confidence intervals}
@@ -313,6 +382,18 @@ Interpretation of prediction intervals is different from confidence intervals.
 By increasing the length of the prediction interval we increase the fraction of future measurements which fall into interval.
 
 
+\foilhead[-0cm]{Fluctuations in performance profiles}
+
+\centerline{
+\includegraphics[scale=0.7]{precision_recall_1B}\hspace*{0.5cm}
+\includegraphics[scale=0.7]{precision_recall_1A}}
+\vspace*{1cm}
+\begin{triangles}
+\item Precision-recall graph is not smooth if the test set is small.
+\item How much the true graph can be different from observed?
+\item How many of samples are needed to get a decent resolution?  
+\end{triangles}
+
 
 \foilhead[-1cm]{Confidence envelopes}
 
@@ -365,6 +446,8 @@ Estimate how probable is to achieve equal or higher accuracy than was observed o
 \item The test completely neglect the effect size, i.e., how much results differ.
 \item Statistical significance does not imply utility!      
 \end{triangles}  
+
+\end{document}
 
 
 \middlefoil{Bayesian methods}
