@@ -151,6 +151,22 @@ Events with small enough probability do not occur
 
 \middlefoil{Frequentistic methods}
 
+\foilhead[-1cm]{Illustrative example}
+
+Consider an experiment that yields 2 heads and 8 tails.
+\begin{triangles}
+\item Frequency of heads is $20\%$.
+\item Can the coin be still fair?
+\end{triangles}
+\vspace*{1cm}
+ 
+Consider an experiment that yields 1,000,100 heads and 999,900 tails.
+\begin{triangles}
+\item Frequency of heads is $50.005\%$.
+\item Can the coin be still biased?
+\end{triangles}
+
+
 \foilhead[-1cm]{Central question in statistical testing}
 
 \vspace*{1ex}
@@ -447,10 +463,125 @@ Estimate how probable is to achieve equal or higher accuracy than was observed o
 \item Statistical significance does not imply utility!      
 \end{triangles}  
 
+\middlefoil{Crossvalidation}
+
+
+
+\foilhead[-1cm]{Empirical risk and law of large numbers}
+
+
+Under mild assumptions the empirical risk $R_N(f)$ converges to risk $R(f)$ and we can actually use normal distribution to estimate probabilities:
+\begin{align*}
+\pr{\abs{R_N(f)-R(f)}\geq \varepsilon} \lesssim 2\cdot \int\limits_{-\infty}^\varepsilon\frac{\sqrt{N}}{\sqrt{2\pi}\sigma}\exp{-\frac{N t^2}{2 \sigma^2}}dt
+\end{align*}
+for a finite value $\sigma$ where $\sigma^2$ is the variance of loss $\VAR(R(f))$.
+\vspace*{0cm}
+
+\textbf{What do we need to apply this result}
+\begin{triangles}
+\item Test set elements must be independent and from the same distribution. 
+\item CLT assumes that \emph{risk $\mu$ is finite} and \emph{standard deviation $\sigma$ is finite}.
+\item Test set must be large enough that approximation is good enough.
+\item We \emph{need to approximate} $\sigma$\vspace*{-1ex} so that we can estimate the integral.
+\end{triangles}
+
+
+\foilhead[-1cm]{Visual representation}
+
+\illustration[scale=0.8]{normal_approximation}
+
+\vspace*{-0.5cm}
+
+Convergence implies that the centre area of is well approximated 
+\begin{triangles}
+\item 90\% confidence intervals are roughly the same for both distributions
+\end{triangles}
+
+
+\foilhead[-1cm]{Moment matching}
+
+We know that the empirical risk $R_N(f)$ converges to normal distribution
+\begin{triangles}
+\item Normal distribution is fixed by a mean $\mu$ and variance $\sigma^2$
+\item We can estimate mean $\hat{\mu}$ and variance $\hat{\sigma}^2$ of a loss term $L(f(\vec{x}), y)$ 
+\item Then the estimates of mean and variance of the empirical risk are
+\begin{align*}
+\EXP(R_N(f))&\approx \hat{\mu}\\
+\VAR(R_N(f))&\approx \frac{\hat{\sigma}^2}{N}
+\end{align*}
+\item This allows us to approximate $R_N(f)$ with normal distribution 
+\end{triangles}
+
+\foilhead[-1cm]{Why do we need a test set at all}
+
+\textbf{Machine learning algorithm}
+\begin{triangles}
+\item Count number of zeroes $n_0$ and number of ones $n_1$ in training sample.
+\item If $n_0>n_1$ output $f_0(x)\equiv 0$, otherwise output $f_1(x)\equiv 1$.
+\end{triangles}
+\vspace*{1cm}
+
+\textbf{Data source}
+\begin{triangles}
+\item Choose the input $x$ randomly form the range $[0,1]$
+\item Choose the label $y$ randomly from the set $\set{0,1}$.
+\end{triangles}
+
+\vspace*{1cm}
+\textbf{True risk value}
+\begin{triangles}
+\item Clearly the risk of both rules $R(f_0)=R(f_1)=0.5$.
+\item The risk of of our learning algorithm $R(f)$ is also $0.5$. 
+\end{triangles}
+
+\foilhead[-1cm]{What happens during the training phase}
+
+\illustration[scale=1.0]{empirical_risk_and_learning}
+
+\begin{triangles}
+\item We always choose the function $f_i$ that underestimates the true risk!
+\item The probability that we go below the range effectively doubles. 
+\end{triangles}
+
+
+\foilhead[-1cm]{What happens in real ML algorithms}
+
+\begin{triangles}
+\item Not all function are achievable. More epochs more confidence intervals
+\item Not all measurements are independent. Many results are correlated.
+\end{triangles}
+
+\foilhead[-1cm]{Generalisation gap aka optimism}
+
+% Replace this figure with MNIST example
+\illustration[scale=0.6]{training_bias_3}
+\vspace*{0.5cm}
+By knowing the \emph{optimism} $\Delta=R(f)-R_N(f_i$) we can correct $R_N(f)$.   
+\begin{triangles}
+\item Optimism is usually anti-correlated with empirical risk $R_N(f)$.   
+\item Commonly mean value of $\Delta$ is used for the correction. 
+\item Simple shifting does not resolve the systematical bias.  
+\end{triangles}
+
+\foilhead[0cm]{Why does the holdout testing work}
+
+\illustration[scale=0.8]{holdout-design}
+
+\
+
+By randomly splitting the data into training and test data we assure
+\begin{triangles}
+\item The training and test sets are independent under IID assumption.
+\item On a training set we compare many models and  choose few winners. 
+\item These functions are independent from the test set data.
+\item As there number of functions is small the law of large numbers holds. 
+\end{triangles}
+
+
+
 \end{document}
 
 
-\middlefoil{Bayesian methods}
 
 \foilhead[-1cm]{Confidence intervals vs background knowledge}
 
