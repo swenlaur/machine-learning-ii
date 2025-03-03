@@ -546,9 +546,15 @@ We know that the empirical risk $R_N(f)$ converges to normal distribution
 
 \foilhead[-1cm]{What happens in real ML algorithms}
 
+\illustration[scale=0.95, clip, trim=0cm 21cm 0cm 0.5cm]{ml-as-multiple-hypothesis-testing}
+
+\vspace*{1cm}
+
 \begin{triangles}
-\item Not all function are achievable. More epochs more confidence intervals
-\item Not all measurements are independent. Many results are correlated.
+\item Not all function are achievable at once. 
+\item More epochs open up more confidence intervals to compare
+\item Not all empirical risk measurements are independent.
+\item Empirical risk values of similar prediction functions are correlated.
 \end{triangles}
 
 \foilhead[-1cm]{Generalisation gap aka optimism}
