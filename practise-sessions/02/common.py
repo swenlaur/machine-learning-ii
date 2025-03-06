@@ -71,6 +71,7 @@ class MajorityVoting:
         
         return (X[self.features]
                 .join(self.pred, on=self.features, how='left')['prediction']
+                .astype(bool)
                 .fillna(True)
                 .values)    
 
