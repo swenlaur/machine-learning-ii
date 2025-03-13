@@ -243,6 +243,18 @@ The number of possible observation is to big already for $8\times 8$ patch:
 \end{align*}
 $8\times 9$ pathces are needed to estimate probabilities within $\pm 3$ percent points.
 
+
+\foilhead[-1cm]{Higher-order Markov chains}
+\illustration[scale=1.25]{colored-markov-chain}
+
+\textbf{Time-series models}
+\begin{triangles}
+\item We assume that $x_{i+1}$ depends only on the values of $x_i, \ldots, x_{i-\ell}$ 
+\item A linear model assumes $x_{i+1}=w_0+w_{1}x_i+\cdots+ w_{\ell+1} x_{i-\ell}+\varepsilon_i$.
+\item All error terms $\varepsilon_i$ are assumed to be independent.
+\item  All error terms $\varepsilon_i$ are drawn from a normal distribution $\mathcal{N}(0,\sigma)$.
+\end{triangles}
+
 \foilhead[-1cm]{Two ways to build continious Markov chains}
 
 \begin{triangles}
