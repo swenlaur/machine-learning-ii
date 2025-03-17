@@ -224,12 +224,12 @@ Thus the posterior can be obtained by starting with non-informative prior and ob
 
 
 
-\middlefoil{Supervised learning}
+\middlefoil{Probabilistic models\\ for\vspace*{1ex} \\supervised learning }
 
 \foilhead[-0cm]{Model behind naive Bayes classifier}
 
 
-\illustration[scale=1.25]{general-model}
+\illustration[scale=1.25]{naive-bayes-model}
 
 
 Underlying class value determines observed attributes 
@@ -302,8 +302,16 @@ q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}+1}{\#\set{\text{
 \item  All error terms $\varepsilon_i$ are drawn from a normal distribution $\mathcal{N}(0,\sigma)$.
 \end{triangles}
 
+\foilhead[-1cm]{Example data for quadratic regression}
 
-\middlefoil{Univariate normal\vspace*{2ex}\\ distribution}
+\illustration[scale=0.65]{regression_challenge}
+
+Consider a setting where we know that without noise $y=\alpha x^2+\beta$.
+\begin{triangles}
+\item Redefinition of inputs makes it a univariate linear regression task.
+\end{triangles}
+
+
 
 \foilhead[-1cm]{Probability density function}
 
@@ -413,8 +421,56 @@ The resulting solution is
 \sigma^2=\frac{1}{n}\cdot \sum_{i=1}^n (y_i-\hat{y}_i)^2
 \end{align*}
 
+\foilhead[-1cm]{Naive solution to our regression challenge}
 
-\middlefoil{Add fat tail distributions!}
+\centerline{
+\includegraphics[height=6cm]{naive_fit}\hspace*{1cm}
+\includegraphics[height=6cm]{naive_fit_residuals}}
+
+Naive linear regression fit is clearly wrong. 
+
+\begin{triangles}
+\item The trend line does not follow the center of points.
+\item Residuals do not follow normal distribution. 
+\end{triangles}
+
+
+\foilhead[-1cm]{Linear regression with  fat-tail distributions}
+
+\illustration[scale=1.25]{general-model}
+
+\begin{triangles}
+\item We assume that $y_i$ depends only on the values of $x_{i1}, \ldots, x_{i\ell}$ 
+\item A linear model assumes $y_{i}=w_{1}x_{i1}+\cdots+ w_\ell x_{i\ell}+ w_{0}+\varepsilon_i$.
+\item All error terms $\varepsilon_i$ are assumed to be independent.
+\item  All error terms $\varepsilon_i$ are drawn from a Laplace distribution $\mathcal{L}(0,b)$.
+\end{triangles}
+
+
+\foilhead[-1cm]{Laplace distribution does  not fit better}
+
+\centerline{
+\includegraphics[height=6cm]{naive_fit_residuals}\hspace*{1cm}
+\includegraphics[height=6cm]{naive_fit_residuals_laplace}}
+
+Laplace distribution is not ideal for our challenge data.
+
+\begin{triangles}
+\item Residuals do not follow normal distribution.
+\item Still outliers have much smaller impact on the objective function. 
+\end{triangles}
+
+
+\foilhead[-1cm]{Standard Laplace distribution }
+
+\illustration[scale=0.4]{standard_laplace}
+
+Standard Laplace distribution $\mathcal{L}(\mu=0,\beta=1)$ is a continuous distribution with a probability density function 
+\begin{align*}
+p(x)=\frac{1}{2}\cdot\exp{-\abs{x}}
+\end{align*}
+The mean value $\mu=0$ and variance $\sigma^2=2$ for this distribution.
+
 
 \foilhead[-1cm]{Input values and numerical stability}
 
