@@ -281,13 +281,13 @@ w_i&=\log \left(\frac{p_i}{1-p_i}\cdot\frac{1-q_i}{q_i}\right)
 \foilhead[-1cm]{How to train the classifier?}
 A frequentistic approach is to fix probabilities from the training sample
 \begin{align*}
-p_i&=\frac{\#\set{\text{data points form $Y= 0\wedge X_i=1$}}}{\#\set{\text{data points form $Y= 0$}}}\\
-q_i&=\frac{\#\set{\text{data points form class $Y= 1\wedge X_i=1$}}}{\#\set{\text{data points form $Y= 0$}}}
+p_i&=\frac{\#\set{\text{data points form $Y= 1\wedge X_i=1$}}}{\#\set{\text{data points form $Y= 1$}}}\\
+q_i&=\frac{\#\set{\text{data points form class $Y= 0\wedge X_i=1$}}}{\#\set{\text{data points form $Y= 0$}}}
 \end{align*}
 However if some value does not occur for $X_i$ in the training sample we get overly confident results. Thus, Bayesian mean estimate is better alternative  
 \begin{align*}
-p_i&=\frac{\#\set{\text{data points form $Y= 0\wedge X_i=1$}}+1}{\#\set{\text{data points form $Y= 0$}}+2}\\
-q_i&=\frac{\#\set{\text{data points form $Y= 1\wedge X_i=1$}}+1}{\#\set{\text{data points form $Y= 1$}}+2}
+p_i&=\frac{\#\set{\text{data points form $Y= 1\wedge X_i=1$}}+1}{\#\set{\text{data points form $Y= 1$}}+2}\\
+q_i&=\frac{\#\set{\text{data points form $Y= 0\wedge X_i=1$}}+1}{\#\set{\text{data points form $Y= 0$}}+2}
 \end{align*}
 
 
