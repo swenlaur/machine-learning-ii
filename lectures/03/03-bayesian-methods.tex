@@ -243,13 +243,13 @@ Underlying class value determines observed attributes
 
 Let us assume that we know the probabilities
 \begin{align*}
-p_i&=\pr{X_i=1|Class=0}\\
-q_i&=\pr{X_i=1|Class=1}
+p_i&=\pr{X_i=1|Y=0}\\
+q_i&=\pr{X_i=1|Y=1}
 \end{align*}
 Then using the independence assumption we get
 \begin{align*}
-\pr{X_1=a_1,\ldots,X_n=a_n|Class=0}&=\prod_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\\
-\pr{X_1=a_1,\ldots,X_n=a_n|Class=1}&=\prod_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}
+\pr{X_1=a_1,\ldots,X_n=a_n|Y=0}&=\prod_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\\
+\pr{X_1=a_1,\ldots,X_n=a_n|Y=1}&=\prod_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}
 \end{align*}
 
 \foilhead[-1cm]{Prior and posterior for the class labels}
@@ -257,36 +257,37 @@ Then using the independence assumption we get
 \enlargethispage{1.5cm}
 Now it is straightforward to derive
 \begin{align*}
-\pr{Class=0|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\cdot\pr{Class=0}}{\pr{\vec{X}=\vec{a}}}\\
-\pr{Class=1|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}\cdot\pr{Class=1}}{\pr{\vec{X}=\vec{a}}}
+\pr{Y=0|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}\cdot\pr{Y=0}}{\pr{\vec{X}=\vec{a}}}\\
+\pr{Y=1|\vec{X}=\vec{a}}&= \frac{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}\cdot\pr{Y=1}}{\pr{\vec{X}=\vec{a}}}
 \end{align*}
 which gives an \emph{odd ratio} 
 \begin{align*}
-\frac{\pr{Class=0|\vec{X}=\vec{a}}}{\pr{Class=1|\vec{X}=\vec{a}}}&=\frac{\pr{Class=0}}{\pr{Class=1}}\cdot\frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}}{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}}
+\frac{\pr{Y=0|\vec{X}=\vec{a}}}{\pr{Y=1|\vec{X}=\vec{a}}}&=\frac{\prod\limits_{i=1}^np_i^{a_i}(1-p_i)^{1-a_i}}{\prod\limits_{i=1}^nq_i^{a_i}(1-q_i)^{1-a_i}}
+\times \frac{\pr{Y=0}}{\pr{Y=1}}
 \end{align*} 
  
 \foilhead[-1cm]{The resulting classifier is a linear classifer}
  
 By taking logarithm form the odd ratio we get
 \begin{align*}
-\log\left(\frac{\pr{Class=0|\vec{X}=\vec{a}}}{\pr{Class=1|\vec{X}=\vec{a}}}\right)&= w_0+\sum_{i=1}^n w_ia_i
+\log\left(\frac{\pr{Y=0|\vec{X}=\vec{a}}}{\pr{Y=1|\vec{X}=\vec{a}}}\right)&= w_0+\sum_{i=1}^n w_ia_i
 \end{align*} 
 where 
 \begin{align*}
-w_0&=\log\left(\frac{\pr{Class=0}}{\pr{Class=1}}\right)+\sum_{i=1}^n\log\left(\frac{1-p_i}{1-q_i}\right)\\
+w_0&=\log\left(\frac{\pr{Y=0}}{\pr{Y=1}}\right)+\sum_{i=1}^n\log\left(\frac{1-p_i}{1-q_i}\right)\\
 w_i&=\log \left(\frac{p_i}{1-p_i}\cdot\frac{1-q_i}{q_i}\right) 
 \end{align*}
 
 \foilhead[-1cm]{How to train the classifier?}
 A frequentistic approach is to fix probabilities from the training sample
 \begin{align*}
-p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}}{\#\set{\text{data points form class 0}}}\\
-q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}}{\#\set{\text{data points form class 1}}}
+p_i&=\frac{\#\set{\text{data points form $Y= 0\wedge X_i=1$}}}{\#\set{\text{data points form $Y= 0$}}}\\
+q_i&=\frac{\#\set{\text{data points form class $Y= 1\wedge X_i=1$}}}{\#\set{\text{data points form $Y= 0$}}}
 \end{align*}
 However if some value does not occur for $X_i$ in the training sample we get overly confident results. Thus, Bayesian mean estimate is better alternative  
 \begin{align*}
-p_i&=\frac{\#\set{\text{data points form class 0 with $X_i=1$}}+1}{\#\set{\text{data points form class 0}}+2}\\
-q_i&=\frac{\#\set{\text{data points form class 1 with $X_i=1$}}+1}{\#\set{\text{data points form class 1}}+2}
+p_i&=\frac{\#\set{\text{data points form $Y= 0\wedge X_i=1$}}+1}{\#\set{\text{data points form $Y= 0$}}+2}\\
+q_i&=\frac{\#\set{\text{data points form $Y= 1\wedge X_i=1$}}+1}{\#\set{\text{data points form $Y= 1$}}+2}
 \end{align*}
 
 
