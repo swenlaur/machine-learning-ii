@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[paperwidth=20cm, paperheight=6cm, margin = 0cm, top=0.5cm]{geometry}
+\usepackage{amsmath}
+
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{arrows,automata}
+
+\input{node-definitions.tex}
+
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\begin{document}
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,semithick]
+                    
+\node (X0)               {$\cdots$}; 
+\node[state, minimum size=1.1cm] (X1) [right of=X0] {$X_{i}$}; 
+\node[state, minimum size=1.1cm] (X2) [right of=X1] {$X_{i+1}$};                   
+\node (X3) [right of=X2] {$\cdots$};                   
+
+\node[state, minimum size=1.1cm, fill = LimeGreen] (Y1) [above of=X1] {$Y_{i}$}; 
+\node[state, minimum size=1.1cm, fill = LimeGreen] (Y2) [above of=X2] {$Y_{i+1}$}; 
+	
+\node[bluebox, minimum width=1.2cm] (P1) [left=0.5cm of Y1 ]{$\lambda_{Y_i}$};	
+\node[bluebox, minimum width=1.2cm] (P2) [left=0.5cm of Y2 ]{$\lambda_{Y_{i+1}}$};	
+	
+\path
+    (X0) edge (X1)  
+	(X1) edge (X2)
+	(X2) edge (X3);
+	
+\path	
+	(X1) edge node[box, xshift=-0.5cm, minimum width=1.2cm] {$\vec{\lambda}_i^*$} (Y1)
+	(X2) edge node[box, xshift=-0.5cm, minimum width=1.2cm] {$\vec{\lambda}_{i+1}^*$}(Y2);
+
+\path	
+	(Y1) edge[-] (P1)
+	(Y2) edge[-] (P2);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}
