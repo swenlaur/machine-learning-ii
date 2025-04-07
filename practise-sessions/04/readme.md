@@ -27,7 +27,10 @@ Home exercises are scattered between the files. Starred exercises cover interest
 
 * 01_markov_chains.ipynb
 * 02_higher_order_markov_chains.ipynb
-* 03_markov_models_in_image_processing.ipynb
-* 04_hidden_markov_models.ipynb
-* 05_change_detection_with_hidden_markov_models.ipynb
-* 06_regime_changes_in_covid-19_pandemia.ipynb
+* 03_timeseries_as_markov_chains.ipynb
+* 04_markov_models_in_image_processing.ipynb
+* 05_markov_chains_with_continous_state_space.ipynb
+* 06_hidden_markov_models.ipynb
+* 07_change_detection_with_hidden_markov_models.ipynb
+* 08_hidden_markov_models_with_continous_state_space.ipynb
+* 09_regime_changes_in_covid-19_pandemia.ipynb
