@@ -35,56 +35,7 @@
 \titlefoil
 
 
-\
 
-
-
-\middlefoil{Important properties of\vspace*{1ex}\\ normal distributions}
-
-\foilhead[-1cm]{Closeness under marginalisation}
-
-Let $\vec{x}_{\III}=(x_i)_{i\in\III}$ be a subvector determined by the coordinate set $\III$.
-Then $\vec{x}_{\III}$ is distributed according to a multivariate normal distribution as long as 
-the vector $\vec{x}$ comes form a multivariate normal distribution $\NNN(\vec{\mu},\Sigma)$.
-
-\begin{triangles}
-\item Moment matching gives the parameters of the resulting distribution 
-\begin{align*}
-\EXP(\vec{x}_{\III})&= \EXP(\vec{x})_{\III}=\vec{\mu}_{\III} \\
-\COV(\vec{x}_{\III})&=\COV(\vec{x})_{\III\times \III}=\Sigma[\III, \III]
-\end{align*}
-\end{triangles}
-
-\foilhead[-1cm]{Closeness under linear combinations}
-
-Linear combination $y=\vec{\alpha}_1^T \vec{x}_1+\vec{\alpha}_2^T\vec{x}_2$ of independent multivariate normal distributions $\vec{x}_1\sim\NNN(\vec{\mu}_1,\Sigma_1)$ and $\vec{x}_2\sim\NNN(\vec{\mu}_2,\Sigma_2)$ is also  a multivariate normal distribution.
-
-\begin{triangles}
-\item Moment matching gives the parameters of the resulting distribution 
-\begin{align*}
-\EXP(y)&= \vec{\alpha}_1^T\EXP(\vec{x}_1)+\vec{\alpha}_2^T\EXP(\vec{x}_2)=
-\vec{\alpha}_1^T\vec{\mu}_1+\vec{\alpha}_2^T\vec{\mu}_2\\
-\VAR(y)&=\COV(\vec{\alpha}_1^T \vec{x}_1) + \COV(\vec{\alpha}_2^T \vec{x}_2)\\
-&=\vec{\alpha}_1^T \COV(\vec{x}_1)\vec{\alpha}_1+ \vec{\alpha}_2^T \COV(\vec{x}_2)\vec{\alpha}_2\\
-&=\vec{\alpha}_1^T \Sigma_1\vec{\alpha}_1+ \vec{\alpha}_2^T \Sigma_2\vec{\alpha}_2
-\end{align*}
-\item Closeness under linear combinations holds also for matrix combinations. 
-\end{triangles}
-
-\foilhead[-1cm]{Closeness under conditioning}
-
-Let $\vec{x}$ and $\vec{y}$ be related random variables. 
-Let $\vec{x}|\vec{y}_*$ denote the conditional distribution of $\vec{x}$ given that a random variable $\vec{y}$ has a fixed value $\vec{y}_*$.
-Then $\vec{x}|\vec{y}_*$ is distributed according to a multivariate normal distribution provided that 
- $(\vec{x},\vec{y})$ comes form a multivariate normal distribution $\NNN((\vec{\mu}_i),(\Sigma_{ij}))$
-
-\begin{triangles}
-\item Moment matching gives the parameters of the resulting distribution 
-\begin{align*}
-\EXP(\vec{x}|\vec{y}_*)&= \vec{\mu}_1+ \Sigma_{1,2}\Sigma_{2,2}^{-1}(\vec{y}-\vec{\mu}_2)\\
-\COV(\vec{x}|\vec{y}_*)&= \Sigma_{1,1}-\Sigma_{1,2}\Sigma_{2,2}^{-1}\Sigma_{2,1}\\
-\end{align*}
-\end{triangles}
 
 
 \middlefoil{Motivating examples\vspace*{1ex}\\ {\large Filtering and smoothing}}
